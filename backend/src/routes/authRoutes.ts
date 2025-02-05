@@ -1,5 +1,5 @@
 import express from 'express';
-import AuthController from '../controllers/AuthController';
+import AuthController from '../controllers/authController';
 import { authenticateToken } from '../middleware/authMiddleWare';
 import { checkUserExists } from '../middleware/checkUserExists';
 
