@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import mongod from 'mongod';
 import db from './config/db';
 import connectDB from './config/db';
-import router from './routes/authRoutes';
+import authRouter from './routes/authRoutes';
 
 dotenv.config();
 
@@ -16,7 +16,8 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to the backend server");
 });
 
-app.use("/api/users", router);
+//Reference other routes here.
+app.use("/api/auth", authRouter);
 
 connectDB()
     .then(() => {

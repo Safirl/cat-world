@@ -3,8 +3,10 @@ import AuthController from '../controllers/authController';
 import { authenticateToken } from '../middleware/authMiddleWare';
 import { checkUserExists } from '../middleware/checkUserExists';
 
-const router = express.Router();
+const authRouter = express.Router();
 
-router.post("/register", checkUserExists, AuthController.register);
+//Reference all the routes linked to the AuthController here.
+authRouter.post("/register", checkUserExists, AuthController.register);
+authRouter.post("/login", authenticateToken, AuthController.login);
 
-export default router;
+export default authRouter;

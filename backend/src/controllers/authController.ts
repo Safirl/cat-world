@@ -23,6 +23,10 @@ class AuthController {
             res.status(500).json({message: "Can't register user"});
         }
     };
+
+    public async login(req: Request, res: Response): Promise<void> {
+        
+    }
 }
 
 export default new AuthController();
