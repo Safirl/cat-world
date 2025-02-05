@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongod from 'mongod';
 import db from './config/db';
 import connectDB from './config/db';
+import router from './routes/authRoutes';
 
 dotenv.config();
 
@@ -15,6 +16,8 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to the backend server");
 });
 
+app.use("/api/users", router);
+
 connectDB()
     .then(() => {
         console.log("Connected to MongoDB");
@@ -26,3 +29,5 @@ connectDB()
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+export default app;
