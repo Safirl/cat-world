@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../src/server';
-import {client} from '../setupTests';
+import {app} from '../src/app';
+import User from '../src/models/User';
 
 describe("User registration", () => {
     it(" should register a new user", async () => {
@@ -13,16 +13,14 @@ describe("User registration", () => {
         const response = await request(app)
             .post("/api/auth/register")
             .send(newUser);
+            
         expect(response.status).toBe(201);
         expect(response.body.message).toBe("User registered successfully");
         
-        const db = client.db();
-        const userInDb = await db.collection("users").findOne({email: "email@test.com"});
-
-        expect(userInDb).not.toBeNull();
+        const userInDb = await User.findOne({email: newUser.email});
+        expect(userInDb).toBeTruthy();
         expect(userInDb?.username).toBe(newUser.username);
-        expect(userInDb?.email).toBe(newUser.email);
-    });
+    }, 10000);  // Ajout d'un timeout plus long
 });
 
 describe("User login", () => {

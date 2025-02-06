@@ -1,25 +1,24 @@
-import dotenv from "dotenv";
-import { MongoClient } from "mongodb";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI as string;
-
-export let client: MongoClient;
-
 beforeAll(async () => {
-    client = new MongoClient(MONGO_URI);
-    try {
-        await client.connect();
-    } catch (error) {
-        console.error("Can't connect to mongo: ", error);
-    }
-    const db = client.db();
-    await db.collection('users').deleteMany({});
+    await mongoose.connect(process.env.MONGO_URI as string);
 });
 
 afterAll(async () => {
-    const db = client.db();
-    await db.collection('users').deleteMany({});
-    await client.close();
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+});
+
+afterEach(async () => {
+    if (!mongoose.connection.db) {
+        console.error("No database connection");
+        return;
+    }
+    const collections = await mongoose.connection.db.collections();
+    for (const collection of collections) {
+        await collection.deleteMany({});
+    }
 });
