@@ -1,8 +1,3 @@
-import request from 'supertest';
-import app from '../src/server';
-import {MongoClient} from 'mongodb';
-import dotenv from 'dotenv';
-
 //@todo ajouter un test pour la modification des données utilisateur
 describe("User modification", () => {
     it("should modify a user username", async () => {

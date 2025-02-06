@@ -17,11 +17,11 @@ class AuthController {
             });
 
             await newUser.save();
-            res.status(201).json({message: "User registered successfully"});
+            res.status(201).json({ message: "User registered successfully" });
         }
         catch (error) {
             console.error("Can't register user", error);
-            res.status(500).json({message: "Can't register user"});
+            res.status(500).json({message: "Can't register user", error});
         }
     };
 
