@@ -4,7 +4,9 @@ import bcrypt from 'bcryptjs';
 
 class AuthController {
     public async register(req: Request, res: Response): Promise<void> {
+        console.log("is in the fonction");
         try {
+            console.log("Received data: ----------------------------------------------------------------------w", req.body);
             const { username, email, password } = req.body;
 
             const hashedPassword = await bcrypt.hash(password, 10);

@@ -2,8 +2,10 @@
 export default {
   preset: 'ts-jest',
   testEnvironment: "node",
+  verbose: true,
+  silent: false,
   transform: {
-    "^.+.tsx?$": ["ts-jest",{}],
+    "^.+\\.ts$": ["ts-jest",{}],
   },
   globals: {
     'ts-jest': {
