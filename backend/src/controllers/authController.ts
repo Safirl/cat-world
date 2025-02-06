@@ -10,7 +10,6 @@ class AuthController {
             const { username, email, password } = req.body;
 
             const hashedPassword = await bcrypt.hash(password, 10);
-            console.log(hashedPassword);
             const newUser = new User({
                 username,
                 email,
