@@ -19,6 +19,7 @@ beforeAll(async () => {
     }
 
     const db = client.db();
+   // await db.collection('users').deleteMany({}); // Nettoyage de la collection users
 });
 
 afterAll(async () => {
@@ -26,7 +27,7 @@ afterAll(async () => {
 });
 
 describe("User registration", () => {
-    it("should register a new user", async () => {
+    it(" should register a new user", async () => {
         const newUser = {
             username: "testUser",
             email: "email@test.com",
@@ -36,7 +37,8 @@ describe("User registration", () => {
         const response = await request(app)
             .post("/api/auth/register")
             .send(newUser);
-        
+        console.log("response.body", response.body);
+        console.log("response.status", response.status);
         expect(response.status).toBe(201);
         expect(response.body.message).toBe("User registered successfully");
         
@@ -53,9 +55,9 @@ describe("User registration", () => {
 describe("User login", () => {
     it ("should login to a test user", async () => {
         const user = {
-            username: "testUser",
-            email: "email@test.com",
-            password: "password"
+            username: "testUser2",
+            email: "email@test.com2",
+            password: "password2"
         }
 
         const response = await request(app)
