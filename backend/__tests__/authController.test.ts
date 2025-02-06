@@ -3,7 +3,7 @@ import {app} from '../src/app';
 import User from '../src/models/User';
 
 describe("User registration", () => {
-    it(" should register a new user", async () => {
+    it("should register a new user", async () => {
         const newUser = {
             username: "testUser",
             email: "email@test.com",

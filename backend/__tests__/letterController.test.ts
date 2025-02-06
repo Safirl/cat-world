@@ -1,29 +1,6 @@
 import request from 'supertest';
-import app from '../src/server';
-import { MongoClient } from 'mongodb';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const MONGO_URI = process.env.MONGO_URI as string;
-
-let client: MongoClient;
-
-beforeAll(async () => {
-    client = new MongoClient(MONGO_URI);
-    try {
-        await client.connect();
-    } catch (error) {
-        console.error(error);
-    }
-
-    const db = client.db();
-    await db.collection('letters').deleteMany({}); // Nettoyage de la collection letters
-});
-
-afterAll(async () => {
-    await client.close();
-});
+import {app} from '../src/app';
+import Letter from '../src/models/Letter';
 
 describe("Letter creation", () => {
     it("should create a new letter", async () => {
