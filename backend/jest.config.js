@@ -12,5 +12,5 @@ export default {
         isolatedModules: true,
     },
   },
-
+  setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
 };

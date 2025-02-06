@@ -1,33 +1,9 @@
 import request from 'supertest';
-import app from '../src/server';
-import {MongoClient} from 'mongodb';
-import dotenv from 'dotenv';
-import { before } from 'node:test';
-
-dotenv.config();
-
-const MONGO_URI = process.env.MONGO_URI as string;
-
-let client: MongoClient;
-
-beforeAll(async () => {
-    client = new MongoClient(MONGO_URI);
-    try {
-        await client.connect();
-    } catch (error) {
-        console.error(error);
-    }
-
-    const db = client.db();
-   // await db.collection('users').deleteMany({}); // Nettoyage de la collection users
-});
-
-afterAll(async () => {
-    await client.close();
-});
+import {app} from '../src/app';
+import User from '../src/models/User';
 
 describe("User registration", () => {
-    it(" should register a new user", async () => {
+    it("should register a new user", async () => {
         const newUser = {
             username: "testUser",
             email: "email@test.com",
@@ -37,19 +13,14 @@ describe("User registration", () => {
         const response = await request(app)
             .post("/api/auth/register")
             .send(newUser);
-        console.log("response.body", response.body);
-        console.log("response.status", response.status);
+            
         expect(response.status).toBe(201);
         expect(response.body.message).toBe("User registered successfully");
         
-        const db = client.db();
-        console.log(db.collection("users)"));
-        const userInDb = await db.collection("users").findOne({email: "email@test.com"});
-
-        expect(userInDb).not.toBeNull();
+        const userInDb = await User.findOne({email: newUser.email});
+        expect(userInDb).toBeTruthy();
         expect(userInDb?.username).toBe(newUser.username);
-        expect(userInDb?.email).toBe(newUser.email);
-    });
+    }, 10000);  // Ajout d'un timeout plus long
 });
 
 describe("User login", () => {

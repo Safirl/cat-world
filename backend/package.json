@@ -4,7 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest --detectOpenHandles",
     "start": "nodemon server.js",
     "dev": "nodemon",
     "watch": "tsc --watch"

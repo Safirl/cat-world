@@ -12,11 +12,12 @@ export const checkUserExists = async (req: Request, res: Response, next: NextFun
 
         const existingUser = await User.findOne({email: email});
 
-        if (!existingUser) {
-            next();
+        if (existingUser) {
+            res.status(400).json({message: "User already exists"});
+            return;
         }
-        res.status(400).json({message: "User already exists"});
-        return;
+        next();
+
     } catch (error) {
         console.error("Can't check user", error);
         res.status(500).json({message: "Can't check user"});
