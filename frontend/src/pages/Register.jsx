@@ -1,13 +1,13 @@
 import {useState} from "react";
 
 const Register = () => {
+    const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
-        console.log("hello");
         e.preventDefault();
         try {
             const response = await fetch(process.env.REACT_APP_API_URL + "/auth/register", {
@@ -18,10 +18,17 @@ const Register = () => {
                 body: JSON.stringify(formData),
             });
             const data = await response.json();
-            console.log(data);
+            
+            if (response.ok) {
+                setMessage(data.message);
+            }
+            else {
+                setMessage(data.message || "Something went wrong with registration");
+            }
         }
         catch (error) {
             console.error(error);
+            setMessage("An error occurred");
         }
     };
 
@@ -33,6 +40,7 @@ const Register = () => {
                 <input type="email" name="email" placeholder="Email" onChange={handleChange} />
                 <input type="password" name="password" placeholder="Password" onChange={handleChange} />
                 <button type="submit">Register</button>
+                {message && <p>{message}</p>}
             </form>
         </div>
     );
