@@ -20,7 +20,10 @@ describe("User registration", () => {
         const userInDb = await User.findOne({email: newUser.email});
         expect(userInDb).toBeTruthy();
         expect(userInDb?.username).toBe(newUser.username);
-    }, 10000);  // Ajout d'un timeout plus long
+    }, 10000);
+
+    it("Should be logged in", async () => {
+    });
 });
 
 describe("User login", () => {

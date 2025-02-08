@@ -1,5 +1,7 @@
+import request from "supertest";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { app } from "./src/app";
 
 dotenv.config();
 
@@ -12,13 +14,13 @@ afterAll(async () => {
     await mongoose.connection.close();
 });
 
-afterEach(async () => {
-    if (!mongoose.connection.db) {
-        console.error("No database connection");
-        return;
-    }
-    const collections = await mongoose.connection.db.collections();
-    for (const collection of collections) {
-        await collection.deleteMany({});
-    }
-});
+// afterEach(async () => {
+//     if (!mongoose.connection.db) {
+//         console.error("No database connection");
+//         return;
+//     }
+//     const collections = await mongoose.connection.db.collections();
+//     for (const collection of collections) {
+//         await collection.deleteMany({});
+//     }
+// });

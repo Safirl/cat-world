@@ -16,7 +16,6 @@ describe("Letter creation", () => {
             .post("/api/letters/create")
             .send(newLetter);
 
-        console.log(response.body); // Ajout de logs pour voir la réponse
         expect(response.status).toBe(201);
         expect(response.body.message).toBe("Letter created successfully");
         expect(response.body.letter).toHaveProperty("_id");
@@ -25,5 +24,15 @@ describe("Letter creation", () => {
         expect(response.body.letter.src_img).toBe(newLetter.src_img);
         expect(response.body.letter.typo_id).toBe(newLetter.typo_id);
         expect(response.body.letter.stamp_id).toBe(newLetter.stamp_id);
+    });
+});
+
+describe("Letter list display", () => {
+    it("should fetch all leters received by a user", async () => {
+
+    });
+
+    it("should fetch all unread letters received by a user", async () => {
+
     });
 });
