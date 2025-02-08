@@ -7,7 +7,7 @@ describe("Letter creation", () => {
         const newLetter = {
             title: "Test Letter",
             content: "This is a test letter.",
-            src_img: "http://example.com/image.jpg",
+            src_img: "example.com/image.jpg",
             typo_id: 1,
             stamp_id: 1
         };
@@ -36,3 +36,9 @@ describe("Letter list display", () => {
 
     });
 });
+
+describe("Update letter status", () => {
+    it("should changed the letter status from new to read", async () => {
+
+    });
+})
