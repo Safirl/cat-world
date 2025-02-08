@@ -3,6 +3,18 @@ import {app} from '../src/app';
 import User from '../src/models/User';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { checkJwtSecret } from '../src/services/authService';
+import bcrypt from 'bcryptjs';
+
+beforeEach(async () => {
+    const hashedPassword = await bcrypt.hash("password", 10);
+    const user =
+        {
+            username: "toto",
+            email: "email@toto.com",
+            password: hashedPassword
+        }
+    await User.create(user);
+});
 
 describe("User registration", () => {
     const newUser = {
@@ -27,7 +39,7 @@ describe("User registration", () => {
 describe("User login", () => {
     it ("should login to a test user", async () => {
         const user = {
-            email: "email@test.com",
+            email: "email@toto.com",
             password: "password"
         }
 
@@ -54,16 +66,28 @@ describe("User login", () => {
         expect(userInDb).toBeTruthy();
         expect(userInDb?.email).toBe(user.email);
     });
+
+    it ("should not login to a test user with wrong password", async () => {
+        const user = {
+            email: "email@toto.com",
+            password: "wrongpassword"
+        }
+        const response = await request(app)
+            .post("/api/auth/login")
+            .send({email: user.email, password: user.password});
+        
+        expect(response.status).toBe(401);
+    });
 });
 
 //@todo ajouter un test pour le logout
 describe("User logout", () => {
     it ("should logout the user", async () => {
         const user = {
-            username: "testUser",
-            email: "email@test.com",
+            email: "email@toto.com",
             password: "password"
         }
+
     });
 });
 

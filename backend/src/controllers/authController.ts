@@ -32,6 +32,7 @@ class AuthController {
     public login = async (req: Request, res: Response): Promise<void> => {
         try {
             if (isUserAuthenticated(req)) {
+                console.warn("User is already authenticated")
                 res.status(400).json({ message: "You are already authenticated" });
                 return;
             }
@@ -57,7 +58,6 @@ class AuthController {
             res.status(200).json({ message: "User logged in successfully", token });
         }
         catch (error) {
-            console.error("Unexepected error when logging in : ", error);
             res.status(401).json({ message: "Unexepected error when logging in : ", error});
             return;
         }
