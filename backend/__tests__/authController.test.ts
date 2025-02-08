@@ -1,15 +1,16 @@
 import request from 'supertest';
 import {app} from '../src/app';
 import User from '../src/models/User';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { checkJwtSecret } from '../src/services/authService';
 
 describe("User registration", () => {
+    const newUser = {
+        username: "testUser",
+        email: "email@test.com",
+        password: "password"
+    }
     it("should register a new user", async () => {
-        const newUser = {
-            username: "testUser",
-            email: "email@test.com",
-            password: "password"
-        }
-
         const response = await request(app)
             .post("/api/auth/register")
             .send(newUser);
@@ -20,30 +21,38 @@ describe("User registration", () => {
         const userInDb = await User.findOne({email: newUser.email});
         expect(userInDb).toBeTruthy();
         expect(userInDb?.username).toBe(newUser.username);
-    }, 10000);
-
-    it("Should be logged in", async () => {
     });
 });
 
 describe("User login", () => {
     it ("should login to a test user", async () => {
         const user = {
-            username: "testUser2",
-            email: "email@test.com2",
-            password: "password2"
+            email: "email@test.com",
+            password: "password"
         }
 
         const response = await request(app)
             .post("/api/auth/login")
             .send({email: user.email, password: user.password});
         
-            expect(response.status).toBe(200);
-            expect(response.body.message).toBe("User logged in successfully");
-            
-        //@todo je m'attends à recevoir un token de connexion
-        const token = response.body.token;
-        expect(token).not.toBeNull();
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("User logged in successfully");
+        
+        //check if the token is valid
+        const token: string = response.body.token;
+        expect(token).not.toBeUndefined();
+        expect(typeof token).toBe("string");
+
+        const secret = checkJwtSecret();
+
+        const decoded = jwt.verify(token, secret) as JwtPayload;
+        expect(decoded).toHaveProperty("_id");
+        console.log(decoded);
+
+        //check if the user in the database has the same email
+        const userInDb = await User.findById(decoded._id);
+        expect(userInDb).toBeTruthy();
+        expect(userInDb?.email).toBe(user.email);
     });
 });
 
@@ -57,3 +66,20 @@ describe("User logout", () => {
         }
     });
 });
+
+// const checkTokenValidity = (token: string) => {
+//     expect(token).not.toBeUndefined();
+//     expect(typeof token).toBe("string");
+
+//     const secret = checkJwtSecret();
+
+//     const decoded = jwt.verify(token, secret) as JwtPayload;
+//     expect(decoded).toHaveProperty("_id");
+//     return decoded;
+// }
+
+// const checkUserAuthenticated = async (decoded: JwtPayload, user: {email: string, password: string}) => {
+//     const userInDb = await User.findById(decoded._id);
+//     expect(userInDb).toBeTruthy();
+//     expect(userInDb?.email).toBe(user.email);
+// }
