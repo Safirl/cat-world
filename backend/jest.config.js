@@ -5,12 +5,7 @@ export default {
   verbose: true,
   silent: false,
   transform: {
-    "^.+\\.ts$": ["ts-jest",{}],
-  },
-  globals: {
-    'ts-jest': {
-        isolatedModules: true,
-    },
+    "^.+\\.ts$": ["ts-jest",{isolatedModules: true}],
   },
   setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
 };

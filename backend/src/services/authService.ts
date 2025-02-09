@@ -22,11 +22,12 @@ export const isUserAuthenticated = (req: Request): boolean => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
         return decoded.hasOwnProperty("_id");
     } catch (error) {
+        console.error(error)
         return false;
     }
 };
 
-export const checkJwtSecret = () => {
+export const getJwtSecret = () => {
     const secret = process.env.JWT_SECRET;
     if (!secret) {
         throw new Error("JWT_SECRET is not defined in the environment variables.");

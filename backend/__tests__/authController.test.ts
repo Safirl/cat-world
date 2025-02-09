@@ -2,7 +2,7 @@ import request from 'supertest';
 import {app} from '../src/app';
 import User from '../src/models/User';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { checkJwtSecret } from '../src/services/authService';
+import { getJwtSecret } from '../src/services/authService';
 import bcrypt from 'bcryptjs';
 
 beforeEach(async () => {
@@ -55,7 +55,7 @@ describe("User login", () => {
         expect(token).not.toBeUndefined();
         expect(typeof token).toBe("string");
 
-        const secret = checkJwtSecret();
+        const secret = getJwtSecret();
 
         const decoded = jwt.verify(token, secret) as JwtPayload;
         expect(decoded).toHaveProperty("_id");
@@ -78,24 +78,52 @@ describe("User login", () => {
         
         expect(response.status).toBe(401);
     });
+
+    it ("should not login to a test user with invalid token and no creditentials", async () => {
+        const token = jwt.sign(
+            { _id: "1234" }, 
+            "hacker-test-key", 
+            { expiresIn: "7d" }
+        );
+
+        const response = await request(app)
+            .post("/api/auth/login")
+    
+        expect(response.status).toBe(401);
+    });
 });
 
 //@todo ajouter un test pour le logout
-describe("User logout", () => {
-    it ("should logout the user", async () => {
-        const user = {
-            email: "email@toto.com",
-            password: "password"
-        }
+// describe("User logout", async () => {
+//     const user = {
+//         email: "email@toto.com"
+//     }
+//     const userInDb = await User.findById(user.email);
+//     if (!userInDb) {
+//         console.error("no user found in DB for email : ", user.email)
+//         return;
+//     }
 
-    });
-});
+//     const token = jwt.sign(
+//                     { _id: userInDb._id }, 
+//                     process.env.JWT_SECRET as string, 
+//                     { expiresIn: "7d" }
+//                 );
+    
+//     it ("should logout the user", async () => {
+//         const response = await request(app)
+//             .post("/api/auth/logout")
+//             .send({email: user.email});
+
+//         expect(response.status).toBe(200);
+//     });
+// });
 
 // const checkTokenValidity = (token: string) => {
 //     expect(token).not.toBeUndefined();
 //     expect(typeof token).toBe("string");
 
-//     const secret = checkJwtSecret();
+//     const secret = getJwtSecret();
 
 //     const decoded = jwt.verify(token, secret) as JwtPayload;
 //     expect(decoded).toHaveProperty("_id");

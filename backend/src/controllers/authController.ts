@@ -32,7 +32,6 @@ class AuthController {
     public login = async (req: Request, res: Response): Promise<void> => {
         try {
             if (isUserAuthenticated(req)) {
-                console.warn("User is already authenticated")
                 res.status(400).json({ message: "You are already authenticated" });
                 return;
             }
