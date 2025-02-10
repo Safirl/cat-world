@@ -1,6 +1,14 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import useAuthCheck from "../services/useAuthCheck";
 
 const Register = () => {
+
+    const checkAuthStatus = useAuthCheck("/", "Vous êtes déjà connecté !");
+
+    useEffect(() => {
+        checkAuthStatus();
+    }, [checkAuthStatus]);
+
     const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,7 +18,7 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch(process.env.REACT_APP_API_URL + "/auth/register", {
+            const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
