@@ -12,7 +12,7 @@ const Home = () => {
     useEffect(() => {
       perspectiveCamera.aspect = size.width / size.height;
       camera.updateProjectionMatrix();
-    }, [size, camera]);
+    }, [size, perspectiveCamera]);
   
     return null; // Ce composant ne rend rien, il ajuste juste la caméra
   }
