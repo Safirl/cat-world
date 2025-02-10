@@ -16,11 +16,14 @@ function AdaptiveCamera() {
 
 export default function Home() {
   return (
-    <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 6] }}>
+    <>
+    <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 5] }}>
       <AdaptiveCamera />
       <ambientLight intensity={2.4} color="#C8B3FF" />
-      <directionalLight position={[1, 2, 3]} intensity={2} />
+      <directionalLight position={[1, 2, 3]} intensity={0.5} />
       <Planet />
     </Canvas>
+    <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="auror boreal" />
+    </>
   );
 }
