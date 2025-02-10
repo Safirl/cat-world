@@ -1,6 +1,14 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import useAuthCheck from "../services/useAuthCheck";
 
 const Register = () => {
+
+    const checkAuthStatus = useAuthCheck("/", "Vous êtes déjà connecté !");
+
+    useEffect(() => {
+        checkAuthStatus();
+    }, [checkAuthStatus]);
+
     const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
