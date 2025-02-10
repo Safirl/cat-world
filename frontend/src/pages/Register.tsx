@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from "react";
 import useAuthCheck from "../services/useAuthCheck";
+import { useNavigate } from "react-router-dom"
+import routes from "../config/route";
+
 
 const Register = () => {
-
+    const navigate = useNavigate();
     const checkAuthStatus = useAuthCheck("/", "Vous êtes déjà connecté !");
 
     useEffect(() => {
         checkAuthStatus();
-    }, [checkAuthStatus]);
+    }, []);
 
     const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });
@@ -29,6 +32,7 @@ const Register = () => {
             
             if (response.ok) {
                 setMessage(data.message);
+                navigate(routes.home, {state: { message: "Vous êtes connecté !" }})
             }
             else {
                 setMessage(data.message || "Something went wrong with registration");
