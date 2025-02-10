@@ -1,8 +1,7 @@
-import { useRef, useState, useEffect } from 'react';
-import { useFrame, useThree, extend } from '@react-three/fiber';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { useThree } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
-extend({ OrbitControls: OrbitControls });
+
 
 export default function Planet() {
   const {camera, gl} = useThree();
@@ -10,18 +9,14 @@ export default function Planet() {
 
     return (
       <>
-      <orbitControls 
+      <OrbitControls 
       args= { [camera, gl.domElement ] } 
       enableZoom={false}
       /> 
-        <mesh
-            position={[0, 0, 0]}
-            scale={1.5} 
-        >
+        <mesh>
             <sphereGeometry />
             <meshStandardMaterial map={texture}/>
         </mesh>
-        
       </>
     );
 }
