@@ -17,6 +17,7 @@ function AdaptiveCamera() {
 export default function Home() {
   return (
     <>
+    <img className="stars" src="'../../public/image/stars.png" alt="stars" />
     <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 5] }}>
       <AdaptiveCamera />
       <ambientLight intensity={2.4} color="#C8B3FF" />
