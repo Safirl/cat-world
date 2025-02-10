@@ -1,0 +1,23 @@
+body{
+    background: linear-gradient(180deg, rgba(60,66,196,1) 0%, rgba(214,143,184,1) 70%);
+    overflow: hidden;
+
+}
+
+
+.aurorBoreal{
+    position: fixed;
+    top: 79%;
+    width: 100vw;
+    height: auto;
+}
+
+.stars{
+    position: absolute;
+    margin: auto;
+    transform: translate(50%, -50%);
+    top: 50%;
+    right: 50%;
+    width: 64vw;
+    height: auto;
+}
