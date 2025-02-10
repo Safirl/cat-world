@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 class AuthController {
     public register = async (req: Request, res: Response): Promise<void> => {
         if (isUserAuthenticated(req)) {
-            res.status(400).json({ message: "You are already authenticated" });
+            res.status(400).json({ message: "You are already authenticated, logout first to register a new user." });
             return;
         }
         try {
@@ -25,14 +25,14 @@ class AuthController {
         }
         catch (error) {
             console.error("Can't register user", error);
-            res.status(500).json({message: "Can't register user", error});
+            res.status(500).json({ message: "Can't register user", error });
         }
     };
 
     public login = async (req: Request, res: Response): Promise<void> => {
         try {
             if (isUserAuthenticated(req)) {
-                res.status(400).json({ message: "You are already authenticated" });
+                res.status(200).json({ message: "You are already authenticated, logout first to login to another account" });
                 return;
             }
 
@@ -49,15 +49,22 @@ class AuthController {
                 return;
             }
             const token = jwt.sign(
-                { _id: matchingUser._id }, 
-                process.env.JWT_SECRET as string, 
+                { _id: matchingUser._id },
+                process.env.JWT_SECRET as string,
                 { expiresIn: "7d" }
             );
+
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "strict",
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+            })
 
             res.status(200).json({ message: "User logged in successfully", token });
         }
         catch (error) {
-            res.status(401).json({ message: "Unexepected error when logging in : ", error});
+            res.status(401).json({ message: "Unexepected error when logging in : ", error });
             return;
         }
     }

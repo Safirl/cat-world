@@ -13,7 +13,7 @@ export const isUserAuthenticated = (req: Request): boolean => {
         return true;
     }
 
-    const token = req.header("Authorization")?.replace("Bearer ", "");
+    const token = req.cookies.token;
     if (!token) {
         return false;
     }
