@@ -1,13 +1,13 @@
-import {useState} from "react";
+import React, {useState} from "react";
 
 const Register = () => {
     const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const response = await fetch(process.env.REACT_APP_API_URL + "/auth/register", {
