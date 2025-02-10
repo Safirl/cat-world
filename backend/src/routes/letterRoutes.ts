@@ -1,7 +1,7 @@
 import express from 'express';
 import AuthController from '../controllers/authController';
-import { authenticateToken } from '../middleware/authMiddleWare';
-import { checkUserExists } from '../middleware/checkUserExists';
+import { authenticateToken } from '../middleware/authMiddleware';
+import { checkUserExists } from '../middleware/userExistsMiddleware';
 
 const letterRoutes = express.Router();
 

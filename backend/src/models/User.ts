@@ -1,4 +1,3 @@
-import bycript from 'bcryptjs';
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {

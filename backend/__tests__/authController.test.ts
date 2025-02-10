@@ -1,15 +1,28 @@
 import request from 'supertest';
 import {app} from '../src/app';
 import User from '../src/models/User';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { getJwtSecret } from '../src/services/authService';
+import bcrypt from 'bcryptjs';
+
+beforeEach(async () => {
+    const hashedPassword = await bcrypt.hash("password", 10);
+    const user =
+        {
+            username: "toto",
+            email: "email@toto.com",
+            password: hashedPassword
+        }
+    await User.create(user);
+});
 
 describe("User registration", () => {
+    const newUser = {
+        username: "testUser",
+        email: "email@test.com",
+        password: "password"
+    }
     it("should register a new user", async () => {
-        const newUser = {
-            username: "testUser",
-            email: "email@test.com",
-            password: "password"
-        }
-
         const response = await request(app)
             .post("/api/auth/register")
             .send(newUser);
@@ -20,37 +33,62 @@ describe("User registration", () => {
         const userInDb = await User.findOne({email: newUser.email});
         expect(userInDb).toBeTruthy();
         expect(userInDb?.username).toBe(newUser.username);
-    }, 10000);  // Ajout d'un timeout plus long
+    });
 });
 
 describe("User login", () => {
     it ("should login to a test user", async () => {
         const user = {
-            username: "testUser2",
-            email: "email@test.com2",
-            password: "password2"
+            email: "email@toto.com",
+            password: "password"
         }
 
         const response = await request(app)
             .post("/api/auth/login")
             .send({email: user.email, password: user.password});
         
-            expect(response.status).toBe(200);
-            expect(response.body.message).toBe("User logged in successfully");
-            
-        //@todo je m'attends à recevoir un token de connexion
-        const token = response.body.token;
-        expect(token).not.toBeNull();
-    });
-});
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("User logged in successfully");
+        
+        //check if the token is valid
+        const token: string = response.body.token;
+        expect(token).not.toBeUndefined();
+        expect(typeof token).toBe("string");
 
-//@todo ajouter un test pour le logout
-describe("User logout", () => {
-    it ("should logout the user", async () => {
+        const secret = getJwtSecret();
+
+        const decoded = jwt.verify(token, secret) as JwtPayload;
+        expect(decoded).toHaveProperty("_id");
+        console.log(decoded);
+
+        //check if the user in the database has the same email
+        const userInDb = await User.findById(decoded._id);
+        expect(userInDb).toBeTruthy();
+        expect(userInDb?.email).toBe(user.email);
+    });
+
+    it ("should not login to a test user with wrong password", async () => {
         const user = {
-            username: "testUser",
-            email: "email@test.com",
-            password: "password"
+            email: "email@toto.com",
+            password: "wrongpassword"
         }
+        const response = await request(app)
+            .post("/api/auth/login")
+            .send({email: user.email, password: user.password});
+        
+        expect(response.status).toBe(401);
+    });
+
+    it ("should not login to a test user with invalid token and no creditentials", async () => {
+        const token = jwt.sign(
+            { _id: "1234" }, 
+            "hacker-test-key", 
+            { expiresIn: "7d" }
+        );
+
+        const response = await request(app)
+            .post("/api/auth/login")
+    
+        expect(response.status).toBe(401);
     });
 });

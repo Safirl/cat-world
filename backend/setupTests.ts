@@ -1,5 +1,7 @@
+import request from "supertest";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { app } from "./src/app";
 
 dotenv.config();
 
