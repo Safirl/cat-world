@@ -16,9 +16,9 @@ function AdaptiveCamera() {
 
 export default function Home() {
   return (
-    <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 5] }}>
+    <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 6] }}>
       <AdaptiveCamera />
-      <ambientLight intensity={1} color="#C8B3FF" />
+      <ambientLight intensity={2.4} color="#C8B3FF" />
       <directionalLight position={[1, 2, 3]} intensity={2} />
       <Planet />
     </Canvas>
