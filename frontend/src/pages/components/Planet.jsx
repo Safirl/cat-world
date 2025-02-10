@@ -10,7 +10,10 @@ export default function Planet() {
 
     return (
       <>
-      <orbitControls args= { [camera, gl.domElement ] } /> 
+      <orbitControls 
+      args= { [camera, gl.domElement ] } 
+      enableZoom={false}
+      /> 
         <mesh
             position={[0, 0, 0]}
             scale={1.5} 
