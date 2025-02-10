@@ -10,7 +10,7 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch(process.env.REACT_APP_API_URL + "/auth/register", {
+            const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
