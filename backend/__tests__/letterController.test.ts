@@ -1,6 +1,7 @@
 import request from 'supertest';
 import {app} from '../src/app';
 import Letter from '../src/models/Letter';
+import exp from 'constants';
 
 beforeEach(async () => {
     const letterTest  = {
@@ -42,6 +43,45 @@ describe("Letter creation", () => {
         expect(letterInDb?.content).toBe(newLetter.content);
     });
 });
+
+describe("Letter User Link", () => {
+    it("Should delete letter", async () => {
+   
+        const newLetter = {
+            title: "Test Letter",
+            content: "This is a test letter.",
+            src_img: "example.com/image.jpg",
+            typo_id: 1,
+            stamp_id: 1
+        };
+
+        const letterResponse = await request(app)
+            .post("/api/letters/createletter")
+            .send(newLetter);
+
+        expect(letterResponse.status).toBe(201);
+        expect(letterResponse.body).toHaveProperty("letter");
+        expect(letterResponse.body.letter).toHaveProperty("_id");
+
+        const letterId = letterResponse.body.letter._id;
+
+   
+        const letterInDb = await Letter.findById(letterId);
+        expect(letterInDb).toBeTruthy();
+
+
+        const deleteResponse = await request(app)
+            .delete(`/api/letters/deleteletter/${letterId}`);
+
+        expect(deleteResponse.status).toBe(200);
+        expect(deleteResponse.body.message).toBe("Letter deleted successfully");
+
+
+        const deletedLetter = await Letter.findById(letterId);
+        expect(deletedLetter).toBeNull();
+    });
+});
+
 
 // describe("Letter list display", () => {
 //     it("should fetch all leters received by a user", async () => {

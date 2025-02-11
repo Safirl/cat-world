@@ -5,9 +5,7 @@ import User from '../src/models/User';
 import UserLetter from '../src/models/UserLetter';
 
 beforeEach(async () => {
-    await User.deleteMany({});
-    await Letter.deleteMany({});
-    await UserLetter.deleteMany({});
+
 
     const receiverTest = {
         username: "receiverUser",
