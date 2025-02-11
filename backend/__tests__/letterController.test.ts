@@ -1,6 +1,7 @@
 import request from 'supertest';
 import {app} from '../src/app';
 import Letter from '../src/models/Letter';
+import UserLetter from '../src/models/UserLetter';
 import exp from 'constants';
 
 beforeEach(async () => {
@@ -44,12 +45,12 @@ describe("Letter creation", () => {
     });
 });
 
-describe("Letter User Link", () => {
-    it("Should delete letter", async () => {
-   
+describe("Letter Deletion", () => {
+    it("Should delete letter and associated UserLetter", async () => {
+        // Création d'une lettre test
         const newLetter = {
-            title: "Test Letter",
-            content: "This is a test letter.",
+            title: "Test Letter to Delete",
+            content: "This is a test letter to be deleted.",
             src_img: "example.com/image.jpg",
             typo_id: 1,
             stamp_id: 1
@@ -59,26 +60,39 @@ describe("Letter User Link", () => {
             .post("/api/letters/createletter")
             .send(newLetter);
 
-        expect(letterResponse.status).toBe(201);
-        expect(letterResponse.body).toHaveProperty("letter");
-        expect(letterResponse.body.letter).toHaveProperty("_id");
-
         const letterId = letterResponse.body.letter._id;
 
-   
+        // Vérification que la lettre est bien créée
         const letterInDb = await Letter.findById(letterId);
         expect(letterInDb).toBeTruthy();
 
+        // Création d'une relation UserLetter associée
+        const newUserLetter = {
+            receiver_id: "someReceiverId",
+            sender_id: "someSenderId",
+            letter_id: letterId,
+            state: false
+        };
 
+        await UserLetter.create(newUserLetter);
+
+        // Vérification que UserLetter existe
+        const userLetterInDb = await UserLetter.findOne({ letter_id: letterId });
+        expect(userLetterInDb).toBeTruthy();
+
+        // Suppression de la lettre
         const deleteResponse = await request(app)
             .delete(`/api/letters/deleteletter/${letterId}`);
 
         expect(deleteResponse.status).toBe(200);
-        expect(deleteResponse.body.message).toBe("Letter deleted successfully");
+        expect(deleteResponse.body.message).toBe("Letter and associated UserLetters deleted successfully");
 
-
+        // Vérification que la lettre et UserLetter ont été supprimées
         const deletedLetter = await Letter.findById(letterId);
-        expect(deletedLetter).toBeNull();
+        const deletedUserLetter = await UserLetter.findOne({ letter_id: letterId });
+
+        expect(deletedLetter).toBeFalsy();
+        expect(deletedUserLetter).toBeFalsy();
     });
 });
 
@@ -88,13 +102,8 @@ describe("Letter User Link", () => {
 
 //     });
 
-//     it("should fetch all unread letters received by a user", async () => {
+//     it("should fetch all read letters received by a user", async () => {
 
 //     });
 // });
 
-// describe("Update letter status", () => {
-//     it("should changed the letter status from new to read", async () => {
-
-//     });
-// })

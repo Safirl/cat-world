@@ -40,7 +40,7 @@ beforeEach(async () => {
         letter_id: letter._id,
         sender_id: sender._id,
         receiver_id: receiver._id,
-        state: "unread"
+        state: false
     };
 
     const userLetter = await UserLetter.create(userLetterTest);
@@ -98,7 +98,7 @@ describe("Letter User Link", () => {
             receiver_id: receiverResponse.body.user._id,
             sender_id: senderResponse.body.user._id,
             letter_id: letterResponse.body.letter._id,
-            state: "unread"
+            state: false
         };
 
         const userLetterResponse = await request(app)
@@ -145,4 +145,11 @@ describe("Letter User Link", () => {
         expect(userLetterInDb?.sender_id.toString()).toBe(newUserLetter.sender_id.toString());
         expect(userLetterInDb?.letter_id.toString()).toBe(newUserLetter.letter_id.toString());
     });
+    
 });
+
+// describe("Update letter status", () => {
+//     it("should changed the letter status from new to read", async () => {
+        
+//     });
+// })

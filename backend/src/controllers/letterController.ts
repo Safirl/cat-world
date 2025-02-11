@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Letter from '../models/Letter';
+import UserLetter from '../models/UserLetter';
 
 class LetterController {
     public async createLetter(req: Request, res: Response): Promise<void> {
@@ -21,17 +22,25 @@ class LetterController {
             res.status(500).json({ message: "Can't create letter" });
         }
     }
+
     public async deleteLetter(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            const deletedLetter = await Letter.findByIdAndDelete(id);
 
-            if (!deletedLetter) {
+            // Vérifier si la lettre existe
+            const letter = await Letter.findById(id);
+            if (!letter) {
                 res.status(404).json({ message: "Letter not found" });
                 return
             }
 
-            res.status(200).json({ message: "Letter deleted successfully" });
+            // Supprimer toutes les entrées associées dans UserLetter
+            await UserLetter.deleteMany({ letter_id: id });
+
+            // Supprimer la lettre
+            await Letter.findByIdAndDelete(id);
+
+            res.status(200).json({ message: "Letter and associated UserLetters deleted successfully" });
         } catch (error) {
             console.error("Error deleting letter:", error);
             res.status(500).json({ message: "Error deleting letter" });
