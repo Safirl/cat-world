@@ -7,7 +7,8 @@ body{
 
 .aurorBoreal{
     position: fixed;
-    top: 79%;
+    top: 100%;
+    transform: translateY(-100%);
     width: 100vw;
     height: auto;
 }
