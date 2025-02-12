@@ -23,4 +23,20 @@ const useAuthCheck = (redirectRoute: string, redirectMessage: string) => {
     return checkAuthStatus;
 };
 
-export default useAuthCheck;
+const isUserAuth = async (): Promise<boolean> => {
+    try {
+        const response = await fetch(import.meta.env.VITE_API_URL + "/auth/status", {
+            method: "GET",
+            credentials: "include",
+        });
+        if (response.ok) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error("Unexpected error: ", error)
+        return false;
+    }
+}
+
+export { useAuthCheck, isUserAuth };
