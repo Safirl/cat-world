@@ -31,6 +31,30 @@ class UserLetterController {
             return;
         }
     };
+
+    public updateState: RequestHandler = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const { state } = req.body;
+
+            const userLetter = await UserLetter.findById(id);
+            if (!userLetter) {
+                res.status(404).json({ message: "UserLetter not found" });
+                return;
+            }
+
+            userLetter.state = state;
+            await userLetter.save();
+
+            res.status(200).json({ message: "UserLetter state updated successfully", userLetter });
+            return;
+        } catch (error) {
+            console.error("Error updating state:", error);
+            res.status(500).json({ message: "Error updating state" });
+            return;
+        }
+    };
+    
     
 }
 

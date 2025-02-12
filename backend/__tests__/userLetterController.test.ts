@@ -20,10 +20,7 @@ beforeEach(async () => {
     };
 
     const receiver = await User.create(receiverTest);
-    console.log("Receiver created:", receiver);
-
     const sender = await User.create(senderTest);
-    console.log("Sender created:", sender);
 
     const letterTest = {
         title: "Test Letter cat",
@@ -34,7 +31,6 @@ beforeEach(async () => {
     };
 
     const letter = await Letter.create(letterTest);
-    console.log("Letter created:", letter);
 
     const userLetterTest = {
         letter_id: letter._id,
@@ -148,8 +144,49 @@ describe("Letter User Link", () => {
     
 });
 
-// describe("Update letter status", () => {
-//     it("should changed the letter status from new to read", async () => {
-        
-//     });
-// })
+describe("Update letter status", () => {
+    it("should changed the letter status from new to read", async () => {
+
+        // create new user
+        const receiverTest = {
+            username: "receiverUser",
+            email: "test@receiver.com",
+            password: "password"
+        }; 
+        const senderTest = {
+            username: "senderUser",
+            email: "test@sender.com",
+            password: "password"
+        };
+        const receiver = await User.create(receiverTest);
+        const sender = await User.create(senderTest);
+
+        // create letter
+        const letterTest = {
+            title: "Test Letter cat",
+            content: "This is a test letter about cat.",
+            src_img: "example.com/image.jpg",
+            typo_id: 2,
+            stamp_id: 3
+        };
+        const letter = await Letter.create(letterTest);
+        const userLetterTest = {
+            letter_id: letter._id,
+            sender_id: sender._id,
+            receiver_id: receiver._id,
+            state: false
+        };
+        const userLetter = await UserLetter.create(userLetterTest);
+
+
+        // update letter status
+        const response = await request(app)
+            .put(`/api/updateUserLetter/${userLetter._id}`)
+            .send({ state: true });
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("UserLetter state updated successfully");
+        expect(response.body.userLetter).toHaveProperty("state");
+        expect(response.body.userLetter.state).toBe(true);
+    });
+})

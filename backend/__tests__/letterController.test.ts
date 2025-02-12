@@ -107,3 +107,36 @@ describe("Letter Deletion", () => {
 //     });
 // });
 
+
+describe("Show Letter", () => {
+    it("Should show letter", async () => {
+        // Création d'une lettre test
+        const newLetter = {
+            title: "Test Letter to Show",
+            content: "This is a test letter to be shown.",
+            src_img: "example.com/image.jpg",
+            typo_id: 1,
+            stamp_id: 1
+        };
+
+        const letterResponse = await request(app)
+            .post("/api/letters/createletter")
+            .send(newLetter);
+
+        const letterId = letterResponse.body.letter._id;
+
+        // Récupération de la lettre
+        const response = await request(app).get(`/api/letters/showletter/${letterId}`);
+        console.log("Show Letter Response:", response.body);
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("Letter found");
+        expect(response.body.letter).toMatchObject({
+            title: newLetter.title,
+            content: newLetter.content,
+            src_img: newLetter.src_img,
+            typo_id: newLetter.typo_id,
+            stamp_id: newLetter.stamp_id,
+        });
+    });
+});
