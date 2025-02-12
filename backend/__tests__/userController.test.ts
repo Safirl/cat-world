@@ -3,18 +3,64 @@ import {app} from '../src/app';
 
 import User from '../src/models/User';
 
-
-//@todo ajouter un test pour la modification des données utilisateur
 describe("User modification", () => {
-    it("should modify a user username", async () => {
-        const user = {
+    it("should modify a user password", async () => {
+        const newUser = {
             username: "testUser1",
             email: "email@test.com",
-            password: "password"
+            password: "password",
+            color: 'black'
         }
+        const userResponse = await request(app)
+            .post("/api/auth/register")
+            .send(newUser);
+
+        console.log('userregisterBody', userResponse.body)
+        
+        const userId = userResponse.body?.user?._id; // Use optional chaining to avoid undefined errors
+        console.log('userId ================', userId)
+        if (!userId) {
+            throw new Error("User ID not returned from registration API");
+        }
+        console.log('userid', userId)
+        const userInDb = await User.findById(userId);
+        console.log("userInDv =====", userInDb)
+        expect(userInDb).toBeTruthy();
+
+        const modifyPasswordResponse = await request(app)
+        .post(`/api/user/modifypassword/${userId}`)
+        .send({ newPassword: "newSecurePassword123" });
+
+        console.log('modifepassword ==================', modifyPasswordResponse)
+        expect(modifyPasswordResponse.status).toBe(201);
+        expect(modifyPasswordResponse.body.message).toBe("User modify password");
     });
 
     it("should modify user avatar color", async () => {
+        const newUser = {
+            username: "testUser1",
+            email: "email@test.com",
+            password: "password",
+            color: 'black'
+        }
+        const userResponse = await request(app)
+            .post("/api/auth/register")
+            .send(newUser);
+
+        const userId = userResponse.body?.user?._id; // Use optional chaining to avoid undefined errors
+        if (!userId) {
+            throw new Error("User ID not returned from registration API");
+        }
+        const userInDb = await User.findById(userId);
+        expect(userInDb).toBeTruthy();
+
+
+        const modifyColorResponse = await request(app)
+        .post(`/api/user/colorcat/${userId}`)
+        .send({ newColor: "white" });
+
+        expect(modifyColorResponse.status).toBe(201);
+        expect(modifyColorResponse.body.message).toBe("User modify color");
 
     })
 });
@@ -68,7 +114,6 @@ describe("Fetch user data", () => {
         const userID = registerResponse.body.user?._id;
         console.log("userID récupéré après inscription:", userID);
 
-        expect
 
         const checkUserResponse = await request(app).get(`/api/user/fetch/${userID}`);
         console.log("Réponse de l'API après récupération:", checkUserResponse.status, checkUserResponse.body);

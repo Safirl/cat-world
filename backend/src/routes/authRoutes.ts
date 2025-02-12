@@ -11,7 +11,7 @@ const authRouter = express.Router();
 authRouter.post("/register", AuthController.register);
 authRouter.post("/login", AuthController.login);
 authRouter.post('/letter', LetterController.createLetter);
-authRouter.get('/fetch/:id', UserController.fetch);
+authRouter.get('/fetch/:id',authMiddleware, UserController.fetch);
 authRouter.get("/status", authMiddleware, (req: Request, res: Response) => {
     res.status(200).json({ message: "User is authenticated" });
 });

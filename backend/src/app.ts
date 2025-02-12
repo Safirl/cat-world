@@ -24,7 +24,7 @@ app.use(cors({
 app.use("/api/auth", authRouter);
 app.use('/api/letters', letterRoutes);
 app.use('/api', userLetterRoutes);
-app.use('/api/user/', userRoutes);
+app.use('/api/user', userRoutes);
 app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to the backend server");
 });
