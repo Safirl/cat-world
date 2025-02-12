@@ -3,7 +3,8 @@ import AuthController from '../controllers/authController';
 import UserController from '../controllers/userController';
 
 
-const authRouter = express.Router();
-authRouter.get('/fetch/:id', UserController.fetch);
+const userRoutes = express.Router();
+userRoutes.get('/fetch/:id', UserController.fetch);
+userRoutes.delete('/delete/:id', UserController.deleteUser)
 
-export default authRouter;
+export default userRoutes;

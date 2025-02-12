@@ -28,13 +28,11 @@ describe("User deletetion", () => {
             password: "password"
         }
 
-        
         const userResponse = await request(app)
-            .post("/api/user/delete")
+            .post("/api/auth/register")
             .send(newUser);
 
         const userId = userResponse.body.user._id;
-
         // Vérification que la lettre est bien créée
         const userInDb = await User.findById(userId);
         expect(userInDb).toBeTruthy();
@@ -45,7 +43,7 @@ describe("User deletetion", () => {
             .delete(`/api/user/delete/${userId}`);
 
         expect(deleteResponse.status).toBe(200);
-        expect(deleteResponse.body.message).toBe("user deleted successfully");
+        expect(deleteResponse.body.message).toBe("User deleted successfully");
 
         // Vérification que la lettre et UserLetter ont été supprimées
         const deletedUser = await User.findById(userId);
