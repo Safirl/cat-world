@@ -1,6 +1,8 @@
 import request from 'supertest';
 import {app} from '../src/app';
 
+import User from '../src/models/User';
+
 
 //@todo ajouter un test pour la modification des données utilisateur
 describe("User modification", () => {
@@ -17,14 +19,38 @@ describe("User modification", () => {
     })
 });
 
-//@todo ajouter un test pour la suppression d'un utilisateur
+
 describe("User deletetion", () => {
     it("should delete a user", async () => {
-        const user = {
+        const newUser = {
             username: "testUser1",
             email: "email@test.com",
             password: "password"
         }
+
+        
+        const userResponse = await request(app)
+            .post("/api/user/delete")
+            .send(newUser);
+
+        const userId = userResponse.body.user._id;
+
+        // Vérification que la lettre est bien créée
+        const userInDb = await User.findById(userId);
+        expect(userInDb).toBeTruthy();
+
+
+        // Suppression de la lettre
+        const deleteResponse = await request(app)
+            .delete(`/api/user/delete/${userId}`);
+
+        expect(deleteResponse.status).toBe(200);
+        expect(deleteResponse.body.message).toBe("user deleted successfully");
+
+        // Vérification que la lettre et UserLetter ont été supprimées
+        const deletedUser = await User.findById(userId);
+
+        expect(deletedUser).toBeFalsy();
     });
 });
 
