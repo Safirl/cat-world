@@ -74,6 +74,8 @@ class AuthController {
             return;
         }
     }
+
+    
 }
 
 export default new AuthController();

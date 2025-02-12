@@ -2,6 +2,7 @@ import express from 'express';
 import authRouter from './routes/authRoutes';
 import letterRoutes from './routes/letterRoutes';
 import userLetterRoutes from './routes/userLetterRoutes';
+import userRoutes from './routes/userRoutes'
 import { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -23,6 +24,7 @@ app.use(cors({
 app.use("/api/auth", authRouter);
 app.use('/api/letters', letterRoutes);
 app.use('/api', userLetterRoutes);
+app.use('/api/user/', userRoutes);
 app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to the backend server");
 });

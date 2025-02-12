@@ -59,7 +59,6 @@ describe("User login", () => {
 
         const decoded = jwt.verify(token, secret) as JwtPayload;
         expect(decoded).toHaveProperty("_id");
-        console.log(decoded);
 
         //check if the user in the database has the same email
         const userInDb = await User.findById(decoded._id);

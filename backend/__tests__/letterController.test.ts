@@ -127,8 +127,6 @@ describe("Show Letter", () => {
 
         // Récupération de la lettre
         const response = await request(app).get(`/api/letters/showletter/${letterId}`);
-        console.log("Show Letter Response:", response.body);
-
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("Letter found");
         expect(response.body.letter).toMatchObject({

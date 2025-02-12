@@ -40,7 +40,6 @@ beforeEach(async () => {
     };
 
     const userLetter = await UserLetter.create(userLetterTest);
-    console.log("UserLetter created:", userLetter);
 });
 
 describe("Letter User Link", () => {
@@ -60,12 +59,10 @@ describe("Letter User Link", () => {
         const receiverResponse = await request(app)
             .post("/api/auth/register")
             .send(newReceiver);
-        console.log("Receiver Response:", receiverResponse.body);
 
         const senderResponse = await request(app)
             .post("/api/auth/register")
             .send(newSender);
-        console.log("Sender Response:", senderResponse.body);
 
         // Vérification que les utilisateurs ont été créés correctement
         expect(receiverResponse.body).toHaveProperty("user");
@@ -84,7 +81,6 @@ describe("Letter User Link", () => {
         const letterResponse = await request(app)
             .post("/api/letters/createletter")
             .send(newLetter);
-        console.log("Letter Response:", letterResponse.body);
 
         // Vérification que la lettre a été créée correctement
         expect(letterResponse.body).toHaveProperty("letter");
@@ -100,7 +96,6 @@ describe("Letter User Link", () => {
         const userLetterResponse = await request(app)
             .post("/api/createUserletter")
             .send(newUserLetter);
-        console.log("UserLetter Response:", userLetterResponse.body);
 
         expect(letterResponse.status).toBe(201);
         expect(letterResponse.body.message).toBe("Letter created successfully");
@@ -116,17 +111,17 @@ describe("Letter User Link", () => {
         expect(userLetterResponse.body.message).toBe("UserLetter created successfully");
 
         const receiverInDb = await User.findOne({ email: newReceiver.email });
-        console.log("Receiver in DB:", receiverInDb);
+        
         expect(receiverInDb).toBeTruthy();
         expect(receiverInDb?.username).toBe(newReceiver.username);
 
         const senderInDb = await User.findOne({ email: newSender.email });
-        console.log("Sender in DB:", senderInDb);
+       
         expect(senderInDb).toBeTruthy();
         expect(senderInDb?.username).toBe(newSender.username);
 
         const letterInDb = await Letter.findOne({ title: newLetter.title });
-        console.log("Letter in DB:", letterInDb);
+       
         expect(letterInDb).toBeTruthy();
         expect(letterInDb?.content).toBe(newLetter.content);
 
@@ -135,7 +130,6 @@ describe("Letter User Link", () => {
             sender_id: newUserLetter.sender_id,
             letter_id: newUserLetter.letter_id
         });
-        console.log("UserLetter in DB:", userLetterInDb);
         expect(userLetterInDb).toBeTruthy();
         expect(userLetterInDb?.receiver_id.toString()).toBe(newUserLetter.receiver_id.toString());
         expect(userLetterInDb?.sender_id.toString()).toBe(newUserLetter.sender_id.toString());
