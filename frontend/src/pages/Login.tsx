@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import routes from "../config/route";
-import useAuthCheck from "../services/useAuthCheck";
+import {useAuthCheck} from "../services/useAuthCheck";
 
 const Login = () => {
   const navigate = useNavigate();
