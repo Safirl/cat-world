@@ -7,6 +7,7 @@ import CatModel from './components/Cat';
 
 const Home = () => {
   const [targetPosition, setTargetPosition] = useState<THREE.Vector3 | null>(null);
+  const planetRef = useRef<THREE.Mesh>(null!)
   const cats = [
     {
       _id: 0,
@@ -36,8 +37,6 @@ const Home = () => {
     return null; // Ce composant ne rend rien, il ajuste juste la caméra
   }
 
-  const planetRef = useRef<THREE.Mesh>(null!)
-  //const planetPosition: THREE.Vector3 = planetRef.current ? planetRef.current.position : new THREE.Vector3(0, 0, 0);
 
   //Delete message after a delay
   useEffect(() => {

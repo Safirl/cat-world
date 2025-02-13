@@ -1,5 +1,5 @@
 import { ThreeEvent, useThree } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { forwardRef, useRef, useImperativeHandle } from 'react';
 
@@ -9,7 +9,7 @@ interface PlanetProps {
 
 const Planet = forwardRef<THREE.Mesh, PlanetProps>(({ onClick }, ref) => {
   const { camera, gl } = useThree();
-  const texture = new THREE.TextureLoader().load('/public/textures/map/planet.jpg');
+  const texture = new THREE.TextureLoader().load('/textures/map/planet.jpg');
 
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
