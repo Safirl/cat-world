@@ -40,12 +40,12 @@ describe("Add friend", () => {
         const friend2 = await User.create(user2);
         const user_id_1 = friend1._id;
         const user_id_2 = friend2._id;
-        const response = await request(app)
+        const friendResponse = await request(app)
             .post("/api/friend/addfriend")
             .send({ user_id_1, user_id_2 });
             
-        expect(response.status).toBe(201);
-        expect(response.body.message).toBe("Friendship added");
+        expect(friendResponse.status).toBe(201);
+        expect(friendResponse.body.message).toBe("Friendship added");
         
         const friendsInDb = await Friend.findOne();
         expect(friendsInDb).toBeTruthy();
@@ -54,6 +54,46 @@ describe("Add friend", () => {
 
 describe("Remove friend", () => {
     it("should remove a friend for a user", async () => {
+        const user1 = {
+            username: "Friend",
+            email: "test@friend.com",
+            password: "password"
+        };
+        const friend1 = await User.create(user1);
+
+        const user2 = {
+            username: "Friend2",
+            email: "test@friend2.com",
+            password: "password"
+        };
+        const friend2 = await User.create(user2);
+        const user_id_1 = friend1._id;
+        const user_id_2 = friend2._id;
+        const friendResponse = await request(app)
+            .post("/api/friend/addfriend")
+            .send({ user_id_1, user_id_2 });
+        
+
+        expect(friendResponse.status).toBe(201);
+        expect(friendResponse.body.message).toBe("Friendship added");
+
+        const friendId = friendResponse.body.friend._id;
+        // Vérification que la lettre est bien créée
+        const friendInDb = await Friend.findById(friendId);
+        expect(friendInDb).toBeTruthy();
+
+        const deleteResponse = await request(app)
+            .delete(`/api/friend/delete/${friendId}`);
+
+        expect(deleteResponse.status).toBe(200);
+        expect(deleteResponse.body.message).toBe("Friend deleted successfully");
+
+        // Vérification que la lettre et UserLetter ont été supprimées
+        const deletedUser = await User.findById(friendId);
+
+        expect(deletedUser).toBeFalsy();
+
+
     });
 });
 

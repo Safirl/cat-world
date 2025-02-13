@@ -26,6 +26,29 @@ class FriendController {
         }
     };
 
+    public deleteFriend = async (req: Request, res: Response): Promise<void> => {
+        try{
+            const { id } = req.params;
+
+            if (!id) {
+                res.status(400).json({ message: "Missing friend ID" });
+                return;
+            }
+            const friend = await Friend.findById(id);
+            if (!friend) {
+                res.status(404).json({ message: "friend not found" });
+                return
+            }
+            await Friend.findByIdAndDelete(id);
+            res.status(200).json({ message: "Friend deleted successfully" });
+
+
+        } catch (error) {
+            console.error("Error deleting friend:", error);
+            res.status(500).json({ message: "Error deleting friend" });
+        }
+    };
+
 }
 
 export default new FriendController()
