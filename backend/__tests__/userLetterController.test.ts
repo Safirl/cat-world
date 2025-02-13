@@ -184,3 +184,152 @@ describe("Update letter status", () => {
         expect(response.body.userLetter.state).toBe(true);
     });
 })
+
+
+
+
+describe("Letter list display", () => {
+    it("should fetch all leters received by a user", async () => {
+        // create new user
+        const receiverTest = {
+            username: "receiverUser",
+            email: "test@receiver.com",
+            password: "password"
+        }; 
+        const senderTest = {
+            username: "senderUser",
+            email: "test@sender.com",
+            password: "password"
+        };
+        const receiver = await User.create(receiverTest);
+        const sender = await User.create(senderTest);
+
+        // create letter
+        const letterTest = {
+            title: "Test Letter cat",
+            content: "This is a test letter about cat.",
+            src_img: "example.com/image.jpg",
+            typo_id: 2,
+            stamp_id: 3
+        };
+        const letter = await Letter.create(letterTest);
+
+        const letterTest2 = {
+            title: "Test Letter cat",
+            content: "This is a test letter about cat.",
+            src_img: "example.com/image.jpg",
+            typo_id: 2,
+            stamp_id: 3
+        };
+        const letter2 = await Letter.create(letterTest2);
+
+        const userLetterTest = {
+            letter_id: letter._id,
+            sender_id: sender._id,
+            receiver_id: receiver._id,
+            state: false
+        };
+
+        const userLetterTest2 = {
+            letter_id: letter2._id,
+            sender_id: sender._id,
+            receiver_id: receiver._id,
+            state: false
+        };
+        const userLetter = await UserLetter.create(userLetterTest);
+        const userLetter2 = await UserLetter.create(userLetterTest2);
+
+        console.log('userLetter =======', userLetter)
+        console.log('userLetter2 =======', userLetter2)
+
+
+        const findReceiver = await User.findOne({ email: "test@receiver.com" });
+        const receiverId = findReceiver?._id;
+
+        const response = await request(app).get(`/api/fetchAll/${receiverId}`);
+        console.log("Fetch User Letters Response:", response.body);
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("AllUserLetter found");
+        expect(response.body.allUserLetter).toBeTruthy();
+    });
+
+    it("should fetch all read letters received by a user", async () => {
+
+        // create new user
+        const receiverTest = {
+            username: "receiverUser",
+            email: "test@receiver.com",
+            password: "password"
+        }; 
+        const senderTest = {
+            username: "senderUser",
+            email: "test@sender.com",
+            password: "password"
+        };
+        const receiver = await User.create(receiverTest);
+        const sender = await User.create(senderTest);
+
+        // create letter
+        const letterTest = {
+            title: "Test Letter cat",
+            content: "This is a test letter about cat.",
+            src_img: "example.com/image.jpg",
+            typo_id: 2,
+            stamp_id: 3
+        };
+        const letter = await Letter.create(letterTest);
+
+        const letterTest2 = {
+            title: "Test Letter cat",
+            content: "This is a test letter about cat.",
+            src_img: "example.com/image.jpg",
+            typo_id: 2,
+            stamp_id: 3
+        };
+        const letter2 = await Letter.create(letterTest2);
+
+        const letterTest3 = {
+            title: "Test Letter cat",
+            content: "This is a test letter about cat.",
+            src_img: "example.com/image.jpg",
+            typo_id: 2,
+            stamp_id: 3
+        };
+        const letter3 = await Letter.create(letterTest3);
+
+        const userLetterTest = {
+            letter_id: letter._id,
+            sender_id: sender._id,
+            receiver_id: receiver._id,
+            state: true
+        };
+        const userLetter = await UserLetter.create(userLetterTest);
+        const userLetterTest2 = {
+            letter_id: letter2._id,
+            sender_id: sender._id,
+            receiver_id: receiver._id,
+            state: false
+        };
+        const userLetter2 = await UserLetter.create(userLetterTest2);
+        const userLetterTest3 = {
+            letter_id: letter3._id,
+            sender_id: sender._id,
+            receiver_id: receiver._id,
+            state: true
+        };
+        const userLetter3 = await UserLetter.create(userLetterTest3);
+
+
+        const findReceiver = await User.findOne({ email: "test@receiver.com" });
+        const receiverId = findReceiver?._id;
+
+        const response = await request(app).get(`/api/fetchAll/${receiverId}`);
+        console.log("Fetch User Letters Response:", response.body);
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("AllUserLetter found");
+        expect(response.body.allUserLetter).toBeTruthy();
+
+    });
+});

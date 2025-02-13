@@ -15,23 +15,17 @@ describe("User modification", () => {
             .post("/api/auth/register")
             .send(newUser);
 
-        console.log('userregisterBody', userResponse.body)
-        
         const userId = userResponse.body?.user?._id; // Use optional chaining to avoid undefined errors
-        console.log('userId ================', userId)
         if (!userId) {
             throw new Error("User ID not returned from registration API");
         }
-        console.log('userid', userId)
         const userInDb = await User.findById(userId);
-        console.log("userInDv =====", userInDb)
         expect(userInDb).toBeTruthy();
 
         const modifyPasswordResponse = await request(app)
         .post(`/api/user/modifypassword/${userId}`)
         .send({ newPassword: "newSecurePassword123" });
 
-        console.log('modifepassword ==================', modifyPasswordResponse)
         expect(modifyPasswordResponse.status).toBe(201);
         expect(modifyPasswordResponse.body.message).toBe("User modify password");
     });
@@ -112,12 +106,7 @@ describe("Fetch user data", () => {
             .send(newUser);
 
         const userID = registerResponse.body.user?._id;
-        console.log("userID récupéré après inscription:", userID);
-
-
         const checkUserResponse = await request(app).get(`/api/user/fetch/${userID}`);
-        console.log("Réponse de l'API après récupération:", checkUserResponse.status, checkUserResponse.body);
-
    
         expect(checkUserResponse.status).toBe(200);
         expect(checkUserResponse.body.message).toBe("User fetch");

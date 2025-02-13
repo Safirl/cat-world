@@ -97,16 +97,6 @@ describe("Letter Deletion", () => {
 });
 
 
-// describe("Letter list display", () => {
-//     it("should fetch all leters received by a user", async () => {
-
-//     });
-
-//     it("should fetch all read letters received by a user", async () => {
-
-//     });
-// });
-
 
 describe("Show Letter", () => {
     it("Should show letter", async () => {
