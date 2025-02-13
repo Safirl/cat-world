@@ -238,17 +238,10 @@ describe("Letter list display", () => {
         };
         const userLetter = await UserLetter.create(userLetterTest);
         const userLetter2 = await UserLetter.create(userLetterTest2);
-
-        console.log('userLetter =======', userLetter)
-        console.log('userLetter2 =======', userLetter2)
-
-
         const findReceiver = await User.findOne({ email: "test@receiver.com" });
         const receiverId = findReceiver?._id;
 
         const response = await request(app).get(`/api/fetchAll/${receiverId}`);
-        console.log("Fetch User Letters Response:", response.body);
-
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("AllUserLetter found");
         expect(response.body.allUserLetter).toBeTruthy();
@@ -325,8 +318,6 @@ describe("Letter list display", () => {
         const receiverId = findReceiver?._id;
 
         const response = await request(app).get(`/api/fetchAll/${receiverId}`);
-        console.log("Fetch User Letters Response:", response.body);
-
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("AllUserLetter found");
         expect(response.body.allUserLetter).toBeTruthy();

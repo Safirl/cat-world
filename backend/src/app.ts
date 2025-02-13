@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
+import friendRoutes from './routes/friendRoutes';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use("/api/auth", authRouter);
 app.use('/api/letters', letterRoutes);
 app.use('/api', userLetterRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/friend', friendRoutes)
 app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to the backend server");
 });

@@ -25,6 +25,30 @@ const createUser = async (userData: { username: string, email: string, password:
 
 describe("Add friend", () => {
     it("should add a friend for a user", async () => {
+        const user1 = {
+            username: "Friend",
+            email: "test@friend.com",
+            password: "password"
+        };
+        const friend1 = await User.create(user1);
+
+        const user2 = {
+            username: "Friend2",
+            email: "test@friend2.com",
+            password: "password"
+        };
+        const friend2 = await User.create(user2);
+        const user_id_1 = friend1._id;
+        const user_id_2 = friend2._id;
+        const response = await request(app)
+            .post("/api/friend/addfriend")
+            .send({ user_id_1, user_id_2 });
+            
+        expect(response.status).toBe(201);
+        expect(response.body.message).toBe("Friendship added");
+        
+        const friendsInDb = await Friend.findOne();
+        expect(friendsInDb).toBeTruthy();
     });
 });
 
