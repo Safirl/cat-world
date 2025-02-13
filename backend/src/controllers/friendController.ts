@@ -48,6 +48,21 @@ class FriendController {
             res.status(500).json({ message: "Error deleting friend" });
         }
     };
+    public fetchAllFriend = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { user_id } = req.params;
+            const allFriend = await Friend.find({ user_id });
+            if (!allFriend || allFriend.length === 0) {
+                res.status(404).json({ message: "allFriend not found" });
+                return;
+            }
+            res.status(200).json({ message: "All friend found", allFriend });
+        } catch (error) {
+            console.error("Error fetching user letters:", error);
+            res.status(500).json({ message: "Error fetching user letters" });
+            return;
+        }
+    }
 
 }
 

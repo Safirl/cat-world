@@ -99,6 +99,52 @@ describe("Remove friend", () => {
 
 describe("Fetch friends", () => {
     it("should fetch all friends for a user", async () => {
+        const user1 = {
+            username: "Friend",
+            email: "test@friend.com",
+            password: "password"
+        };
+        const friend1 = await User.create(user1);
+
+        const user2 = {
+            username: "Friend2",
+            email: "test@friend2.com",
+            password: "password"
+        };
+        const friend2 = await User.create(user2);
+        const user_id_1 = friend1._id;
+        let user_id_2 = friend2._id;
+        const friendResponse = await request(app)
+            .post("/api/friend/addfriend")
+            .send({ user_id_1, user_id_2 });
+        
+
+        expect(friendResponse.status).toBe(201);
+        expect(friendResponse.body.message).toBe("Friendship added");
+
+
+        const user3 = {
+            username: "Friend2",
+            email: "test@friend2.com",
+            password: "password"
+        };
+        const friend3 = await User.create(user2);
+        user_id_2 = friend3._id;
+        const friendResponse2 = await request(app)
+            .post("/api/friend/addfriend")
+            .send({ user_id_1, user_id_2 });
+        
+
+        expect(friendResponse2.status).toBe(201);
+        expect(friendResponse2.body.message).toBe("Friendship added");
+
+
+        const findUser = await User.findOne({ email: "test@friend.com" });
+        const userId = findUser?._id;
+
+        const response = await request(app).get(`/api/friend/fetchAll/${userId}`);
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("All friend found");
     });
 
     it("should fetch friends with the most exchanges", async () => {
