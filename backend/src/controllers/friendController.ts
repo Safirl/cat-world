@@ -64,6 +64,24 @@ class FriendController {
         }
     }
 
+    public showInformationFriend = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { user_Friend_Id } = req.params;
+            const friendInformation = await Friend.find({ user_Friend_Id })
+
+            if (!friendInformation) {
+                res.status(404).json({ message: "Friend information not found" });
+                return;
+            }
+            res.status(201).json({ message : "Friend information show", friendInformation})
+
+        } catch (error) {
+            console.error("Error show information friend", error);
+            res.status(500).json({ message: "Error show information friend" });
+            return;
+        }
+    }
+
 }
 
 export default new FriendController()

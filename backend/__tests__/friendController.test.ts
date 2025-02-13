@@ -147,11 +147,47 @@ describe("Fetch friends", () => {
         expect(response.body.message).toBe("All friend found");
     });
 
-    it("should fetch friends with the most exchanges", async () => {
+    // it("should fetch friends with the most exchanges", async () => {
 
-    });
+    // });
 
     it("should display a friend information", async () => {
+        const user1 = {
+            username: "Friend",
+            email: "test@friend.com",
+            password: "password"
+        };
+        const friend1 = await User.create(user1);
+
+        const user2 = {
+            username: "Friend2",
+            email: "test@friend2.com",
+            password: "password"
+        };
+        const friend2 = await User.create(user2);
+        const user_id_1 = friend1._id;
+        let user_id_2 = friend2._id;
+        const friendResponse = await request(app)
+            .post("/api/friend/addfriend")
+            .send({ user_id_1, user_id_2 });
+        
+
+        expect(friendResponse.status).toBe(201);
+        expect(friendResponse.body.message).toBe("Friendship added");
+
+
+        const findUser = await User.findOne({ email: "test@friend.com" });
+        const userId = findUser?._id;
+
+        const findUserFriend = await User.findOne({ email: "test@friend2.com" });
+        const userFriendId = findUserFriend?._id;
+
+        const informationFriendResponse = await request(app)
+            .get("/api/friend/showfriend/:id")
+            .send({ userId, userFriendId });
+
+        expect(informationFriendResponse.status).toBe(201);
+        expect(informationFriendResponse.body.message).toBe("Friend information show");
 
     });
 });
