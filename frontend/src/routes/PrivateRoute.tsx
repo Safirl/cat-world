@@ -4,16 +4,21 @@ import { useState, useEffect } from "react";
 import routes from "../config/route";
 
 const PrivateRoute = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-    
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
+        console.log("check if user is authenticated")
         const checkAuth = async () => {
             const authStatus = await isUserAuth();
             setIsAuthenticated(authStatus);
+            setLoading(false);
         };
         checkAuth();
     }, []);
-    return isAuthenticated ? <Outlet /> : <Navigate to={routes.login} state={{message: "Connectez-vous pour accéder à cette page."}} replace />;
+
+    if (loading) return <p>Chargement...</p>;
+    return isAuthenticated ? <Outlet /> : <Navigate to={routes.login} state={{ message: "Connectez-vous pour accéder à cette page." }} replace />;
 }
 
 export default PrivateRoute;
