@@ -1,12 +1,11 @@
 import express from 'express';
-import AuthController from '../controllers/authController';
-import { authenticateToken } from '../middleware/authMiddleware';
-import { checkUserExists } from '../middleware/userExistsMiddleware';
+import letterController from '../controllers/letterController';
+import { authMiddleware } from '../middleware/authMiddleWare';
 
 const letterRoutes = express.Router();
 
-//Reference all the routes linked to the AuthController here.
-// letterRoutes.post("/register", checkUserExists, AuthController.register);
-// letterRoutes.post("/login", authenticateToken, AuthController.login);
+letterRoutes.post("/createletter", authMiddleware, letterController.createLetter);
+letterRoutes.delete("/deleteletter/:id", authMiddleware, letterController.deleteLetter);
+letterRoutes.get('/showletter/:id', authMiddleware, letterController.showLetter);
 
 export default letterRoutes;

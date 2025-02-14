@@ -21,7 +21,13 @@ class AuthController {
             });
 
             await newUser.save();
-            res.status(201).json({ message: "User registered successfully" });
+            const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
+
+            res.status(201).json({
+                message: "User registered successfully",
+                user: newUser,
+                token
+            });
         }
         catch (error) {
             console.error("Can't register user", error);
@@ -38,7 +44,7 @@ class AuthController {
 
             const { email, password } = req.body;
 
-            const matchingUser = await User.findOne({ email: email });
+            const matchingUser = await User.findOne({ email });
             if (!matchingUser) {
                 res.status(401).json({ message: "Invalid credentials" });
                 return;
@@ -68,6 +74,10 @@ class AuthController {
             return;
         }
     }
+
+    // public logout = async (): Promise => {
+
+    // }
 }
 
 export default new AuthController();

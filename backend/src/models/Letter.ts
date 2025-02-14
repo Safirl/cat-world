@@ -1,9 +1,11 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ILetter extends Document {
-    username: string;
-    email: string;
-    password: string;
+    title: string;
+    content: string;
+    src_img: string;
+    typo_id: number;
+    stamp_id: number;
 }
 
 const LetterSchema: Schema = new Schema({
