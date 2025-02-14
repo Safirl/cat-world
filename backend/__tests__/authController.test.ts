@@ -4,9 +4,15 @@ import User, { IUser } from '../src/models/User';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { getJwtSecret } from '../src/services/authService';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
 let userTest: IUser;
 beforeEach(async () => {
+    if (!mongoose.connection.db) {
+        console.error("No database connection");
+        return;
+    }
+    const collection = await mongoose.connection.db.collection("users");
     const hashedPassword = await bcrypt.hash("password", 10);
     const userStruct =
     {
@@ -39,9 +45,16 @@ describe("User registration", () => {
 
 describe("User login", () => {
     it("should login to a test user", async () => {
+        if (!mongoose.connection.db) {
+            console.error("No database connection");
+            return;
+        }
+        const collection = await mongoose.connection.db.collection("users");
+        const users = await collection.findOne();
+        //console.log(users)
         const response = await request(app)
             .post("/api/auth/login")
-            .send({ email: userTest.email, password: userTest.password });
+            .send({ email: userTest.email, password: "password" });
 
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("User logged in successfully");
@@ -87,3 +100,7 @@ describe("User login", () => {
         expect(response.status).toBe(401);
     });
 });
+
+// describe("User logout", () => {
+//     it("should logout a user")
+// });

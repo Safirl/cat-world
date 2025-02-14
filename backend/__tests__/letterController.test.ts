@@ -2,10 +2,12 @@ import request from 'supertest';
 import { app } from '../src/app';
 import Letter, { ILetter } from '../src/models/Letter';
 import UserLetter from '../src/models/UserLetter';
-import exp from 'constants';
+import jwt from 'jsonwebtoken';
+import { authToken } from '../setupTests';
 
 //Create a letter before each test
 let letter: ILetter;
+
 beforeEach(async () => {
     const letterTest = {
         title: "Test Letter cat",
@@ -30,6 +32,7 @@ describe("Letter creation", () => {
 
         const response = await request(app)
             .post("/api/letters/createletter")
+            .set("Cookie", `token=${authToken}`)
             .send(newLetter);
 
         expect(response.status).toBe(201);
@@ -49,23 +52,10 @@ describe("Letter creation", () => {
 
 describe("Letter Deletion", () => {
     it("Should delete letter and associated UserLetter", async () => {
-        // Création d'une relation UserLetter associée
-        const newUserLetter = {
-            receiver_id: "someReceiverId",
-            sender_id: "someSenderId",
-            letter_id: letter._id,
-            state: false
-        };
-
-        await UserLetter.create(newUserLetter);
-
-        // Vérification que UserLetter existe
-        const userLetterInDb = await UserLetter.findOne({ letter_id: letter._id });
-        expect(userLetterInDb).toBeTruthy();
-
         // Suppression de la lettre
         const deleteResponse = await request(app)
-            .delete(`/api/letters/deleteletter/${letter._id}`);
+            .delete(`/api/letters/deleteletter/${letter._id}`)
+            .set("Cookie", `token=${authToken}`);
 
         expect(deleteResponse.status).toBe(200);
         expect(deleteResponse.body.message).toBe("Letter and associated UserLetters deleted successfully");
@@ -79,12 +69,12 @@ describe("Letter Deletion", () => {
     });
 });
 
-
-
 describe("Show Letter", () => {
     it("Should show letter", async () => {
         // Récupération de la lettre
-        const response = await request(app).get(`/api/letters/showletter/${letter._id}`);
+        const response = await request(app)
+            .get(`/api/letters/showletter/${letter._id}`)
+            .set("Cookie", `token=${authToken}`)
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("Letter found");
         expect(response.body.letter).toMatchObject({

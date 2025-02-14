@@ -10,21 +10,21 @@ import authController from './authController';
 
 
 class UserLetterController {
-    public createUserLetter: RequestHandler = async (req:Request, res:Response) => {
+    public createUserLetter: RequestHandler = async (req: Request, res: Response) => {
         try {
             const { receiver_id, sender_id, letter_id, state } = req.body;
-    
+
             const existingEntry = await UserLetter.findOne({ sender_id, receiver_id, letter_id });
             if (existingEntry) {
                 res.status(400).json({ message: "UserLetter already exists" });
-                return; 
+                return;
             }
-    
+
             const newUserLetter = new UserLetter({ sender_id, receiver_id, letter_id, state });
             await newUserLetter.save();
-    
+
             res.status(201).json({ message: "UserLetter created successfully", userLetter: newUserLetter });
-            return; 
+            return;
         } catch (error) {
             console.error("Error creating UserLetter:", error);
             res.status(500).json({ message: "Error creating UserLetter" });
@@ -35,7 +35,7 @@ class UserLetterController {
     public updateState: RequestHandler = async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const { state } = req.body;
+            const { read } = req.body;
 
             const userLetter = await UserLetter.findById(id);
             if (!userLetter) {
@@ -43,7 +43,7 @@ class UserLetterController {
                 return;
             }
 
-            userLetter.state = state;
+            userLetter.read = read;
             await userLetter.save();
 
             res.status(200).json({ message: "UserLetter state updated successfully", userLetter });
@@ -86,8 +86,8 @@ class UserLetterController {
             return;
         }
     };
-    
-    
+
+
 }
 
 export default new UserLetterController();

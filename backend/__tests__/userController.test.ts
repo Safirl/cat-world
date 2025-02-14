@@ -1,57 +1,49 @@
 import request from 'supertest';
-import {app} from '../src/app';
+import { app } from '../src/app';
+import User, { IUser } from '../src/models/User';
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import { authToken } from '../setupTests';
 
-import User from '../src/models/User';
+let userTest: IUser;
+beforeEach(async () => {
+    if (!mongoose.connection.db) {
+        console.error("No database connection");
+        return;
+    }
+    const collection = await mongoose.connection.db.collection("users");
+    const hashedPassword = await bcrypt.hash("password", 10);
+    const userStruct =
+    {
+        username: "toto",
+        email: "email@toto.com",
+        password: hashedPassword
+    }
+    userTest = await User.create(userStruct);
+});
 
 describe("User modification", () => {
     it("should modify a user password", async () => {
-        const newUser = {
-            username: "testUser1",
-            email: "email@test.com",
-            password: "password",
-            color: 'black'
-        }
-        const userResponse = await request(app)
-            .post("/api/auth/register")
-            .send(newUser);
-
-        const userId = userResponse.body?.user?._id; // Use optional chaining to avoid undefined errors
-        if (!userId) {
-            throw new Error("User ID not returned from registration API");
-        }
-        const userInDb = await User.findById(userId);
+        const userInDb = await User.findById(userTest._id);
         expect(userInDb).toBeTruthy();
 
         const modifyPasswordResponse = await request(app)
-        .post(`/api/user/modifypassword/${userId}`)
-        .send({ newPassword: "newSecurePassword123" });
+            .post(`/api/user/modifypassword/${userTest._id}`)
+            .send({ newPassword: "newSecurePassword123" })
+            .set("Cookie", `token=${authToken}`);
 
         expect(modifyPasswordResponse.status).toBe(201);
         expect(modifyPasswordResponse.body.message).toBe("User modify password");
     });
 
     it("should modify user avatar color", async () => {
-        const newUser = {
-            username: "testUser1",
-            email: "email@test.com",
-            password: "password",
-            color: 'black'
-        }
-        const userResponse = await request(app)
-            .post("/api/auth/register")
-            .send(newUser);
-
-        const userId = userResponse.body?.user?._id; // Use optional chaining to avoid undefined errors
-        if (!userId) {
-            throw new Error("User ID not returned from registration API");
-        }
-        const userInDb = await User.findById(userId);
+        const userInDb = await User.findById(userTest._id);
         expect(userInDb).toBeTruthy();
 
-
         const modifyColorResponse = await request(app)
-        .post(`/api/user/colorcat/${userId}`)
-        .send({ newColor: "white" });
+            .post(`/api/user/colorcat/${userTest._id}`)
+            .send({ newColor: "white" })
+            .set("Cookie", `token=${authToken}`);
 
         expect(modifyColorResponse.status).toBe(201);
         expect(modifyColorResponse.body.message).toBe("User modify color");
@@ -62,31 +54,19 @@ describe("User modification", () => {
 
 describe("User deletetion", () => {
     it("should delete a user", async () => {
-        const newUser = {
-            username: "testUser1",
-            email: "email@test.com",
-            password: "password"
-        }
-
-        const userResponse = await request(app)
-            .post("/api/auth/register")
-            .send(newUser);
-
-        const userId = userResponse.body.user._id;
-        // Vérification que la lettre est bien créée
-        const userInDb = await User.findById(userId);
+        const userInDb = await User.findById(userTest._id);
         expect(userInDb).toBeTruthy();
-
 
         // Suppression de l'user
         const deleteResponse = await request(app)
-            .delete(`/api/user/delete/${userId}`);
+            .delete(`/api/user/delete/${userTest._id}`)
+            .set("Cookie", `token=${authToken}`);
 
         expect(deleteResponse.status).toBe(200);
         expect(deleteResponse.body.message).toBe("User deleted successfully");
 
         // Vérification que la lettre et UserLetter ont été supprimées
-        const deletedUser = await User.findById(userId);
+        const deletedUser = await User.findById(userTest._id);
 
         expect(deletedUser).toBeFalsy();
     });
@@ -94,26 +74,16 @@ describe("User deletetion", () => {
 
 describe("Fetch user data", () => {
     it("should fetch connected user data", async () => {
-        // Création d'un utilisateur test
-        const newUser = {
-            username: "testUser",
-            email: "test@user.com",
-            password: "password"
-        };
+        const checkUserResponse = await request(app)
+            .get(`/api/user/fetch/${userTest._id}`)
+            .set("Cookie", `token=${authToken}`);
 
-        const registerResponse = await request(app)
-            .post("/api/auth/register")
-            .send(newUser);
-
-        const userID = registerResponse.body.user?._id;
-        const checkUserResponse = await request(app).get(`/api/user/fetch/${userID}`);
-   
         expect(checkUserResponse.status).toBe(200);
         expect(checkUserResponse.body.message).toBe("User fetch");
 
         expect(checkUserResponse.body.user).toMatchObject({
-            username: newUser.username,
-            email: newUser.email
+            username: userTest.username,
+            email: userTest.email
         });
     });
 });

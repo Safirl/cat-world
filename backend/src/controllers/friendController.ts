@@ -6,11 +6,10 @@ class FriendController {
     public async addFriend(req: Request, res: Response): Promise<void> {
         //@todo verifier si l'amitié n'exist pas déjà
         try {
-            const { user_id_1, user_id_2 } = req.body;
-
+            const { user_id, friend_id } = req.body;
             const newFriendship = new Friend({
-                user_id_1,
-                user_id_2
+                user_id_1: user_id,
+                user_id_2: friend_id
             });
 
             await newFriendship.save();
@@ -27,7 +26,7 @@ class FriendController {
     };
 
     public deleteFriend = async (req: Request, res: Response): Promise<void> => {
-        try{
+        try {
             const { id } = req.params;
 
             if (!id) {
@@ -52,6 +51,7 @@ class FriendController {
         try {
             const { user_id } = req.params;
             const allFriend = await Friend.find({ user_id });
+            console.log("allfriends: ", allFriend)
             if (!allFriend || allFriend.length === 0) {
                 res.status(404).json({ message: "allFriend not found" });
                 return;
@@ -73,7 +73,7 @@ class FriendController {
                 res.status(404).json({ message: "Friend information not found" });
                 return;
             }
-            res.status(201).json({ message : "Friend information show", friendInformation})
+            res.status(201).json({ message: "Friend information show", friendInformation })
 
         } catch (error) {
             console.error("Error show information friend", error);

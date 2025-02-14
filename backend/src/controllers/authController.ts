@@ -44,7 +44,7 @@ class AuthController {
 
             const { email, password } = req.body;
 
-            const matchingUser = await User.findOne({ email: email });
+            const matchingUser = await User.findOne({ email });
             if (!matchingUser) {
                 res.status(401).json({ message: "Invalid credentials" });
                 return;
@@ -75,7 +75,9 @@ class AuthController {
         }
     }
 
-    
+    // public logout = async (): Promise => {
+
+    // }
 }
 
 export default new AuthController();
