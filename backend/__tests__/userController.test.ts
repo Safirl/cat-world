@@ -78,7 +78,7 @@ describe("User deletetion", () => {
         expect(userInDb).toBeTruthy();
 
 
-        // Suppression de la lettre
+        // Suppression de l'user
         const deleteResponse = await request(app)
             .delete(`/api/user/delete/${userId}`);
 
