@@ -1,19 +1,20 @@
 import request from 'supertest';
-import {app} from '../src/app';
-import User from '../src/models/User';
+import { app } from '../src/app';
+import User, { IUser } from '../src/models/User';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { getJwtSecret } from '../src/services/authService';
 import bcrypt from 'bcryptjs';
 
+let userTest: IUser;
 beforeEach(async () => {
     const hashedPassword = await bcrypt.hash("password", 10);
-    const user =
-        {
-            username: "toto",
-            email: "email@toto.com",
-            password: hashedPassword
-        }
-    await User.create(user);
+    const userStruct =
+    {
+        username: "toto",
+        email: "email@toto.com",
+        password: hashedPassword
+    }
+    userTest = await User.create(userStruct);
 });
 
 describe("User registration", () => {
@@ -26,30 +27,25 @@ describe("User registration", () => {
         const response = await request(app)
             .post("/api/auth/register")
             .send(newUser);
-            
+
         expect(response.status).toBe(201);
         expect(response.body.message).toBe("User registered successfully");
-        
-        const userInDb = await User.findOne({email: newUser.email});
+
+        const userInDb = await User.findOne({ email: newUser.email });
         expect(userInDb).toBeTruthy();
         expect(userInDb?.username).toBe(newUser.username);
     });
 });
 
 describe("User login", () => {
-    it ("should login to a test user", async () => {
-        const user = {
-            email: "email@toto.com",
-            password: "password"
-        }
-
+    it("should login to a test user", async () => {
         const response = await request(app)
             .post("/api/auth/login")
-            .send({email: user.email, password: user.password});
-        
+            .send({ email: userTest.email, password: userTest.password });
+
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("User logged in successfully");
-        
+
         //check if the token is valid
         const token: string = response.body.token;
         expect(token).not.toBeUndefined();
@@ -63,31 +59,31 @@ describe("User login", () => {
         //check if the user in the database has the same email
         const userInDb = await User.findById(decoded._id);
         expect(userInDb).toBeTruthy();
-        expect(userInDb?.email).toBe(user.email);
+        expect(userInDb?.email).toBe(userTest.email);
     });
 
-    it ("should not login to a test user with wrong password", async () => {
+    it("should not login to a test user with wrong password", async () => {
         const user = {
             email: "email@toto.com",
             password: "wrongpassword"
         }
         const response = await request(app)
             .post("/api/auth/login")
-            .send({email: user.email, password: user.password});
-        
+            .send({ email: user.email, password: user.password });
+
         expect(response.status).toBe(401);
     });
 
-    it ("should not login to a test user with invalid token and no creditentials", async () => {
+    it("should not login to a test user with invalid token and no creditentials", async () => {
         const token = jwt.sign(
-            { _id: "1234" }, 
-            "hacker-test-key", 
+            { _id: "1234" },
+            "hacker-test-key",
             { expiresIn: "7d" }
         );
 
         const response = await request(app)
             .post("/api/auth/login")
-    
+
         expect(response.status).toBe(401);
     });
 });
