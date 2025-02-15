@@ -23,8 +23,8 @@ app.use(cors({
 
 //Reference other routers here.
 app.use("/api/auth", authRouter);
-app.use('/api/letters', letterRoutes);
-app.use('/api', userLetterRoutes);
+app.use('/api/letter', letterRoutes);
+app.use('/api/userLetter', userLetterRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/friend', friendRoutes)
 app.get("/", (req: Request, res: Response) => {

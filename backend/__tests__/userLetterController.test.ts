@@ -92,7 +92,7 @@ describe("Update letter status", () => {
     it("should changed the letter status from new to read", async () => {
         // update letter status
         const response = await request(app)
-            .put(`/api/updateUserLetter/${userLetter._id}`)
+            .put(`/api/userLetter/updateUserLetter/${userLetter._id}`)
             .send({ read: true })
             .set("Cookie", `token=${authToken}`);
 
@@ -106,7 +106,7 @@ describe("Update letter status", () => {
 describe("Letter list display", () => {
     it("should fetch all leters received by a user", async () => {
         const response = await request(app)
-            .get(`/api/fetchAll/${receiver._id}`)
+            .get(`/api/userLetter/fetchAll/${receiver._id}`)
             .set("Cookie", `token=${authToken}`);
 
         expect(response.status).toBe(200);
@@ -116,7 +116,7 @@ describe("Letter list display", () => {
 
     it("should fetch all read letters received by a user", async () => {
         const response = await request(app)
-            .get(`/api/fetchAll/${receiver._id}`)
+            .get(`/api/userLetter/fetchAll/${receiver._id}`)
             .set("Cookie", `token=${authToken}`);
 
         expect(response.status).toBe(200);

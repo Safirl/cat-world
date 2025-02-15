@@ -12,10 +12,8 @@ beforeAll(async () => {
     authToken = jwt.sign({ userId: 1 }, process.env.JWT_SECRET!, { expiresIn: "7d" });
 });
 
-beforeAll(async () => {
-});
-
 afterAll(async () => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
 });

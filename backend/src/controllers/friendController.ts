@@ -51,7 +51,6 @@ class FriendController {
         try {
             const { user_id } = req.params;
             const allFriend = await Friend.find({ user_id });
-            console.log("allfriends: ", allFriend)
             if (!allFriend || allFriend.length === 0) {
                 res.status(404).json({ message: "allFriend not found" });
                 return;
