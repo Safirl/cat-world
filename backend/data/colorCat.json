@@ -1,0 +1,21 @@
+{
+    "color":[
+        {
+             "black": "/notre/path/vers/uvmap.png"
+        },
+        {
+            "white": "/notre/path/vers/uvmap.png"
+        },
+        {
+            "ginger": "/notre/path/vers/uvmap.png"
+        },
+        {
+            "whiteAndGinger": "/notre/path/vers/uvmap.png"
+        },
+        {
+            "red": "/notre/path/vers/uvmap.png"
+        }
+
+    ]
+    
+}
