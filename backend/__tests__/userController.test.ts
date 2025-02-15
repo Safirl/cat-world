@@ -4,6 +4,8 @@ import User, { IUser } from '../src/models/User';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { authToken } from '../setupTests';
+import Friend from '../src/models/Friend';
+import UserLetter from '../src/models/UserLetter';
 
 let userTest: IUser;
 beforeEach(async () => {
@@ -47,7 +49,6 @@ describe("User modification", () => {
 
         expect(modifyColorResponse.status).toBe(201);
         expect(modifyColorResponse.body.message).toBe("User modify color");
-
     })
 });
 
@@ -67,8 +68,16 @@ describe("User deletetion", () => {
 
         // Vérification que la lettre et UserLetter ont été supprimées
         const deletedUser = await User.findById(userTest._id);
+        const friend1 = await Friend.findOne({ user_id_1: userTest._id })
+        const friend2 = await Friend.findOne({ user_id_2: userTest._id })
+        const sender = await UserLetter.findOne({ sender_id: userTest._id })
+        const receiver = await UserLetter.findOne({ receiver_id: userTest._id })
 
         expect(deletedUser).toBeFalsy();
+        expect(friend1).toBeFalsy();
+        expect(friend2).toBeFalsy();
+        expect(sender).toBeFalsy();
+        expect(receiver).toBeFalsy();
     });
 });
 
