@@ -8,7 +8,6 @@ const PrivateRoute = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("check if user is authenticated")
         const checkAuth = async () => {
             const authStatus = await isUserAuth();
             setIsAuthenticated(authStatus);
