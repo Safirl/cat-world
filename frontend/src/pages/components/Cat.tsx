@@ -1,5 +1,5 @@
 import React from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF, useAnimations, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { GroupProps, useGraph } from '@react-three/fiber'
 import { SkeletonUtils } from 'three-stdlib'
@@ -24,17 +24,20 @@ type GLTFResult = GLTF & {
 // Props du composant
 interface CatProps extends GroupProps {
     targetPosition: THREE.Vector3 | null;
+    texture_name: string;
 }
 
 const Cat = (props: CatProps) => {
     const group = React.useRef<THREE.Group>(null)
-    const { scene, animations } = useGLTF('/public/3D/cat.glb') as unknown as GLTFResult
+    const { scene, animations } = useGLTF('/3D/cat.glb') as unknown as GLTFResult
     const { actions } = useAnimations(animations, group)
     const [isWalking, setIsWalking] = React.useState(false);
 
     const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
 
     const { nodes, materials } = useGraph(clone)
+    const texture = useTexture(`/textures/cats/${props.texture_name}`);
+    // materials.Cat_Material.map = texture;
 
     React.useEffect(() => {
         if (!group.current) return;

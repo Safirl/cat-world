@@ -4,6 +4,8 @@ import { Canvas, useThree } from '@react-three/fiber';
 import Planet from './components/Planet';
 import * as THREE from 'three';
 import CatModel from './components/Cat';
+import { routes, apiRoutes } from "../config/route"
+import AppRouter from "../routes/AppRouter";
 
 const Home = () => {
   const [targetPosition, setTargetPosition] = useState<THREE.Vector3 | null>(null);
@@ -11,17 +13,43 @@ const Home = () => {
   const cats = [
     {
       _id: 0,
-      avatarColor: 1
+      avatarColor: 1,
+      color: "cat_texture_white.png"
     },
     {
       _id: 1,
-      avatarColor: 1
+      avatarColor: 1,
+      color: "cat_texture_black.png"
     },
   ]
 
   const handleMoveCat = (position: THREE.Vector3) => {
     setTargetPosition(position);
   };
+
+  const fetchFriendsCats = async () => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.getFriends, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include"
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(data.message)
+        navigate(routes.home, { state: { message: "Vous êtes connecté !" } })
+      }
+      else {
+        setMessage(data.message || "Échec de la connexion");
+      }
+    } catch (error) {
+      console.error("Error while submiting request: ", error)
+    }
+  }
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,7 +64,6 @@ const Home = () => {
 
     return null; // Ce composant ne rend rien, il ajuste juste la caméra
   }
-
 
   //Delete message after a delay
   useEffect(() => {
@@ -62,7 +89,7 @@ const Home = () => {
         <Planet ref={planetRef} onClick={handleMoveCat} />
         {
           cats.map(cat => (
-            <CatModel targetPosition={targetPosition} key={cat._id} />
+            <CatModel targetPosition={targetPosition} key={cat._id} texture_name={cat.color} />
           ))
         }
       </Canvas>

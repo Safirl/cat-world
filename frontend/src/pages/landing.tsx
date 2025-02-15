@@ -5,9 +5,6 @@ import Planet from './components/Planet';
 import * as THREE from 'three';
 
 const Landing = () => {
-
-
-
     return (
         <>
             <img className="stars" src="../../public/image/stars.png" alt="stars" />

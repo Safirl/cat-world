@@ -5,4 +5,8 @@ const routes = {
     register: "/register",
 };
 
-export default routes;
+const apiRoutes = {
+    getFriends: "/friend/fetchAll/:id"
+}
+
+export { routes, apiRoutes };
