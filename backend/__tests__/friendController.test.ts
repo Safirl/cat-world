@@ -1,14 +1,15 @@
 import request from "supertest";
 import { app } from "../src/app";
-import Friend from "../src/models/Friend";
+import Friend, { IFriend } from "../src/models/Friend";
 import User, { IUser } from "../src/models/User";
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import { authToken } from "../setupTests";
 
 let user: IUser;
 let friend: IUser;
 let friend1: IUser;
-beforeAll(async () => {
+let friendRelation: IFriend
+beforeEach(async () => {
     if (!mongoose.connection.db) {
         console.error("No database connection");
         return;
@@ -21,6 +22,13 @@ beforeAll(async () => {
     user = await User.create({ username: "Alice", email: "alice@example.com", password: "password", color: "red" });
     friend = await User.create({ username: "Bob", email: "bob@example.com", password: "password", color: "red" });
     friend1 = await User.create({ username: "Charlie", email: "charlie@example.com", password: "password", color: "red" });
+    friendRelation = await Friend.create({ user_id_1: user._id, user_id_2: friend._id })
+    const friendInDb = await Friend.findById(friendRelation._id);
+    // Vérification que le friend est bien créé
+
+    if (!friendInDb) {
+        console.error("error while creating friend relation")
+    }
 })
 
 describe("Add friend", () => {
@@ -43,20 +51,7 @@ describe("Add friend", () => {
 
 describe("Remove friend", () => {
     it("should remove a friend for a user", async () => {
-        const user_id = user._id;
-        const friend_id = friend._id;
-        const friendResponse = await request(app)
-            .post("/api/friend/addfriend")
-            .send({ user_id, friend_id })
-            .set("Cookie", `token=${authToken}`)
-
-        expect(friendResponse.status).toBe(201);
-        expect(friendResponse.body.message).toBe("Friendship added");
-
-        const friendId = friendResponse.body.friend._id;
-        // Vérification que le friend est bien créé
-        const friendInDb = await Friend.findById(friendId);
-        expect(friendInDb).toBeTruthy();
+        const friendId = friendRelation._id;
 
         const deleteResponse = await request(app)
             .delete(`/api/friend/delete/${friendId}`)
@@ -75,16 +70,9 @@ describe("Remove friend", () => {
 describe("Fetch friends", () => {
     it("should fetch all friends for a user", async () => {
         const user_id = user._id;
-        let friend_id = friend._id;
-        const friendResponse = await request(app)
-            .post("/api/friend/addfriend")
-            .send({ user_id, friend_id })
-            .set("Cookie", `token=${authToken}`)
 
-        expect(friendResponse.status).toBe(201);
-        expect(friendResponse.body.message).toBe("Friendship added");
-
-        friend_id = friend1._id
+        //adding a second friend for the test
+        const friend_id = friend1._id
         const friendResponse1 = await request(app)
             .post("/api/friend/addfriend")
             .send({ user_id, friend_id })
@@ -99,6 +87,7 @@ describe("Fetch friends", () => {
 
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("All friend found");
+        expect(response.body.allFriend.length).toBe(2);
     });
 
     // it("should fetch friends with the most exchanges", async () => {
