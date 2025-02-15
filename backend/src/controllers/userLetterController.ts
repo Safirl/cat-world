@@ -61,7 +61,7 @@ class UserLetterController {
                 res.status(404).json({ message: "AllUserLetter not found" });
                 return;
             }
-            res.status(200).json({ message: "AllUserLetter found", allUserLetter });
+            res.status(200).json({ message: "All userLetters found", allUserLetter });
         } catch (error) {
             console.error("Error fetching user letters:", error);
             res.status(500).json({ message: "Error fetching user letters" });

@@ -2,8 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies.token  ;
-    //|| req.headers.authorization?.startsWith("Bearer ")
+    const token = req.cookies.token;
     if (!token) {
         res.status(403).json({ message: "Invalid or expired token" });
         return;

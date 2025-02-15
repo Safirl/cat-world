@@ -3,6 +3,7 @@ import User from '../models/User';
 import bcrypt from 'bcryptjs';
 import { isUserAuthenticated } from '../services/authService';
 import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongoose';
 
 class AuthController {
     public register = async (req: Request, res: Response): Promise<void> => {
@@ -21,12 +22,11 @@ class AuthController {
             });
 
             await newUser.save();
-            const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
+            this.setTokenInCookies(newUser._id as ObjectId, res);
 
             res.status(201).json({
                 message: "User registered successfully",
                 user: newUser,
-                token
             });
         }
         catch (error) {
@@ -54,20 +54,9 @@ class AuthController {
                 res.status(401).json({ message: "Invalid credentials" });
                 return;
             }
-            const token = jwt.sign(
-                { _id: matchingUser._id },
-                process.env.JWT_SECRET as string,
-                { expiresIn: "7d" }
-            );
+            this.setTokenInCookies(matchingUser._id as ObjectId, res);
 
-            res.cookie("token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "strict",
-                maxAge: 7 * 24 * 60 * 60 * 1000,
-            })
-
-            res.status(200).json({ message: "User logged in successfully", token });
+            res.status(200).json({ message: "User logged in successfully" });
         }
         catch (error) {
             res.status(401).json({ message: "Unexepected error when logging in : ", error });
@@ -78,6 +67,17 @@ class AuthController {
     // public logout = async (): Promise => {
 
     // }
+
+    private setTokenInCookies(_id: ObjectId, res: Response) {
+        const token = jwt.sign({ _id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
+    }
 }
 
 export default new AuthController();

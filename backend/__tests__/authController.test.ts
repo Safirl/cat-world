@@ -59,10 +59,19 @@ describe("User login", () => {
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("User logged in successfully");
 
-        //check if the token is valid
-        const token: string = response.body.token;
-        expect(token).not.toBeUndefined();
-        expect(typeof token).toBe("string");
+        const cookiesHeader = response.get("set-cookie");
+
+        // S'assurer que c'est un tableau
+        const cookiesArray = Array.isArray(cookiesHeader) ? cookiesHeader : [cookiesHeader];
+
+        expect(cookiesArray).toBeDefined();
+        expect(cookiesArray.some(cookie => cookie.startsWith("token="))).toBe(true);
+
+        // Extraire le token du cookie
+        const tokenCookie = cookiesArray.find(cookie => cookie.startsWith("token="));
+        const token = tokenCookie?.split(";")[0].split("=")[1];
+
+        expect(token).toBeDefined();
 
         const secret = getJwtSecret();
 

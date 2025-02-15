@@ -67,7 +67,7 @@ describe("Letter list display", () => {
             .set("Cookie", `token=${authToken}`);
 
         expect(response.status).toBe(200);
-        expect(response.body.message).toBe("AllUserLetter found");
+        expect(response.body.message).toBe("All userLetters found");
         expect(response.body.allUserLetter).toBeTruthy();
     });
 
@@ -77,7 +77,7 @@ describe("Letter list display", () => {
             .set("Cookie", `token=${authToken}`);
 
         expect(response.status).toBe(200);
-        expect(response.body.message).toBe("AllUserLetter found");
+        expect(response.body.message).toBe("All userLetters found");
         expect(response.body.allUserLetter).toBeTruthy();
     });
 });
