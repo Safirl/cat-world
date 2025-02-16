@@ -55,10 +55,10 @@ class UserLetterController {
 
     public fetchUserLetter: RequestHandler = async (req: Request, res: Response) => {
         try {
-            const { receiver_id } = req.params;
+            const receiver_id = (req as any).user._id;
             const allUserLetter = await UserLetter.find({ receiver_id });
             if (!allUserLetter || allUserLetter.length === 0) {
-                res.status(404).json({ message: "AllUserLetter not found" });
+                res.status(404).json({ message: "No userLetters found" });
                 return;
             }
             res.status(200).json({ message: "All userLetters found", allUserLetter });
@@ -71,7 +71,7 @@ class UserLetterController {
 
     public fetchUserLetterRead: RequestHandler = async (req: Request, res: Response) => {
         try {
-            const { receiver_id } = req.params;
+            const receiver_id = (req as any).user._id;
             const allUserLetterRead = await UserLetter.find({ receiver_id, state: true });
             if (!allUserLetterRead || allUserLetterRead.length === 0) {
                 res.status(404).json({ message: "AllUserLetterRead not found" });

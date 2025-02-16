@@ -3,13 +3,32 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { app } from "./src/app";
 import jwt from 'jsonwebtoken'
+import User, { IUser } from "./src/models/User";
+import bcrypt from 'bcrypt'
 
 dotenv.config();
 
 export let authToken: string;
+export let userTest: IUser;
 beforeAll(async () => {
     await mongoose.connect(process.env.MONGO_URI as string);
-    authToken = jwt.sign({ userId: 1 }, process.env.JWT_SECRET!, { expiresIn: "7d" });
+});
+
+beforeEach(async () => {
+    if (!mongoose.connection.db) {
+        console.error("No database connection");
+        return;
+    }
+    const collection = await mongoose.connection.db.collection("users");
+    const hashedPassword = await bcrypt.hash("password", 10);
+    const userStruct =
+    {
+        username: "toto",
+        email: "email@toto.com",
+        password: hashedPassword
+    }
+    userTest = await User.create(userStruct);
+    authToken = jwt.sign({ _id: userTest._id }, process.env.JWT_SECRET!, { expiresIn: "7d" });
 });
 
 afterAll(async () => {

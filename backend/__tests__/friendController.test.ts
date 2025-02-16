@@ -4,8 +4,8 @@ import Friend, { IFriend } from "../src/models/Friend";
 import User, { IUser } from "../src/models/User";
 import mongoose, { ObjectId } from "mongoose";
 import { authToken } from "../setupTests";
+import { userTest } from "../setupTests";
 
-let user: IUser;
 let friend: IUser;
 let friend1: IUser;
 let friendRelation: IFriend
@@ -19,10 +19,9 @@ beforeEach(async () => {
 
     await users.deleteMany({});
     await friends.deleteMany({});
-    user = await User.create({ username: "Alice", email: "alice@example.com", password: "password", color: "red" });
     friend = await User.create({ username: "Bob", email: "bob@example.com", password: "password", color: "red" });
     friend1 = await User.create({ username: "Charlie", email: "charlie@example.com", password: "password", color: "red" });
-    friendRelation = await Friend.create({ user_id_1: user._id, user_id_2: friend._id })
+    friendRelation = await Friend.create({ user_id_1: userTest._id, user_id_2: friend._id })
     const friendInDb = await Friend.findById(friendRelation._id);
     // Vérification que le friend est bien créé
 
@@ -33,7 +32,7 @@ beforeEach(async () => {
 
 describe("Add friend", () => {
     it("should add a friend for a user", async () => {
-        const user_id = user._id;
+        const user_id = userTest._id;
         const friend_id = friend._id;
         const response = await request(app)
             .post("/api/friend/addfriend")
@@ -69,25 +68,23 @@ describe("Remove friend", () => {
 
 describe("Fetch friends", () => {
     it("should fetch all friends for a user", async () => {
-        const user_id = user._id;
-
         //adding a second friend for the test
         const friend_id = friend1._id
         const friendResponse1 = await request(app)
             .post("/api/friend/addfriend")
-            .send({ user_id, friend_id })
+            .send({ friend_id })
             .set("Cookie", `token=${authToken}`);
 
         expect(friendResponse1.status).toBe(201);
         expect(friendResponse1.body.message).toBe("Friendship added");
 
         const response = await request(app)
-            .get(`/api/friend/fetchAll/${user_id}`)
+            .get(`/api/friend/fetchAll/`)
             .set("Cookie", `token=${authToken}`);
 
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("All friend found");
-        expect(response.body.allFriend.length).toBe(2);
+        expect(response.body.allFriends.length).toBe(2);
     });
 
     // it("should fetch friends with the most exchanges", async () => {
@@ -95,19 +92,18 @@ describe("Fetch friends", () => {
     // });
 
     it("should display a friend information", async () => {
-        const user_id = user._id;
+        const user_id = userTest._id;
         const friend_id = friend._id;
         const friendResponse = await request(app)
             .post("/api/friend/addfriend")
-            .send({ user_id, friend_id })
+            .send({ friend_id })
             .set("Cookie", `token=${authToken}`);
 
         expect(friendResponse.status).toBe(201);
         expect(friendResponse.body.message).toBe("Friendship added");
 
         const informationFriendResponse = await request(app)
-            .get("/api/friend/showfriend/:id")
-            .send({ user_id, friend_id })
+            .get(`/api/friend/showfriend/${friend_id}`)
             .set("Cookie", `token=${authToken}`);
 
         expect(informationFriendResponse.status).toBe(201);
