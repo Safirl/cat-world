@@ -1,16 +1,17 @@
 import { Request, Response } from 'express';
 import Friend from '../models/Friend';
 
-
 class FriendController {
     public async addFriend(req: Request, res: Response): Promise<void> {
         //@todo verifier si l'amitié n'exist pas déjà
         try {
-            const { user_id, friend_id } = req.body;
+            const { friend_id } = req.body;
+            const user_id = (req as any).user._id;
             const newFriendship = new Friend({
                 user_id_1: user_id,
                 user_id_2: friend_id
             });
+            console.log(newFriendship)
 
             await newFriendship.save();
 
@@ -40,22 +41,26 @@ class FriendController {
             }
             await Friend.findByIdAndDelete(id);
             res.status(200).json({ message: "Friend deleted successfully" });
-
-
-        } catch (error) {
+        }
+        catch (error) {
             console.error("Error deleting friend:", error);
             res.status(500).json({ message: "Error deleting friend" });
         }
     };
+
     public fetchAllFriend = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { user_id } = req.params;
-            const allFriend = await Friend.find({ user_id });
-            if (!allFriend || allFriend.length === 0) {
+            const user_id = (req as any).user._id;
+            const allFriends = await Friend.find({
+                $or: [{ user_id_1: user_id }, { user_id_2: user_id }]
+            });
+            console.log(user_id)
+            if (!allFriends || allFriends.length === 0) {
                 res.status(404).json({ message: "allFriend not found" });
                 return;
             }
-            res.status(200).json({ message: "All friend found", allFriend });
+            //@todo: il faut maintenant récupérer tous les users qui ont les id des friends
+            res.status(200).json({ message: "All friend found", allFriends });
         } catch (error) {
             console.error("Error fetching user letters:", error);
             res.status(500).json({ message: "Error fetching user letters" });
@@ -63,15 +68,22 @@ class FriendController {
         }
     }
 
-    public showInformationFriend = async (req: Request, res: Response): Promise<void> => {
+    public showFriendInformation = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { user_Friend_Id } = req.params;
-            const friendInformation = await Friend.find({ user_Friend_Id })
+            const user_id = (req as any).user._id;
+            const { friend_id } = req.params;
+            const friendInformation = await Friend.find({
+                $or: [
+                    { user_id_1: friend_id, user_id_2: user_id },
+                    { user_id_2: friend_id, user_id_1: user_id }
+                ]
+            });
 
             if (!friendInformation) {
                 res.status(404).json({ message: "Friend information not found" });
                 return;
             }
+            //@todo: on devrait récupérer l'info de l'ami ici
             res.status(201).json({ message: "Friend information show", friendInformation })
 
         } catch (error) {

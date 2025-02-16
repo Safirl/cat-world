@@ -4,8 +4,8 @@ import Letter, { ILetter } from '../src/models/Letter';
 import User, { IUser } from '../src/models/User';
 import UserLetter, { IUserLetter } from '../src/models/UserLetter';
 import { authToken } from '../setupTests';
+import { userTest } from '../setupTests';
 
-let receiver: IUser;
 let sender: IUser;
 let letter: ILetter;
 let userLetter: IUserLetter;
@@ -22,7 +22,6 @@ beforeEach(async () => {
         password: "password"
     };
 
-    receiver = await User.create(receiverTest);
     sender = await User.create(senderTest);
 
     const letterTest = {
@@ -38,7 +37,7 @@ beforeEach(async () => {
     const userLetterTest = {
         letter_id: letter._id,
         sender_id: sender._id,
-        receiver_id: receiver._id,
+        receiver_id: userTest._id,
         read: false
     };
 
@@ -63,7 +62,7 @@ describe("Update letter status", () => {
 describe("Letter list display", () => {
     it("should fetch all leters received by a user", async () => {
         const response = await request(app)
-            .get(`/api/userLetter/fetchAll/${receiver._id}`)
+            .get(`/api/userLetter/fetchAll/`)
             .set("Cookie", `token=${authToken}`);
 
         expect(response.status).toBe(200);
@@ -73,7 +72,7 @@ describe("Letter list display", () => {
 
     it("should fetch all read letters received by a user", async () => {
         const response = await request(app)
-            .get(`/api/userLetter/fetchAll/${receiver._id}`)
+            .get(`/api/userLetter/fetchAll/`)
             .set("Cookie", `token=${authToken}`);
 
         expect(response.status).toBe(200);

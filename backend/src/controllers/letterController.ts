@@ -25,6 +25,8 @@ class LetterController {
             };
             await UserLetter.create(newUserLetter)
 
+            //@todo: est-ce qu'on veut renvoyer la letter ou la userLetter ? La seule info qu'on a envie de stocker côté front
+            //  pour moi c'est les id des sender et receiver pour ensuite retrouver la lettre, mais l'inverse n'est pas possible.
             res.status(201).json({ message: "Letter created successfully", letter: newLetter });
         } catch (error) {
             console.error(error)
@@ -59,7 +61,6 @@ class LetterController {
                 res.status(400).json({ message: "Missing letter ID" });
                 return;
             }
-
 
             const letter = await Letter.findById(id);
 

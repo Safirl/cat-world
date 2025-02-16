@@ -5,13 +5,13 @@ import bcrypt from 'bcryptjs';
 class UserController {
     public fetch = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id } = req.params;
+            let { id } = req.params;
 
+            if (!id) id = (req as any).user._id;
             if (!id) {
                 res.status(400).json({ message: "Missing user ID" });
                 return;
             }
-
 
             const user = await User.findById(id);
 
@@ -24,12 +24,16 @@ class UserController {
             console.error("Error retrieving user:", error);
             res.status(500).json({ message: "Error retrieving user" });
         }
-
     }
+
     public deleteUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id } = req.params;
+            //@todo: ajouter une protection admin sur ça : on ne veut pas que n'importe qui puisse supprimer les user.
+            let { id } = req.params;
 
+            if (!id) {
+                id = (req as any).user._id;
+            }
             if (!id) {
                 res.status(400).json({ message: "Missing user ID" });
                 return;
@@ -41,9 +45,8 @@ class UserController {
             }
             await User.findByIdAndDelete(id);
             res.status(200).json({ message: "User deleted successfully" });
-
-
-        } catch (error) {
+        }
+        catch (error) {
             console.error("Error deleting user:", error);
             res.status(500).json({ message: "Error deleting User" });
         }
@@ -51,18 +54,14 @@ class UserController {
 
     public modifyPassword = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id } = req.params;
-            const { newPassword } = req.body;
-            if (!newPassword) {
-                res.status(400).json({ message: "New password is required" });
-                return;
-            }
+            let { id } = req.params;
 
+            if (!id) id = (req as any).user._id;
             if (!id) {
-                res.status(400).json({ message: "User ID is missing" });
+                res.status(400).json({ message: "Missing user ID" });
                 return;
             }
-
+            const { newPassword } = req.body;
             if (!newPassword) {
                 res.status(400).json({ message: "New password is required" });
                 return;
@@ -84,11 +83,16 @@ class UserController {
         }
     };
 
-
     // Modifier la couleur d'avatar
     public modifyColor = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id } = req.params;
+            //ça n'a pas de sens que l'on puisse modifier autre chose qu'un utilisateur connecté.
+            const id = (req as any).user._id;
+            if (!id) {
+                res.status(400).json({ message: "Missing user ID" });
+                return;
+            }
+            //const { id } = req.params;
             const { newColor } = req.body;
             if (!newColor) {
                 res.status(400).json({ message: "La nouvelle couleur est requise" });
@@ -110,8 +114,6 @@ class UserController {
             res.status(500).json({ message: "Erreur serveur" });
         }
     };
-
-
 };
 
 export default new UserController();

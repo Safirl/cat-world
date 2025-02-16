@@ -6,6 +6,6 @@ const userLetterRoutes = express.Router();
 
 userLetterRoutes.post('/createUserletter', authMiddleware, userLetterController.createUserLetter);
 userLetterRoutes.put('/updateUserLetter/:id', authMiddleware, userLetterController.updateState);
-userLetterRoutes.get('/fetchAll/:receiver_id', authMiddleware, userLetterController.fetchUserLetter);
-userLetterRoutes.get('/fetchAllRead/:receiver_id', authMiddleware, userLetterController.fetchUserLetterRead);
+userLetterRoutes.get('/fetchAll/', authMiddleware, userLetterController.fetchUserLetter);
+userLetterRoutes.get('/fetchAllRead/', authMiddleware, userLetterController.fetchUserLetterRead);
 export default userLetterRoutes;

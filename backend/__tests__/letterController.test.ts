@@ -6,10 +6,10 @@ import jwt from 'jsonwebtoken';
 import { authToken } from '../setupTests';
 import User, { IUser } from '../src/models/User'
 import mongoose from 'mongoose';
+import { userTest } from '../setupTests';
 
 //Create a letter before each test
 let letter: ILetter;
-let user: IUser;
 let friend: IUser;
 
 beforeEach(async () => {
@@ -25,14 +25,13 @@ beforeEach(async () => {
         stamp_id: 3
     };
     letter = await Letter.create(letterTest);
-    user = await User.create({ username: "Alice", email: "alice@example.com", password: "password", color: "red" });
     friend = await User.create({ username: "Bob", email: "bob@example.com", password: "password", color: "red" });
 });
 
 describe("Letter creation", () => {
     it("should create a new letter", async () => {
         const receiver_id = friend._id
-        const sender_id = user._id
+        const sender_id = userTest._id
         const newLetter = {
             title: "Test Letter",
             content: "This is a test letter.",

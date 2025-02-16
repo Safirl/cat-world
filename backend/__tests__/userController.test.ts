@@ -6,23 +6,8 @@ import bcrypt from 'bcryptjs';
 import { authToken } from '../setupTests';
 import Friend from '../src/models/Friend';
 import UserLetter from '../src/models/UserLetter';
+import { userTest } from '../setupTests';
 
-let userTest: IUser;
-beforeEach(async () => {
-    if (!mongoose.connection.db) {
-        console.error("No database connection");
-        return;
-    }
-    const collection = await mongoose.connection.db.collection("users");
-    const hashedPassword = await bcrypt.hash("password", 10);
-    const userStruct =
-    {
-        username: "toto",
-        email: "email@toto.com",
-        password: hashedPassword
-    }
-    userTest = await User.create(userStruct);
-});
 
 describe("User modification", () => {
     it("should modify a user password", async () => {
