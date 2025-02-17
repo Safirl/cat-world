@@ -13,12 +13,13 @@ class UserController {
                 return;
             }
 
-            const user = await User.findById(id);
+            const userModel = await User.findById(id);
 
-            if (!user) {
+            if (!userModel) {
                 res.status(404).json({ message: "user not found" });
                 return;
             }
+            const user = { username: userModel.username, email: userModel.email, isAdmin: userModel.isAdmin, color: userModel.color, _id: userModel._id };
             res.status(200).json({ message: "User fetch", user });
         } catch (error) {
             console.error("Error retrieving user:", error);

@@ -17,8 +17,6 @@ beforeEach(async () => {
     const friends = await mongoose.connection.db.collection("friend");
     const users = await mongoose.connection.db.collection("users");
 
-    await users.deleteMany({});
-    await friends.deleteMany({});
     friend = await User.create({ username: "Bob", email: "bob@example.com", password: "password", color: "red" });
     friend1 = await User.create({ username: "Charlie", email: "charlie@example.com", password: "password", color: "red" });
     friendRelation = await Friend.create({ user_id_1: userTest._id, user_id_2: friend._id })
@@ -84,7 +82,7 @@ describe("Fetch friends", () => {
 
         expect(response.status).toBe(200);
         expect(response.body.message).toBe("All friend found");
-        expect(response.body.allFriends.length).toBe(2);
+        expect(response.body.friends.length).toBe(2);
     });
 
     // it("should fetch friends with the most exchanges", async () => {

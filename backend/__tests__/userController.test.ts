@@ -69,7 +69,7 @@ describe("User deletetion", () => {
 describe("Fetch user data", () => {
     it("should fetch connected user data", async () => {
         const checkUserResponse = await request(app)
-            .get(`/api/user/fetch/${userTest._id}`)
+            .get(`/api/user/fetch/`)
             .set("Cookie", `token=${authToken}`);
 
         expect(checkUserResponse.status).toBe(200);

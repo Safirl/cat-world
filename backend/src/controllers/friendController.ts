@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import Friend from '../models/Friend';
+import User from '../models/User';
+import { ObjectId } from 'mongodb';
 
 class FriendController {
     public async addFriend(req: Request, res: Response): Promise<void> {
@@ -11,7 +13,6 @@ class FriendController {
                 user_id_1: user_id,
                 user_id_2: friend_id
             });
-            console.log(newFriendship)
 
             await newFriendship.save();
 
@@ -51,19 +52,21 @@ class FriendController {
     public fetchAllFriend = async (req: Request, res: Response): Promise<void> => {
         try {
             const user_id = (req as any).user._id;
-            const allFriends = await Friend.find({
+            const friendRelations = await Friend.find({
                 $or: [{ user_id_1: user_id }, { user_id_2: user_id }]
-            });
-            console.log(user_id)
-            if (!allFriends || allFriends.length === 0) {
+            }).populate("user_id_1 user_id_2");
+            if (!friendRelations || friendRelations.length === 0) {
                 res.status(404).json({ message: "allFriend not found" });
                 return;
             }
-            //@todo: il faut maintenant récupérer tous les users qui ont les id des friends
-            res.status(200).json({ message: "All friend found", allFriends });
+            const friends = friendRelations.map(friend => {
+                return friend.user_id_1._id.toString() === user_id.toString() ? friend.user_id_2 : friend.user_id_1
+            })
+
+            res.status(200).json({ message: "All friend found", friends });
         } catch (error) {
-            console.error("Error fetching user letters:", error);
-            res.status(500).json({ message: "Error fetching user letters" });
+            console.error("Error fetching friends:", error);
+            res.status(500).json({ message: "Error fetching friends" });
             return;
         }
     }

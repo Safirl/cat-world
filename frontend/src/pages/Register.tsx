@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
-import useAuthCheck from "../services/useAuthCheck";
+import React, { useState, useEffect } from "react";
+import { useAuthCheck } from "../services/useAuthCheck";
 import { useNavigate } from "react-router-dom"
-import routes from "../config/route";
+import { routes } from "../config/route";
 
 
 const Register = () => {
@@ -27,12 +27,13 @@ const Register = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData),
+                credentials: "include"
             });
             const data = await response.json();
-            
+
             if (response.ok) {
                 setMessage(data.message);
-                navigate(routes.home, {state: { message: "Vous êtes connecté !" }})
+                navigate(routes.home, { state: { message: "Vous êtes connecté !" } })
             }
             else {
                 setMessage(data.message || "Something went wrong with registration");
