@@ -1,0 +1,88 @@
+.containerForm{
+    background-color:  #3C42C4;
+    height: 100vh;
+    padding:29px 40px  0px 40px ;
+
+
+    p, label, input, a{
+        color: #FFF9EF;
+       }
+    input::placeholder{
+        color: #C3BFFF;
+    }
+    label{
+        padding-left: 12px;
+    }
+
+    button{
+        background-color:#FFF9EF ;
+        border-radius: 50px;
+        height: 40px;
+        width: 100%;
+        p{
+            color:#3C42C4;
+        }
+
+    }
+
+
+
+
+}
+
+input{
+    border: #FFF9EF solid 1px;
+    border-radius: 50px;
+    height: 40px;
+    padding-left: 12px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+
+}
+
+.labelInput{
+   display: flex;
+   flex-direction: column;
+}
+
+
+.buttonsForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100vw;
+    /* width: 76%; */
+    transform: translateY(-100%);
+    padding:0px 40px  29px 40px ;
+}
+
+.starsForm{
+    position: absolute;
+    width: 30px;
+    height: auto;
+}
+
+.topStars{
+    left: 2%;
+    top: 10%;
+}
+
+.rightStars{
+    right: 2%;
+    top: 35%;
+}
+
+.bottomStars{
+    left: 2%;
+    top: 70%;
+}
