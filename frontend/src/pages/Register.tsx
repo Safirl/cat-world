@@ -46,16 +46,33 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h1>Register</h1>
+        <>
+        <div className="containerForm">
+            <h1>Inscription</h1>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="username" placeholder="Username" onChange={handleChange} />
-                <input type="email" name="email" placeholder="Email" onChange={handleChange} />
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-                <button type="submit">Register</button>
-                {message && <p>{message}</p>}
+                <div className="labelInput">
+                    <label htmlFor="register-username">Username</label>
+                    <input id="register-username" type="text" name="username" placeholder="John doe" onChange={handleChange} />
+                </div>
+                <div className="labelInput">
+                    <label htmlFor="register-email">Adresse Email</label>
+                    <input id="register-email" type="email" name="email" placeholder="John.doe@catworld.fr" onChange={handleChange} />
+                </div>
+                <div className="labelInput">
+                    <label htmlFor="register-passwor">Mot de passe</label>
+                    <input id="register-password" type="password" name="password" placeholder="********" onChange={handleChange} />
+                </div>
+                <div className="buttonsForm">
+                    <button type="submit">Register</button>
+                    {message && <p>{message}</p>}
+                    <p>J’ai déjà un compte,<a href="/Login"> me connecter</a> </p>
+                </div>
             </form>
         </div>
+        <img className="topStars starsForm" src="/image/stars.svg" alt="" />
+    <img className="rightStars starsForm" src="/image/stars.svg" alt="" />
+    <img className="bottomStars starsForm" src="/image/stars.svg" alt="" />
+        </>
     );
 };
 
