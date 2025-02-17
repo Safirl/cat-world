@@ -63,7 +63,7 @@ const Register = () => {
                     <input id="register-password" type="password" name="password" placeholder="********" onChange={handleChange} />
                 </div>
                 <div className="buttonsForm">
-                    <button type="submit">Register</button>
+                    <button type="submit"><p>Me créer un compte</p></button>
                     {message && <p>{message}</p>}
                     <p>J’ai déjà un compte,<a href="/Login"> me connecter</a> </p>
                 </div>
