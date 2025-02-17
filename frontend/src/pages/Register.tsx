@@ -6,7 +6,7 @@ import { routes } from "../config/route";
 
 const Register = () => {
     const navigate = useNavigate();
-    const checkAuthStatus = useAuthCheck("/", "Vous êtes déjà connecté !");
+    const checkAuthStatus = useAuthCheck("/home", "Vous êtes déjà connecté !");
 
     useEffect(() => {
         checkAuthStatus();

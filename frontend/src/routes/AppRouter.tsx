@@ -5,6 +5,7 @@ import Letters from '../pages/Letters';
 import Register from "../pages/Register";
 import { routes } from "../config/route";
 import PrivateRoute from "./PrivateRoute";
+import Landing from "../pages/landing"
 
 const AppRouter = () => {
     return (
@@ -17,6 +18,7 @@ const AppRouter = () => {
                 </Route>
                 <Route path={routes.login} element={<Login />} />
                 <Route path={routes.register} element={<Register />} />
+                <Route path={routes.landing} element={<Landing />} />
                 {/* <Route path="*" element={<NotFoundPage />} /> */}
             </Routes>
         </Router>

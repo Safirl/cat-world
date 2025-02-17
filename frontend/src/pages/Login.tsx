@@ -6,7 +6,7 @@ import { useAuthCheck } from "../services/useAuthCheck";
 
 const Login = () => {
   const navigate = useNavigate();
-  const checkAuthStatus = useAuthCheck("/", "Vous êtes déjà connecté !");
+  const checkAuthStatus = useAuthCheck("/home", "Vous êtes déjà connecté !");
 
   useEffect(() => {
     checkAuthStatus()

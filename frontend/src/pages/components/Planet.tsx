@@ -1,5 +1,4 @@
-import { ThreeEvent, useThree } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
+import { ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import { forwardRef, useRef, useImperativeHandle } from 'react';
 
@@ -8,7 +7,6 @@ interface PlanetProps {
 }
 
 const Planet = forwardRef<THREE.Mesh, PlanetProps>(({ onClick }, ref) => {
-  const { camera, gl } = useThree();
   const texture = new THREE.TextureLoader().load('/textures/map/planet.jpg');
 
   const raycaster = new THREE.Raycaster();
@@ -34,10 +32,6 @@ const Planet = forwardRef<THREE.Mesh, PlanetProps>(({ onClick }, ref) => {
 
   return (
     <>
-      <OrbitControls
-        args={[camera, gl.domElement]}
-        enableZoom={false}
-      />
       <mesh ref={planetRef} onClick={handleClick}>
         <sphereGeometry args={[1.5, 50, 50]} />
         <meshStandardMaterial map={texture} />
