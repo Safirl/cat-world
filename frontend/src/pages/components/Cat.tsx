@@ -37,7 +37,12 @@ const Cat = (props: CatProps) => {
 
     const { nodes, materials } = useGraph(clone)
     const texture = useTexture(`/textures/cats/${props.texture_name}`);
-    // materials.Cat_Material.map = texture;
+    texture.colorSpace = "srgb"
+    texture.flipY = false
+    //Clone material instance.
+    materials.Cat_Material = materials.Cat_Material.clone();
+    materials.Cat_Material.map = texture;
+    materials.Cat_Material.needsUpdate = true;
 
     React.useEffect(() => {
         if (!group.current) return;

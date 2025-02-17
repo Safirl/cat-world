@@ -6,7 +6,8 @@ const routes = {
 };
 
 const apiRoutes = {
-    getFriends: "/friend/fetchAll/:id"
+    getFriends: "/friend/fetchAll/",
+    getUser: "/user/fetch/"
 }
 
 export { routes, apiRoutes };

@@ -18,15 +18,18 @@ class AuthController {
             const newUser = new User({
                 username,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                isAdmin: false,
             });
 
             await newUser.save();
+            //Return a user without the password and the _id, as it's saved in the token.
+            const returnedUser = { username: newUser.username, email: newUser.email, isAdmin: newUser.isAdmin, color: newUser.color };
             this.setTokenInCookies(newUser._id as ObjectId, res);
 
             res.status(201).json({
                 message: "User registered successfully",
-                user: newUser,
+                user: returnedUser,
             });
         }
         catch (error) {
@@ -44,7 +47,7 @@ class AuthController {
 
             const { email, password } = req.body;
 
-            const matchingUser = await User.findOne({ email });
+            const matchingUser = await User.findOne({ email }).select("+password");
             if (!matchingUser) {
                 res.status(401).json({ message: "Invalid credentials" });
                 return;
@@ -54,9 +57,11 @@ class AuthController {
                 res.status(401).json({ message: "Invalid credentials" });
                 return;
             }
+            const returnedUser = { username: matchingUser.username, email: matchingUser.email, isAdmin: matchingUser.isAdmin, color: matchingUser.color };
+
             this.setTokenInCookies(matchingUser._id as ObjectId, res);
 
-            res.status(200).json({ message: "User logged in successfully" });
+            res.status(200).json({ message: "User logged in successfully", user: returnedUser });
         }
         catch (error) {
             res.status(401).json({ message: "Unexepected error when logging in : ", error });
