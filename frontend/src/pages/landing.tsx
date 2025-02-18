@@ -4,6 +4,9 @@ import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import Cat from './components/Cat';
 import { isUserAuth } from '../services/useAuthCheck';
+import '../../public/style/pages/landing.scss'
+import { MouseEventHandler } from 'react';
+import { routes } from '../config/route';
 
 const Landing = () => {
     // const [message, setMessage] = useState("");
@@ -34,6 +37,33 @@ const Landing = () => {
         return null;
     }
 
+    const onLogButtonClicked = async (isLogin: boolean, event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        const url = isLogin ? routes.login : routes.register
+        try {
+            const response = await fetch(import.meta.env.VITE_API_URL + "/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+                credentials: "include"
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setMessage(data.message)
+                navigate(routes.home, { state: { message: "Vous êtes connecté !" } })
+            }
+            else {
+                setMessage(data.message || "Échec de la connexion");
+            }
+        } catch (error) {
+            console.error("Error while submiting request: ", error)
+        }
+    }
+
     useEffect(() => {
         const checkAuth = async () => {
             const isAuth = await isUserAuth();
@@ -43,9 +73,15 @@ const Landing = () => {
     }, []);
     return (
         <>
-            <section>
-                <h1>Hello</h1>
-            </section>
+            <div className='landingContainer'>
+                <h1>CAT WORLD</h1>
+                <div className='buttonsContainer'>
+                    <button onClick={(event) => onLogButtonClicked(true, event)}><p>Me connecter</p></button>
+                    <button ><p>Créer mon compte</p></button>
+                    {/* {message && <p>{message}</p>} */}
+                </div>
+            </div >
+            <img className="aurorBoreal" src="'../../public/image/aurores-back.png" alt="aurore boreal" />
             <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ fov: 50 }}>
                 <Scene />
                 <ambientLight intensity={2.4} color="#C8B3FF" />
@@ -54,10 +90,8 @@ const Landing = () => {
                 <Cat targetPosition={new THREE.Vector3()} texture_name={"cat_texture_black.png"} />
 
             </Canvas>
+            <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="aurore boreal" />
             <img className="stars" src="/image/stars.png" alt="stars" />
-            <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="auror boreal" />
-
-            {/* {message && <p>{message}</p>} */}
         </>
     );
 }
