@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "dev": "nodemon",
     "watch": "tsc --watch",
     "seed": "npx tsx src/seeders/userSeeder.ts"
