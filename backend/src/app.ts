@@ -15,8 +15,10 @@ export const app = express();
 app.use(express.json());
 app.use(cookieParser())
 
+console.log(process.env.FRONTEND_URL);
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: process.env.FRONTEND_URL || "https://frontend-cat-world.osc-fr1.scalingo.io",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }))
