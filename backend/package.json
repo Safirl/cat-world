@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "start": "node server.js",
+    "start": "node dist/server.js",
     "dev": "nodemon",
     "watch": "tsc --watch",
-    "seed": "npx tsx src/seeders/userSeeder.ts"
+    "seed": "npx tsx src/seeders/userSeeder.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
