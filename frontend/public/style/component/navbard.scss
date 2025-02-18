@@ -10,7 +10,7 @@ nav{
     }
 }
 
-.hylightLabelButtonBackground{
+.highlightLabelButtonBackground{
     width: 27.5%;
     height: 18vw;
     background-color: #EFE2FF;
@@ -23,7 +23,7 @@ nav{
         background-color: #DCCAF1;
         transform: translateY(10px);
 
-        .hylight, .hylightCote, .hylightUnder{
+        .highlight, .highlightCote, .highlightUnder{
             display: none;
         }
     }
@@ -41,20 +41,20 @@ nav{
 
 }
 
-.hylightLabel{
+.highlightLabel{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.hylight{
+.highlight{
     position: absolute;
     width: 100%;
        height: 148%;
     pointer-events: none;
 }
 
-.hylightCote{
+.highlightCote{
     height: 100%;
     position: absolute;
     z-index: 11;
@@ -62,15 +62,15 @@ nav{
     
 }
 
-.hylightCoteright{
+.highlightCoteright{
     right: 0;
 }
 
-.hylightCoteleft{
+.highlightCoteleft{
     left: 0;
 }
 
-.hylightUnder{
+.highlightUnder{
     position: absolute;
     transform: translateY(72%);
     width: 50%;
