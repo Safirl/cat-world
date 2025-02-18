@@ -3,9 +3,10 @@
 const routes = {
     landing: "/",
     home: "/home",
-    letters : "/letters",
+    letters: "/letters",
     login: "/login",
     register: "/register",
+    account: "/account"
 };
 
 const apiRoutes = {
