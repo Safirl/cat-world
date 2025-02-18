@@ -5,8 +5,8 @@ import * as THREE from 'three';
 import Cat from './components/Cat';
 import { isUserAuth } from '../services/useAuthCheck';
 import '../../public/style/pages/landing.scss'
-import { MouseEventHandler } from 'react';
 import { routes } from '../config/route';
+import ButtonRound from './components/buttonRound';
 
 const Landing = () => {
     // const [message, setMessage] = useState("");
@@ -37,33 +37,6 @@ const Landing = () => {
         return null;
     }
 
-    const onLogButtonClicked = async (isLogin: boolean, event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        const url = isLogin ? routes.login : routes.register
-        try {
-            const response = await fetch(import.meta.env.VITE_API_URL + "/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-                credentials: "include"
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setMessage(data.message)
-                navigate(routes.home, { state: { message: "Vous êtes connecté !" } })
-            }
-            else {
-                setMessage(data.message || "Échec de la connexion");
-            }
-        } catch (error) {
-            console.error("Error while submiting request: ", error)
-        }
-    }
-
     useEffect(() => {
         const checkAuth = async () => {
             const isAuth = await isUserAuth();
@@ -76,8 +49,14 @@ const Landing = () => {
             <div className='landingContainer'>
                 <h1>CAT WORLD</h1>
                 <div className='buttonsContainer'>
-                    <button onClick={(event) => onLogButtonClicked(true, event)}><p>Me connecter</p></button>
-                    <button ><p>Créer mon compte</p></button>
+                    <ButtonRound
+                        text='Se connecter'
+                        hasBackground={true}
+                    />
+                    <ButtonRound
+                        text='Créer son compte '
+                        hasBackground={true}
+                    />
                     {/* {message && <p>{message}</p>} */}
                 </div>
             </div >
