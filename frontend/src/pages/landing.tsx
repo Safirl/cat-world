@@ -1,9 +1,8 @@
 import { Canvas, useThree } from '@react-three/fiber';
 import Planet from './components/Planet';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import Cat from './components/Cat';
-import { isUserAuth } from '../services/useAuthCheck';
 import '../../public/style/pages/landing.scss'
 import { routes } from '../config/route';
 import ButtonRound from './components/buttonRound';
@@ -19,20 +18,6 @@ const Landing = () => {
         checkAuthStatus()
     }, []);
     const planetRef = useRef<THREE.Mesh>(null!)
-    const cats = [
-        {
-            _id: 1,
-            color: "cat_texture_black.png"
-        },
-        {
-            _id: 2,
-            color: "cat_texture_white.png"
-        }
-    ]
-
-    const handleMoveCat = (position: THREE.Vector3) => {
-        // setTargetPosition(position);
-    };
 
     function Scene() {
         const { camera } = useThree();
@@ -72,7 +57,7 @@ const Landing = () => {
                 <ambientLight intensity={2.4} color="#C8B3FF" />
                 <directionalLight position={[1, 2, 3]} intensity={0.5} />
                 <Planet ref={planetRef} />
-                <Cat targetPosition={new THREE.Vector3()} texture_name={"cat_texture_black.png"} defaultAngle={{ theta: 90, phi: 80 }} />
+                <Cat targetPosition={new THREE.Vector3()} color={"cat_texture_black.png"} defaultAngle={{ theta: 90, phi: 80 }} />
 
             </Canvas>
             <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="aurore boreal" />

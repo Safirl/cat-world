@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import Planet from './components/Planet';
 import * as THREE from 'three';
 import Cat from './components/Cat';
 import { apiRoutes } from "../config/route"
 import NavBar from "./components/Navbar";
 import { OrbitControls } from '@react-three/drei';
+import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
+import { CatProps } from './components/Cat'
 
 const Home = () => {
   const [targetPosition, setTargetPosition] = useState<THREE.Vector3 | null>(null);
   const planetRef = useRef<THREE.Mesh>(null!)
-  const [cats, setCats] = useState([])
-  const [user, setUser] = useState()
+  const [cats, setCats] = useState<CatProps[]>([])
+  const [user, setUser] = useState<{ _id: string, color: string }>()
   const [message, setMessage] = useState("");
-  const cameraControlRef = useRef<typeof OrbitControls | null>(null);
+  const cameraControlRef = useRef<OrbitControlsImpl | null>(null);
 
   const updateMessage = (message: string) => {
     setMessage(message)
@@ -82,11 +84,12 @@ const Home = () => {
         <directionalLight position={[1, 2, 3]} intensity={0.5} />
         <Planet ref={planetRef} onClick={handleMoveCat} />
         {
+          cats &&
           cats.map(cat => (
-            <Cat targetPosition={targetPosition} key={cat._id} texture_name={cat.color} />
+            <Cat targetPosition={targetPosition} key={cat._id} color={cat.color} />
           ))
         }
-        {user && <Cat targetPosition={targetPosition} key={user._id} texture_name={user.color} />}
+        {user && <Cat targetPosition={targetPosition} key={user._id} color={user.color} />}
       </Canvas>
       <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="auror boreal" />
 

@@ -1,7 +1,7 @@
 import { useRef, useState, useMemo, useEffect } from 'react'
-import { useGLTF, useAnimations, useTexture } from '@react-three/drei'
+import { useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
-import { GroupProps, useFrame, useGraph } from '@react-three/fiber'
+import { GroupProps, useGraph } from '@react-three/fiber'
 import { SkeletonUtils } from 'three-stdlib'
 import { GLTF } from 'three/examples/jsm/Addons.js'
 
@@ -22,18 +22,19 @@ type GLTFResult = GLTF & {
 }
 
 // Props du composant
-interface CatProps extends GroupProps {
+export interface CatProps extends GroupProps {
     targetPosition: THREE.Vector3 | null;
-    texture_name: string;
+    color: string;
     defaultAngle?: { theta: number, phi: number }
+    _id?: number
 }
 
 const Cat = (props: CatProps) => {
     const group = useRef<THREE.Group>(null)
-    const { scene, animations } = useGLTF('/3D/cat.glb') as unknown as GLTFResult
-    const { actions } = useAnimations(animations, group)
-    const [isWalking, setIsWalking] = useState(false);
-    const [currentAngle, setCurrentAngle] = useState({ theta: 0, phi: 0 })
+    const { scene } = useGLTF('/3D/cat.glb') as unknown as GLTFResult
+    // const { actions } = useAnimations(animations, group)
+    // const [isWalking, setIsWalking] = useState(false);
+    // const [currentAngle, setCurrentAngle] = useState({ theta: 0, phi: 0 })
     const [bbox, setBbox] = useState<THREE.Box3>()
     const [size, setSize] = useState<THREE.Vector3>()
     const [radius, setRadius] = useState<number>(0)
@@ -41,12 +42,12 @@ const Cat = (props: CatProps) => {
     const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
 
     const { nodes, materials } = useGraph(clone)
-    const texture = useTexture(`/textures/cats/${props.texture_name}`);
+    const texture = useTexture(`/textures/cats/${props.color}`);
     texture.colorSpace = "srgb"
     texture.flipY = false
     //Clone material instance.
     materials.Cat_Material = materials.Cat_Material.clone();
-    materials.Cat_Material.map = texture;
+    (materials.Cat_Material as THREE.MeshBasicMaterial).map = texture;
     materials.Cat_Material.needsUpdate = true;
 
     useEffect(() => {
@@ -89,7 +90,7 @@ const Cat = (props: CatProps) => {
 
         const theta = newTheta //Math.PI / 180 * thetaStep * 360
         const phi = newPhi//Math.PI / 180 * phiStep * 360;
-        setCurrentAngle({ theta, phi })
+        // setCurrentAngle({ theta, phi })
         const x = radius * Math.cos(phi) * Math.cos(theta);
         const y = radius * Math.sin(phi);
         const z = radius * Math.cos(phi) * Math.sin(theta);
@@ -107,21 +108,21 @@ const Cat = (props: CatProps) => {
         group.current.quaternion.copy(quaternion);
     }
 
-    useEffect(() => {
-        if (!group.current) {
-            console.error("there is no mesh for this cat")
-            return;
-        }
+    // useEffect(() => {
+    //     if (!group.current) {
+    //         console.error("there is no mesh for this cat")
+    //         return;
+    //     }
 
-        if (isWalking) {
-            actions['Walk']?.play();
-            actions['Idle']?.stop();
-        }
-        else {
-            actions['Idle']?.play();
-            actions['Walk']?.stop();
-        }
-    }, [actions, isWalking])
+    //     if (isWalking) {
+    //         actions['Walk']?.play();
+    //         actions['Idle']?.stop();
+    //     }
+    //     else {
+    //         actions['Idle']?.play();
+    //         actions['Walk']?.stop();
+    //     }
+    // }, [actions, isWalking])
 
 
     return (
@@ -131,28 +132,28 @@ const Cat = (props: CatProps) => {
                     <group name="Armature" position={[0.52, 0.332, -0.279]}>
                         <skinnedMesh
                             name="body"
-                            geometry={nodes.body.geometry}
+                            geometry={(nodes.body as THREE.Mesh).geometry}
                             material={materials.Cat_Material}
-                            skeleton={nodes.body.skeleton}
+                            skeleton={(nodes.body as THREE.SkinnedMesh).skeleton}
                         />
                         <skinnedMesh
                             name="Head"
-                            geometry={nodes.Head.geometry}
+                            geometry={(nodes.Head as THREE.Mesh).geometry}
                             material={materials.Cat_Material}
-                            skeleton={nodes.Head.skeleton}
+                            skeleton={(nodes.Head as THREE.SkinnedMesh).skeleton}
                         />
                         <group name="NeckLace">
                             <skinnedMesh
                                 name="Torus"
-                                geometry={nodes.Torus.geometry}
+                                geometry={(nodes.Torus as THREE.Mesh).geometry}
                                 material={materials.Material}
-                                skeleton={nodes.Torus.skeleton}
+                                skeleton={(nodes.Torus as THREE.SkinnedMesh).skeleton}
                             />
                             <skinnedMesh
                                 name="Torus_1"
-                                geometry={nodes.Torus_1.geometry}
+                                geometry={(nodes.Torus_1 as THREE.Mesh).geometry}
                                 material={materials.cloche}
-                                skeleton={nodes.Torus_1.skeleton}
+                                skeleton={(nodes.Torus_1 as THREE.SkinnedMesh).skeleton}
                             />
                         </group>
                         <primitive object={nodes.Bone} />
