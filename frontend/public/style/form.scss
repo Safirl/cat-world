@@ -2,8 +2,6 @@
     background-color:  #3C42C4;
     height: 100vh;
     padding:29px 40px  0px 40px ;
-
-
     p, label, input, a{
         color: #FFF9EF;
        }
@@ -22,12 +20,7 @@
         p{
             color:#3C42C4;
         }
-
     }
-
-
-
-
 }
 
 input{
@@ -42,14 +35,12 @@ form{
     flex-direction: column;
     gap: 12px;
     margin-top: 12px;
-
 }
 
 .labelInput{
    display: flex;
    flex-direction: column;
 }
-
 
 .buttonsForm{
     display: flex;
@@ -61,7 +52,6 @@ form{
     top: 100%;
     right: 0;
     width: 100vw;
-    /* width: 76%; */
     transform: translateY(-100%);
     padding:0px 40px  29px 40px ;
 }

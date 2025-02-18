@@ -1,0 +1,86 @@
+.containerLetter{
+    background-color: #EAC4AE ;
+    height: 100vh;
+
+    .wall{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background-color: #DDA2A3;
+        .textureWall{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+        }
+        .postit{
+            position: absolute;
+            z-index: 10;            
+        }
+        .read{
+            top: 50%;
+            transform: translate(50%, -50%);
+        }
+        .unread{
+            top: 50%;
+            right: 0;
+            transform: translate(-110%, 0%);
+        }
+    }
+
+
+
+    .stackletter{
+        background-color: #EAC4AE;
+        position: absolute;
+        top: 45%;
+        width: 100%;
+        height: 20%;
+
+        .stack{
+            position: absolute;
+        }
+        .read{
+            left: 5%;
+            transform: translate(0%, -75%);
+            z-index: 10;
+        }
+        .unread{
+            right: 5%;
+            transform: translate(0%, -75%);
+            z-index: 10;
+        }
+
+        .shadowUnread{
+            position: absolute;
+            right: 0;
+            transform: translate(0%, 44%);
+        }
+
+        .shadowRead{
+            position: absolute;
+            left: 0;
+            transform: translate(0%, 44%);
+        }
+    }
+
+
+
+    .letter{
+        width: 100%;
+        height: 40%;
+        position: absolute;
+        top: 100%;
+        transform: translate(0%, -100%);
+
+        .elementLetter{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+    }
+}
