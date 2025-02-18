@@ -51,7 +51,7 @@ const Landing = () => {
                     />
                 </div>
             </div >
-            <img className="aurorBoreal" src="'../../public/image/aurores-back.png" alt="aurore boreal" />
+            <img className="aurorBoreal" src="/image/aurores-back.png" alt="aurore boreal" />
             <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ fov: 50 }}>
                 <Scene />
                 <ambientLight intensity={2.4} color="#C8B3FF" />
@@ -60,7 +60,7 @@ const Landing = () => {
                 <Cat targetPosition={new THREE.Vector3()} color={"cat_texture_black.png"} defaultAngle={{ theta: 90, phi: 80 }} />
 
             </Canvas>
-            <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="aurore boreal" />
+            <img className="aurorBoreal" src="/image/aurorBoreal.png" alt="aurore boreal" />
             <img className="stars" src="/image/stars.png" alt="stars" />
         </>
     );
