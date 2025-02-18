@@ -1,4 +1,4 @@
-html, body,canvas{
+html, body,canvas, #root{
     min-height: 100vh;
     width: 100vw;
 }
@@ -77,12 +77,17 @@ summary,
 time,
 mark,
 audio,
-video {
+video,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
     margin: 0;
     padding: 0;
     border: 0;
     top: 0;
-    font-size: 100%;
     vertical-align: baseline;
 }
 
@@ -148,3 +153,6 @@ html, body {
     /*overflow-y: hidden;*/
     scroll-behavior: smooth;
 }
+input {
+    all: unset;
+  }
