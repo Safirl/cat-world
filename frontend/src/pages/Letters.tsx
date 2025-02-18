@@ -1,7 +1,17 @@
+import ButtonRound from "./components/buttonRound";
+
 const Letters = () => {
 
     return(
         <>
+        <ButtonRound 
+        text="Test button"     
+        hasBackground
+        srcImage="/image/icon/send.svg"
+        customClassName="btnWhiteLetter"
+        onClick={() => console.log('coucou')}
+  
+        />
         <div className="containerLetter">
             <div className="wall">
                 <img className="postit read" src="/image/decors/postItRead.svg" alt="Lettre lu" />
