@@ -3,10 +3,11 @@ import dotenv from 'dotenv';
 import mongod from 'mongod';
 import db from './config/db';
 import connectDB from './config/db';
-import {app} from './app';
+import { app } from './app';
 
 dotenv.config();
 
+let directory = '/' + (process.env.STATIC_DIR || 'dist')
 const PORT = process.env.PORT || 3000;
 
 connectDB()
