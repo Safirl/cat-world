@@ -6,7 +6,7 @@ import { useAuthCheck } from "../services/useAuthCheck";
 
 const Login = () => {
   const navigate = useNavigate();
-  const checkAuthStatus = useAuthCheck("/", "Vous êtes déjà connecté !");
+  const checkAuthStatus = useAuthCheck("/home", "Vous êtes déjà connecté !");
 
   useEffect(() => {
     checkAuthStatus()
@@ -47,27 +47,27 @@ const Login = () => {
 
   return (
     <>
-    <div className="containerForm">
-      <h1>Connexion</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="labelInput">
-          <label htmlFor="connection-email">Adresse Email</label>
-          <input id="connection-email" type="email" name="email" placeholder="John.doe@catworld.fr" onChange={handleChange} />
-        </div>
-        <div className="labelInput">
-          <label htmlFor="connection-password">Mot de passe</label>
-          <input id="connection-password"type="password" name="password" placeholder="********" onChange={handleChange} />
-        </div>
-        <div className="buttonsForm">
-          <button type="submit"><p>Me connecter</p></button>
-          {message && <p>{message}</p>}
-          <p>Je n’ai pas de compte,<a href="/Register"> m’inscrire</a> </p>
-        </div>
-      </form>
-    </div>
-    <img className="topStars starsForm" src="/image/stars.svg" alt="" />
-    <img className="rightStars starsForm" src="/image/stars.svg" alt="" />
-    <img className="bottomStars starsForm" src="/image/stars.svg" alt="" />
+      <div className="containerForm">
+        <h1>Connexion</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="labelInput">
+            <label htmlFor="connection-email">Adresse Email</label>
+            <input id="connection-email" type="email" name="email" placeholder="John.doe@catworld.fr" onChange={handleChange} />
+          </div>
+          <div className="labelInput">
+            <label htmlFor="connection-password">Mot de passe</label>
+            <input id="connection-password" type="password" name="password" placeholder="********" onChange={handleChange} />
+          </div>
+          <div className="buttonsForm">
+            <button type="submit"><p>Me connecter</p></button>
+            {message && <p>{message}</p>}
+            <p><a href={routes.register}> Je n’ai pas de compte, m’inscrire</a> </p>
+          </div>
+        </form>
+      </div>
+      <img className="topStars starsForm" src="/image/stars.svg" alt="" />
+      <img className="rightStars starsForm" src="/image/stars.svg" alt="" />
+      <img className="bottomStars starsForm" src="/image/stars.svg" alt="" />
     </>
   );
 };

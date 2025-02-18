@@ -1,7 +1,7 @@
-import React from 'react'
+import { useRef, useState, useMemo, useEffect } from 'react'
 import { useGLTF, useAnimations, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
-import { GroupProps, useGraph } from '@react-three/fiber'
+import { GroupProps, useFrame, useGraph } from '@react-three/fiber'
 import { SkeletonUtils } from 'three-stdlib'
 import { GLTF } from 'three/examples/jsm/Addons.js'
 
@@ -25,15 +25,20 @@ type GLTFResult = GLTF & {
 interface CatProps extends GroupProps {
     targetPosition: THREE.Vector3 | null;
     texture_name: string;
+    defaultAngle?: { theta: number, phi: number }
 }
 
 const Cat = (props: CatProps) => {
-    const group = React.useRef<THREE.Group>(null)
+    const group = useRef<THREE.Group>(null)
     const { scene, animations } = useGLTF('/3D/cat.glb') as unknown as GLTFResult
     const { actions } = useAnimations(animations, group)
-    const [isWalking, setIsWalking] = React.useState(false);
+    const [isWalking, setIsWalking] = useState(false);
+    const [currentAngle, setCurrentAngle] = useState({ theta: 0, phi: 0 })
+    const [bbox, setBbox] = useState<THREE.Box3>()
+    const [size, setSize] = useState<THREE.Vector3>()
+    const [radius, setRadius] = useState<number>(0)
 
-    const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
+    const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
 
     const { nodes, materials } = useGraph(clone)
     const texture = useTexture(`/textures/cats/${props.texture_name}`);
@@ -44,43 +49,65 @@ const Cat = (props: CatProps) => {
     materials.Cat_Material.map = texture;
     materials.Cat_Material.needsUpdate = true;
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!group.current) return;
         group.current.scale.set(.2, .2, .2)
+        setBbox(new THREE.Box3().setFromObject(group.current));
+        setSize(new THREE.Vector3());
+    }, []);
 
-        const bbox = new THREE.Box3().setFromObject(group.current)
-        const size = new THREE.Vector3();
+    useEffect(() => {
+        if (!bbox || !size) return;
         bbox.getSize(size);
+        setRadius(1.52 + size.x / 2)
+        const defaultTheta = props.defaultAngle ? props.defaultAngle.theta : Math.random() * 360
+        const defaultPhi = props.defaultAngle ? props.defaultAngle.phi : Math.random() * 360
 
         setTimeout(() => {
-            if (!group.current) return;
-            const radius = 1.52 + size.x / 2;
-
-            // Générer un point aléatoire sur une sphère
-            const theta = Math.random() * Math.PI * 2; // Angle autour de l'axe Y
-            const phi = Math.acos(2 * Math.random() - 1); // Angle vertical (pour éviter un biais de densité)
-
-            // Convertir en coordonnées cartésiennes
-            const x = radius * Math.sin(phi) * Math.cos(theta);
-            const y = radius * Math.sin(phi) * Math.sin(theta);
-            const z = radius * Math.cos(phi);
-
-            // Mettre à jour la position du chat
-            group.current.position.set(x, y, z);
-
-            // Aligner le chat vers le centre de la planète
-            const planetCenter = new THREE.Vector3(0, 0, 0);
-            const direction = new THREE.Vector3().subVectors(planetCenter, group.current.position).normalize();
-
-            // Orienter le chat pour que ses pieds touchent la planète
-            const upVector = new THREE.Vector3(0, -1, 0);
-            const quaternion = new THREE.Quaternion().setFromUnitVectors(upVector, direction);
-            group.current.quaternion.copy(quaternion);
+            setPositionAndRotation(Math.PI / 180 * defaultTheta, Math.PI / 180 * defaultPhi);
         }, 100);
+    }, [bbox, size, radius])
 
-    }, [])
+    // useFrame((state, delta) => {
+    //     // const newTheta = currentAngle.theta + Math.PI / 180 * 1.1;
+    //     const newPhi = currentAngle.phi + Math.PI / 180 * 10 * delta;
+    //     console.log(currentAngle)
+    //     setPositionAndRotation(currentAngle.theta, newPhi);
+    // })
 
-    React.useEffect(() => {
+    const setPositionAndRotation = (newTheta: number, newPhi: number) => {
+        if (!group.current) return;
+        //  theta: Angle autour de l'axe Y (angle theta de x vers z) 
+        // ---->x
+        // |
+        // v z
+
+        //  phi: Angle autour de l'axe Z (angle phi de x vers y) 
+        // ^ y
+        // |
+        // ---->x
+
+        const theta = newTheta //Math.PI / 180 * thetaStep * 360
+        const phi = newPhi//Math.PI / 180 * phiStep * 360;
+        setCurrentAngle({ theta, phi })
+        const x = radius * Math.cos(phi) * Math.cos(theta);
+        const y = radius * Math.sin(phi);
+        const z = radius * Math.cos(phi) * Math.sin(theta);
+
+        // Mettre à jour la position du chat
+        group.current.position.set(x, y, z);
+
+        // Aligner le chat vers le centre de la planète
+        const planetCenter = new THREE.Vector3(0, 0, 0);
+        const direction = new THREE.Vector3().subVectors(planetCenter, group.current.position).normalize();
+
+        // Orienter le chat pour que ses pieds touchent la planète
+        const upVector = new THREE.Vector3(0, -1, 0);
+        const quaternion = new THREE.Quaternion().setFromUnitVectors(upVector, direction);
+        group.current.quaternion.copy(quaternion);
+    }
+
+    useEffect(() => {
         if (!group.current) {
             console.error("there is no mesh for this cat")
             return;

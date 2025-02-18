@@ -1,0 +1,18 @@
+.landingContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 5.5rem 1.5rem  1.5rem 1.5rem;
+    z-index: 1;
+    height: 100vh;
+
+    .buttonsContainer {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+    }
+}
