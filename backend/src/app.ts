@@ -18,7 +18,7 @@ app.use(cookieParser())
 console.log(process.env.FRONTEND_URL);
 
 app.use(cors({
-    origin: "https://frontend-cat-world.osc-fr1.scalingo.io",
+    origin: process.env.FRONTEND_URL || "https://frontend-cat-world.osc-fr1.scalingo.io",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }))

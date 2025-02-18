@@ -1,5 +1,6 @@
 // useAuthCheck.ts
 import { useNavigate } from 'react-router-dom';
+import { apiRoutes } from '../config/route';
 /**
  * Redirect the user to the given route.
  */
@@ -8,7 +9,7 @@ const useAuthCheck = (redirectRoute: string, redirectMessage: string) => {
 
     const checkAuthStatus = async () => {
         try {
-            const response = await fetch(import.meta.env.VITE_API_URL + "/auth/status", {
+            const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.status, {
                 method: "GET",
                 credentials: "include",
             });
@@ -25,7 +26,7 @@ const useAuthCheck = (redirectRoute: string, redirectMessage: string) => {
 
 const isUserAuth = async (): Promise<boolean> => {
     try {
-        const response = await fetch(import.meta.env.VITE_API_URL + "/auth/status", {
+        const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.status, {
             method: "GET",
             credentials: "include",
         });

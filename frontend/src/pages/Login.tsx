@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
-import { routes } from "../config/route";
+import { apiRoutes, routes } from "../config/route";
 import { useAuthCheck } from "../services/useAuthCheck";
 
 
@@ -22,7 +22,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL + "/auth/login", {
+      const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.login, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

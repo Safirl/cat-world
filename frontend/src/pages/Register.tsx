@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuthCheck } from "../services/useAuthCheck";
 import { useNavigate } from "react-router-dom"
-import { routes } from "../config/route";
+import { apiRoutes, routes } from "../config/route";
 
 
 const Register = () => {
@@ -21,7 +21,7 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
+            const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.register, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

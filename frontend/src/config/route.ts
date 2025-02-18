@@ -10,8 +10,11 @@ const routes = {
 };
 
 const apiRoutes = {
-    getFriends: "/friend/fetchAll/",
-    getUser: "/user/fetch/"
+    getFriends: "friend/fetchAll/",
+    getUser: "user/fetch/",
+    login: "auth/login",
+    register: "auth/register",
+    status: "auth/status",
 }
 
 export { routes, apiRoutes };
