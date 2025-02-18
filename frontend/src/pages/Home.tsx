@@ -40,7 +40,6 @@ const Home = () => {
 
       if (response.ok) {
         updateMessage(data.message)
-        // setMessage(data.message)
       }
       else {
         updateMessage(data.message || "Échec de la connexion");
@@ -77,7 +76,6 @@ const Home = () => {
       <img className="stars" src="../../public/image/stars.png" alt="stars" />
       <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 5] }}>
         <OrbitControls ref={cameraControlRef} />
-        {/* <AdaptiveCamera /> */}
         <ambientLight intensity={2.4} color="#C8B3FF" />
         <directionalLight position={[1, 2, 3]} intensity={0.5} />
         <Planet ref={planetRef} onClick={handleMoveCat} />
