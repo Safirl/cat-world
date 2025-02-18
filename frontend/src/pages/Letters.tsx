@@ -1,4 +1,5 @@
 import ButtonRound from "./components/buttonRound";
+import NavBar from "./components/Navbar";
 
 const Letters = () => {
 
@@ -11,6 +12,7 @@ const Letters = () => {
         onClick={() => console.log('coucou')}
   
         />
+        <NavBar />
         <div className="containerLetter">
             <div className="wall">
                 <img className="postit read" src="/image/decors/postItRead.svg" alt="Lettre lu" />

@@ -1,0 +1,90 @@
+nav{
+    position: fixed;
+    top: 100%;
+    transform: translateY(-100%);
+    z-index: 11;
+    width: 100%;
+    .background{
+        width: 104%;
+        transform: translate(-2%, 8%);
+    }
+}
+
+.hylightLabelButtonBackground{
+    width: 27.5%;
+    height: 18vw;
+    background-color: #EFE2FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    position: relative;
+    &:hover, &:active{
+        background-color: #DCCAF1;
+        transform: translateY(10px);
+
+        .hylight, .hylightCote, .hylightUnder{
+            display: none;
+        }
+    }
+}
+
+.buttonNavbar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: fit-content;
+    position: fixed;
+    top: 0px;
+    z-index: 10;
+
+}
+
+.hylightLabel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hylight{
+    position: absolute;
+    width: 100%;
+    height: 133%;
+    pointer-events: none;
+}
+
+.hylightCote{
+    height: 100%;
+    position: absolute;
+    z-index: 11;
+    pointer-events: none;
+    
+}
+
+.hylightCoteright{
+    right: 0;
+}
+
+.hylightCoteleft{
+    left: 0;
+}
+
+.hylightUnder{
+    position: absolute;
+    transform: translateY(72%);
+    width: 50%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 20;
+    p{
+        color: #5E38E6;
+    }
+}
