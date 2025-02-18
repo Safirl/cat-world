@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { forwardRef, useRef, useImperativeHandle, useEffect } from 'react';
 
 interface PlanetProps {
-  onClick: (position: THREE.Vector3) => void;
+  onClick?: (position: THREE.Vector3) => void;
 }
 
 const Planet = forwardRef<THREE.Mesh, PlanetProps>(({ onClick }, ref) => {

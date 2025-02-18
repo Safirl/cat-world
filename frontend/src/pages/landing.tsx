@@ -71,7 +71,7 @@ const Landing = () => {
                 <Scene />
                 <ambientLight intensity={2.4} color="#C8B3FF" />
                 <directionalLight position={[1, 2, 3]} intensity={0.5} />
-                <Planet ref={planetRef} onClick={handleMoveCat} />
+                <Planet ref={planetRef} />
                 <Cat targetPosition={new THREE.Vector3()} texture_name={"cat_texture_black.png"} defaultAngle={{ theta: 90, phi: 80 }} />
 
             </Canvas>
