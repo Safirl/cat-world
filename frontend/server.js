@@ -1,17 +1,21 @@
 import express from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Obtenir le répertoire actuel de ce fichier
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Servir les fichiers statiques de Vite
+// Serve static files from dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Catch-all pour retourner l'index.html
+// For any route, send index.html (important for React Router)
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+  console.log(`Frontend is running on port ${port}`);
 });
