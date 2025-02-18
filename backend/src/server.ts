@@ -7,7 +7,6 @@ import { app } from './app';
 
 dotenv.config();
 
-let directory = '/' + (process.env.STATIC_DIR || 'dist')
 const PORT = process.env.PORT || 3000;
 
 connectDB()
