@@ -4,6 +4,7 @@ import Planet from './components/Planet';
 import * as THREE from 'three';
 import Cat from './components/Cat';
 import { apiRoutes } from "../config/route"
+import NavBar from "./components/Navbar";
 import { OrbitControls } from '@react-three/drei';
 
 const Home = () => {
@@ -73,6 +74,7 @@ const Home = () => {
 
   return (
     <>
+      <NavBar />
       <img className="stars" src="../../public/image/stars.png" alt="stars" />
       <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 5] }}>
         <OrbitControls ref={cameraControlRef} />
