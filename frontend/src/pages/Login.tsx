@@ -61,7 +61,7 @@ const Login = () => {
           <div className="buttonsForm">
             <button type="submit"><p>Me connecter</p></button>
             {message && <p>{message}</p>}
-            <p><a href="/Register"> Je n’ai pas de compte,m’inscrire</a> </p>
+            <p><a href={routes.register}> Je n’ai pas de compte, m’inscrire</a> </p>
           </div>
         </form>
       </div>

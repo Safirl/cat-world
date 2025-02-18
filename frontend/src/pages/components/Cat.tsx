@@ -25,6 +25,7 @@ type GLTFResult = GLTF & {
 interface CatProps extends GroupProps {
     targetPosition: THREE.Vector3 | null;
     texture_name: string;
+    defaultAngle?: { theta: number, phi: number }
 }
 
 const Cat = (props: CatProps) => {
@@ -59,9 +60,11 @@ const Cat = (props: CatProps) => {
         if (!bbox || !size) return;
         bbox.getSize(size);
         setRadius(1.52 + size.x / 2)
+        const defaultTheta = props.defaultAngle ? props.defaultAngle.theta : Math.random() * 360
+        const defaultPhi = props.defaultAngle ? props.defaultAngle.phi : Math.random() * 360
 
         setTimeout(() => {
-            setPositionAndRotation(Math.PI / 180 * /*Math.random() * 360*/90, Math.PI / 180 * /*Math.random() * 360*/80);
+            setPositionAndRotation(Math.PI / 180 * defaultTheta, Math.PI / 180 * defaultPhi);
         }, 100);
     }, [bbox, size, radius])
 

@@ -7,9 +7,17 @@ import { isUserAuth } from '../services/useAuthCheck';
 import '../../public/style/pages/landing.scss'
 import { routes } from '../config/route';
 import ButtonRound from './components/buttonRound';
+import { useNavigate } from 'react-router-dom';
+import { useAuthCheck } from '../services/useAuthCheck';
 
 const Landing = () => {
+    const navigate = useNavigate();
     // const [message, setMessage] = useState("");
+    const checkAuthStatus = useAuthCheck("/home", "Vous êtes déjà connecté !");
+
+    useEffect(() => {
+        checkAuthStatus()
+    }, []);
     const planetRef = useRef<THREE.Mesh>(null!)
     const cats = [
         {
@@ -37,13 +45,12 @@ const Landing = () => {
         return null;
     }
 
-    useEffect(() => {
-        const checkAuth = async () => {
-            const isAuth = await isUserAuth();
-            console.log(isAuth);
-        };
-        checkAuth();
-    }, []);
+
+    const onButtonClick = (isLogin: boolean) => {
+        const route = isLogin ? routes.login : routes.register
+        navigate(route)
+    }
+
     return (
         <>
             <div className='landingContainer'>
@@ -51,13 +58,12 @@ const Landing = () => {
                 <div className='buttonsContainer'>
                     <ButtonRound
                         text='Se connecter'
-                        hasBackground={true}
+                        onClick={() => onButtonClick(true)}
                     />
                     <ButtonRound
-                        text='Créer son compte '
-                        hasBackground={true}
+                        text='Créer son compte'
+                        onClick={() => onButtonClick(false)}
                     />
-                    {/* {message && <p>{message}</p>} */}
                 </div>
             </div >
             <img className="aurorBoreal" src="'../../public/image/aurores-back.png" alt="aurore boreal" />
@@ -66,7 +72,7 @@ const Landing = () => {
                 <ambientLight intensity={2.4} color="#C8B3FF" />
                 <directionalLight position={[1, 2, 3]} intensity={0.5} />
                 <Planet ref={planetRef} onClick={handleMoveCat} />
-                <Cat targetPosition={new THREE.Vector3()} texture_name={"cat_texture_black.png"} />
+                <Cat targetPosition={new THREE.Vector3()} texture_name={"cat_texture_black.png"} defaultAngle={{ theta: 90, phi: 80 }} />
 
             </Canvas>
             <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="aurore boreal" />
