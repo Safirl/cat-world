@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import friendRoutes from './routes/friendRoutes';
 
 dotenv.config();
+console.log(process.env.FRONTEND_URL)
 
 export const app = express();
 app.use(express.json());

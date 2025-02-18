@@ -1,6 +1,9 @@
+
+
 const routes = {
     landing: "/",
     home: "/home",
+    letters : "/letters",
     login: "/login",
     register: "/register",
 };
