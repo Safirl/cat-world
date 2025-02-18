@@ -14,7 +14,7 @@ const UserSchema: Schema = new Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false },
-    color: { type: String, require: false },
+    color: { type: String, require: false, default: "cat_texture_black.png" },
     isAdmin: { type: Boolean, require: false }
 }, { timestamps: true, collection: 'users' });
 
