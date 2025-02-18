@@ -61,7 +61,7 @@ const Cat = (props: CatProps) => {
         setRadius(1.52 + size.x / 2)
 
         setTimeout(() => {
-            setPositionAndRotation(Math.PI / 180 * Math.random() * 360, Math.PI / 180 * Math.random() * 360);
+            setPositionAndRotation(Math.PI / 180 * /*Math.random() * 360*/90, Math.PI / 180 * /*Math.random() * 360*/80);
         }, 100);
     }, [bbox, size, radius])
 
