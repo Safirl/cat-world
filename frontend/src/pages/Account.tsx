@@ -66,20 +66,30 @@ const Account = () => {
                     <directionalLight position={[1, 2, 3]} intensity={0.5} />
                     {user && <Cat color={user.color} defaultYRotation={Math.PI} defaultPosition={new THREE.Vector3(0, 1.6, 4)} />}
                 </Canvas>
+
+                <div className="editButton">
+                    <a href="#"><img src="/image/EditButtonAccount.svg" alt="" /></a>
+                </div>
+
                 <div className="containerAccountInformation">
-                    <h4>
-                        {user && user.username}
-                    </h4>
+                    <h4>{user && user.username}</h4>
+
                     <div className="friendcode">
                         <p>code ami :</p>
+
                         <p>{user && user._id}</p>
+
                         <img src="/image/icons/copy.svg" alt="Copier votre code friend" />
                     </div>
+
                     <div className="AddfriendContainer">
                         <p>Ajout d’un(e) ami(e)</p>
+
                         <input type="text" />
+
                         <input type="submit" value="Ajoute ton ami(e)" />
                     </div>
+
                     <div className="listFriend">
                         <p>Liste d’amis : </p>
                         <div className="containerlistFriend">
@@ -88,9 +98,12 @@ const Account = () => {
                                 friends.map((friend, index) => (
                                     <div className="containerFriendDetails" key={index}>
                                         <img src="/image/cat/gingerCat.svg" alt="une image de ton ami(e)" />
+
                                         <p>{friend.username}</p>
+
                                         <a href="#">
                                             <p>Voir le profil</p>
+
                                             <img src="/image/icons/arrow.svg" alt="voir plus" />
                                         </a>
                                     </div>

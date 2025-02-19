@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { apiRoutes, routes } from "../config/route";
 import { useAuthCheck } from "../services/useAuthCheck";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const checkAuthStatus = useAuthCheck("/home", "Vous êtes déjà connecté !");
