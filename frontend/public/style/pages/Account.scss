@@ -1,58 +1,144 @@
-@use '../variables.scss' as *;
-@use '../font.scss' as *;
+@use "../variables.scss" as *;
+@use "../font.scss" as *;
 
-.containerAccount{
-    height: 100%;
-    min-height: 100%;
-    width: 100%;
+.containerAccount {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
 
-    .canvasAccount{
-        position: absolute !important;
-        top: 0;
-        width: fit-content !important;
+  .canvasAccount {
+    position: absolute !important;
+    top: 0;
+    width: fit-content !important;
+  }
+
+  .editButton {
+    display: flex;
+    justify-content: end;
+    margin-top: 2rem;
+    padding-right: 1.5rem;
+
+    a {
+      line-height: 0;
+      z-index: 20;
+    }
+  }
+}
+
+.containerAccount .containerAccountInformation {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100vw;
+  padding: 0 1.5rem;
+  border-radius: 10px;
+  background-color: #f5edff;
+  color: black;
+
+  h4 {
+    margin-top: 1rem;
+    text-transform: capitalize;
+    font-size: 22px;
+    color: $color-black;
+  }
+
+  .friendcode {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    color: $color-gray;
+
+    img {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .AddfriendContainer {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background-color: $color-pink-dark;
+
+    p {
+      font-weight: 400;
     }
 
-    .editButton {
-        display: flex;
-        justify-content: end;
-        margin-top: 2rem;
-        padding-right: 1.5rem;
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      margin-top: 0.5rem;
+      border: unset;
 
-        a {
-            line-height: 0;
-            z-index: 20;
+      &[type="text"] {
+        border-radius: 5px;
+        background: $color-white;
+        padding: 1.5rem 0.75rem;
+
+        &::placeholder {
+          color: $color-gray;
         }
-    }
+      }
 
-    .containerAccountInformation{
+      &[type="submit"] {
+        margin-top: 1rem;
+        text-align: center;
+        color: $color-purple;
+        background-color: $color-pink-light;
+      }
+    }
+  }
+}
+
+.containerAccount .listFriend {
+  margin-top: 0.75rem;
+
+  .containerlistFriend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .containerFriendDetails {
+      position: relative;
+      display: flex;
+      border-radius: 10px;
+      background: $color-white;
+
+      p {
+        font-family: $font-title;
+      }
+
+      img {
+        border-radius: 5px;
+        margin: 6px;
+      }
+
+      a {
         position: absolute;
-        top: 50%;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        padding: 0 1.5rem;
-        border-radius: 10px;
-        background-color: #F5EDFF;   
-        color: black;
+        top: 100%;
+        right: 0.25rem;
+        transform: translateY(calc(-100% - 0.25rem));
+        display: flex;
+        height: fit-content;
+        color: $color-black;
 
-        h4 {
-            margin-top: 1rem;
-            text-transform: capitalize;
-            font-size: 22px;
-            color: $color-black;
+        img {
+          width: 1rem;
         }
-
-        .friendcode{
-            display: flex;
-            justify-content: start;
-            align-items: center;
-        }
-        
-        .AddfriendContainer{
-            margin-top: 1.5rem;
-            padding: .75rem 1rem;
-            border-radius: 10px;
-            background-color:rgba(239, 226, 255, 1);
-        }
+      }
     }
+  }
+}
+
+.containerAccount .buttonEnd {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 5rem 0 10rem 0;
+
+  a {
+    color: $color-black;
+    text-decoration: underline;
+  }
 }
