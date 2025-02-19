@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import { routes } from "../config/route";
 import PrivateRoute from "./PrivateRoute";
 import Landing from "../pages/landing"
+import Account from "../pages/Account";
 
 const AppRouter = () => {
     return (
@@ -15,6 +16,7 @@ const AppRouter = () => {
                 <Route element={<PrivateRoute />}>
                     <Route path={routes.home} element={<Home />} />
                     <Route path={routes.letters} element={<Letters />} />
+                    <Route path={routes.account} element={<Account />} />
                 </Route>
                 <Route path={routes.login} element={<Login />} />
                 <Route path={routes.register} element={<Register />} />
