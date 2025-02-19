@@ -7,7 +7,7 @@ const Letters = () => {
         <>
         <ButtonRound 
         text="Envoyer une lettre"     
-        srcImage="/image/icon/send.svg"
+        srcImage="/image/icons/send.svg"
         hasBackground
         customClassName="btnWhiteLetter"
         onClick={() => console.log('coucou')}
