@@ -1,7 +1,9 @@
-# cat-world
+# Cat World
 
-# to init project
+## To init project
 
-``npm install``
-``cd backend```
-``npm install``
+`npm install`
+
+`cd backend`
+
+`npm install`
