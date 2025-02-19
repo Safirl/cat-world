@@ -5,11 +5,11 @@ import stamps from '../data/stamps'
 import { apiRoutes } from "../config/route";
 
 const CreateLetter = () => {
-    const [formData, setFormData] = useState({ receiver_id: "67b60e2bda7a14ca3027b2d2", title: "testTitle", content: "testContent", stamp: "test", src_img: "test" });
+    const [formData, setFormData] = useState({ receiver_id: "", title: "testTitle", content: "testContent", stamp: "test", src_img: "test" });
     const [showStamps, setShowStamps] = useState(false)
     const [message, setMessage] = useState("");
     const [user, setUser] = useState<{ _id: string, username: string }>()
-    const [friends, setFriends] = useState<{ _id: string, username: string }[]>()
+    const [friends, setFriends] = useState<{ _id: string, username: string }[]>([])
 
     const fetchUser = async () => {
         try {
@@ -44,12 +44,9 @@ const CreateLetter = () => {
             });
 
             const data = await response.json();
-            setFriends(data.friends)
-
             if (response.ok) {
-                // updateMessage(data.message)
-            }
-            else {
+                setFriends(data.friends)
+            } else {
                 setMessage(data.message || "Échec de la connexion");
             }
         } catch (error) {
@@ -89,11 +86,12 @@ const CreateLetter = () => {
         }
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const StampList = () => {
+        console.log("formData.stamp", formData.stamp)
         return (
             <>
                 <div className="stampList">
@@ -123,19 +121,32 @@ const CreateLetter = () => {
 
                     <form className="letterContent" onSubmit={handleSubmit} method="post">
                         <div className="letterHeader">
-                            <button type="button" onClick={() => setShowStamps(!showStamps)}>
-                                {
-                                    formData.stamp ?
-                                        <img className="stampImage" src={`/image/stamps/${formData.stamp}`} alt="chosen stamp" />
-                                        :
-                                        <div className="addStamp"></div>
-                                }
+                            <button className="buttonStamp" type="button" onClick={() => setShowStamps(!showStamps)}>
+                            {formData.stamp && formData.stamp !== "test" ? (
+                                <img 
+                                    className="stampImage" 
+                                    src={`/image/stamps/${formData.stamp}`} 
+                                    alt="chosen stamp" 
+                                />
+                                    ) : (
+                                <div className="addStamp">
+                                    <img src="/image/icons/import.svg" />
+                                    <p>Timbre</p>
+                                </div>
+                            )}
                             </button>
-                            {/* <input className="stamp" id="stamp" type='image' name="image" onChange={handleChange} /> */}
                             <div className="letterInformation">
-                                <p className="username">{user?.username}</p>
-                                <p className="receiver">receiver</p>
-                                <p className="date">today</p>
+                                <p className="username">De : {user?.username}</p>
+                                <div className="selectRecever">
+                                    <p className="receiver"> À :  </p>
+                                    <select name="receiver_id" id="receiver-select" onChange={handleChange}>
+                                        <option value="">Choisis un(e) ami(e)</option>
+                                        {friends && friends.map(friend => (
+                                            <option key={friend._id} value={friend._id}>{friend.username}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <p className="date">Le : 17/02/2025</p>
                             </div>
                         </div>
                         <div className="letterBody">
@@ -143,11 +154,12 @@ const CreateLetter = () => {
                                 <label htmlFor="send-letter">Titre</label>
                                 <input id="title" type='text' name="title" placeholder="Ma lettre" onChange={handleChange} />
                             </div>
-                            <div>
+                            <div className="contenuLetterContainer">
                                 <label htmlFor="send-letter">Contenu</label>
-                                <input id="content" type="text" name="content" placeholder="Cher ami..." onChange={handleChange} />
+                                <textarea className="contenuletter" id="content"  name="content" placeholder="Cher ami..." onChange={handleChange} />
                             </div>
                         </div>
+                        <p className="usernameContenue">{user?.username}</p>
                         <button type="submit"><p>Envoyer</p></button>
                     </form>
                 </div>
