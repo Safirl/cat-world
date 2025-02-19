@@ -18,11 +18,10 @@ const Letters = () => {
             <div className="wall">
                 <img className="postit read" src="/image/decors/postItRead.svg" alt="Lettre lu" />
                 <img className="postit unread" src="/image/decors/postItunread.svg" alt="Lettre pas lu" />
-              
-            </div>
+              </div>
+        </div>
 
-            />
-            <NavBar />
+         <NavBar />
             <div className="containerLetter">
                 <div className="wall">
                     <img className="postit read" src="/image/decors/postItRead.svg" alt="Lettre lu" />
