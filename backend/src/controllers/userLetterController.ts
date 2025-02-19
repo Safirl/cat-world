@@ -1,10 +1,6 @@
 import { Request, Response, RequestHandler } from 'express';
 
-import Letter from '../models/Letter';
-import User from '../models/User';
-import UserLetter from '../models/UserLetter';
-import letterController from './letterController';
-import authController from './authController';
+import UserLetter from '../models/UserLetter.js';
 
 
 class UserLetterController {

@@ -1,13 +1,12 @@
-import express from 'express';
-import authRouter from './routes/authRoutes';
-import letterRoutes from './routes/letterRoutes';
-import userLetterRoutes from './routes/userLetterRoutes';
-import userRoutes from './routes/userRoutes'
-import { Request, Response } from 'express';
+import authRouter from './routes/authRoutes.js';
+import letterRoutes from './routes/letterRoutes.js';
+import userLetterRoutes from './routes/userLetterRoutes.js';
+import userRoutes from './routes/userRoutes.js'
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
-import friendRoutes from './routes/friendRoutes';
+import friendRoutes from './routes/friendRoutes.js';
 
 dotenv.config();
 
