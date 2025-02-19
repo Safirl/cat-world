@@ -74,11 +74,27 @@ const Home = () => {
     fetchUser();
   }, [])
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (cameraControlRef.current) {
+        const camera = cameraControlRef.current.object;
+        if (camera instanceof THREE.PerspectiveCamera) {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+        }
+      }
+    };
+  
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
+
   return (
     <>
       <NavBar />
       <img className="stars" src="../../public/image/stars.png" alt="stars" />
-      <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ position: [0, 0, 5] }}>
+      <Canvas camera={{ position: [0, 0, 5] }}>
         <OrbitControls ref={cameraControlRef} />
         <ambientLight intensity={2.4} color="#C8B3FF" />
         <directionalLight position={[1, 2, 3]} intensity={0.5} />

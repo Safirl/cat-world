@@ -1,6 +1,24 @@
-html, body,canvas, #root{
+html, body, #root{
     min-height: 100dvh;
     width: 100vw;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+}
+
+canvas{
+    min-height: 100dvh;
+    width: 100%;
+    max-width: 768px;
+
+   aspect-ratio: 16/9;
+}
+
+
+#root{
+    max-width: 768px;
 }
 
 html, body{

@@ -7,8 +7,9 @@ body{
     position: fixed;
     top: 100%;
     transform: translateY(-100%);
-    width: 100vw;
+    width: 100%;
     height: auto;
+    max-width: 768px;
 }
 
 .stars{

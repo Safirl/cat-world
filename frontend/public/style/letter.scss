@@ -2,6 +2,8 @@
     background-color: #EAC4AE ;
     height: 100dvh;
     position: relative;
+    display: flex;
+    justify-content: center;
 
     .wall{
         position: absolute;
@@ -82,6 +84,36 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%,-50%);
+        }
+    }
+}
+
+@media screen and (min-width: 380px) {
+    .containerLetter{
+        .stackletter{
+            .stack, .shadowRead, .shadowUnread{
+                width: 25%;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 540px) {
+    .containerLetter{
+        .stackletter{
+            .stack{
+                width: 20%;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .containerLetter{
+        .stackletter{
+            .stack{
+                width: 20%;
+            }
         }
     }
 }
