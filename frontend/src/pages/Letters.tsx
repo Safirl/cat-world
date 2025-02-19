@@ -5,11 +5,21 @@ const Letters = () => {
 
     return (
         <>
-            <ButtonRound
-                text="Test button"
-                srcImage="/image/icon/send.svg"
-                customClassName="btnWhiteLetter"
-                onClick={() => console.log('coucou')}
+        <ButtonRound 
+        text="Envoyer une lettre"     
+        srcImage="/image/icon/send.svg"
+        hasBackground
+        customClassName="btnWhiteLetter"
+        onClick={() => console.log('coucou')}
+  
+        />
+        <NavBar />
+        <div className="containerLetter">
+            <div className="wall">
+                <img className="postit read" src="/image/decors/postItRead.svg" alt="Lettre lu" />
+                <img className="postit unread" src="/image/decors/postItunread.svg" alt="Lettre pas lu" />
+              
+            </div>
 
             />
             <NavBar />

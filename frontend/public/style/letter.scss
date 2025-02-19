@@ -1,6 +1,7 @@
 .containerLetter{
     background-color: #EAC4AE ;
     height: 100vh;
+    position: relative;
 
     .wall{
         position: absolute;
@@ -22,12 +23,12 @@
         }
         .read{
             top: 50%;
-            transform: translate(50%, -50%);
+            transform: translate(50%, -100%);
         }
         .unread{
             top: 50%;
             right: 0;
-            transform: translate(-110%, 0%);
+            transform: translate(-110%, -50%);
         }
     }
 
