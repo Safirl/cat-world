@@ -3,6 +3,10 @@ html, body,canvas, #root{
     width: 100vw;
 }
 
+html, body{
+    overflow: unset;
+}
+
 
 html,
 body,
