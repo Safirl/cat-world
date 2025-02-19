@@ -52,7 +52,7 @@ const Landing = () => {
                 </div>
             </div >
             <img className="aurorBoreal" src="/image/aurores-back.png" alt="aurore boreal" />
-            <Canvas style={{ width: '100vw', height: '100vh' }} camera={{ fov: 50 }}>
+            <Canvas className='canvasLandingpage' camera={{ fov: 50 }}>
                 <Scene />
                 <ambientLight intensity={2.4} color="#C8B3FF" />
                 <directionalLight position={[1, 2, 3]} intensity={0.5} />

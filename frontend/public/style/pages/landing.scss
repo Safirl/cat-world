@@ -6,6 +6,7 @@
     width: 100%;
     padding: 5.5rem 1.5rem  1.5rem 1.5rem;
     z-index: 1;
+    max-width: 768px;
     height: 100vh;
 
     .buttonsContainer {
@@ -14,5 +15,9 @@
         flex-direction: column;
         align-items: center;
         gap: .5rem;
+    }
+
+    .canvasLandingpage{
+        transform: translateY(-20%);
     }
 }
