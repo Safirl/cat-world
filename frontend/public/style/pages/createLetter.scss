@@ -1,0 +1,48 @@
+.containerCreateLetter {
+    background-color: #F5EDFE;
+    width: 100dvw;
+    height: 100dvh;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+
+    h1 {
+        padding-left: 2.75rem;
+        padding-top: 1rem;
+        color: #000000;
+    }
+
+    .letter {
+        position: relative;
+    }
+
+    .letterContent {
+        z-index: 1;
+        position: absolute;
+    }
+
+    .letterBackground {
+        z-index: 0;
+        position: absolute;
+        object-fit: cover;
+    }
+}
+
+.stampList {
+    z-index: 10;
+    position: absolute;
+    width: 100dvw;
+    height: fit-content;
+    background-color: #F5EDFE;
+    padding: 1.5rem;
+    padding-bottom: 7rem;
+
+    .stampElement {
+        width: 60px;
+    }
+
+    h1 {
+        margin-bottom: .5rem;
+        color: black;
+    }
+}

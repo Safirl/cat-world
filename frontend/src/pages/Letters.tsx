@@ -1,7 +1,14 @@
+import { routes } from "../config/route";
 import ButtonRound from "./components/buttonRound";
 import NavBar from "./components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const Letters = () => {
+    const navigate = useNavigate();
+
+    const handleCreateLetter = () => {
+        navigate(routes.createLetter);
+    }
 
     return (
         <>
