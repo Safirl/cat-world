@@ -13,13 +13,6 @@ const Letters = () => {
         onClick={() => console.log('coucou')}
   
         />
-        <NavBar />
-        <div className="containerLetter">
-            <div className="wall">
-                <img className="postit read" src="/image/decors/postItRead.svg" alt="Lettre lu" />
-                <img className="postit unread" src="/image/decors/postItunread.svg" alt="Lettre pas lu" />
-              </div>
-        </div>
 
          <NavBar />
             <div className="containerLetter">
