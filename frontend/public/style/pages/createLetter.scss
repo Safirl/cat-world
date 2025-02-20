@@ -6,18 +6,9 @@
     h1 {
         padding-left: 2.75rem;
         padding-top: 1rem;
-        color: #000000;
     }
 
-    p {
-        color: #000000;
-    }
-
-    label {
-        color: #000000;
-    }
-
-    select {
+    h1, p, textarea, label, select, input {
         color: #000000;
     }
 
@@ -164,7 +155,8 @@
     flex-direction: column;
     z-index: 99999;
     gap: 14px;
-    transform: translateY(100%); 
+    transform: translateY(100%);
+    color: black;
 }
 
 .validationSendAnimation.visible {
