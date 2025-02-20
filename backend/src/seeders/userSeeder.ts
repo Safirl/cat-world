@@ -129,7 +129,7 @@ async function seedLetters() {
     const letterCreditential = {
       title: "title",
       content: "content",
-      stamp: "test",
+      stamp: "stamp1.svg",
     }
     const letter = await Letter.create(letterCreditential);
 

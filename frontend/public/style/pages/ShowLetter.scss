@@ -24,8 +24,32 @@
     }
 
     .content{
+        margin-bottom: 50%;
         animation: 1s ease-in-out 0s 1 slideInFromBottom;
+        position: relative;
     }
+
+    .letterBackground {
+        z-index: 0;
+        position: absolute;
+        width: 100%;
+    }
+
+    .letterContent {
+        z-index: 1;
+        position: absolute;
+        padding: 0px 27px 0px 27px;
+        width: 100%;
+        height: 95%;
+    }
+}
+
+.letterInformation{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
 }
 
 @keyframes slideInFromBottom {
