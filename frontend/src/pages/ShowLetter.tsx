@@ -1,8 +1,69 @@
-const CreateLetter = () => {
+import { useLocation } from "react-router-dom";
+import "../../public/style/pages/ShowLetter.scss"
+import { useState } from "react";
 
-    return(console.log('coucou'))
+const ShowLetter = () => {
+    const location = useLocation();
+    const letter: { _id: string, title: string, content: string, stamp: string, src_img: string, sender_id: string, createdAt: string } = location.state?.letter;
+    const [showLetter, setShowLetter] = useState(false);
+    const [isExiting, setIsExiting] = useState(false);
+    const [showContent, setShowContent] = useState(false)
 
+    const handleShowLetter = () => {
+        setShowLetter(true);
+        setTimeout(() => {
+            setIsExiting(true)
+            setTimeout(() => {
+                setShowContent(true)
+            }, 1000);
+        }, 1000);
+    }
 
+    if (!letter) {
+        return <p>Aucune lettre sélectionnée.</p>
+    }
+
+    return (
+        <>
+            <div className="showLetterContainer">
+                {showContent ?
+                    <div className="content">
+                        <div className="letter">
+                            <img className="letterBackground" src="/image/letters/letter-background.svg" alt="letter background" />
+
+                            <div className="letterContent">
+                                <div className="letterHeader">
+                                    <img
+                                        className="stampImage"
+                                        src={`/image/stamps/${letter.stamp}`}
+                                        alt="chosen stamp"
+                                    />
+                                    <div className="letterInformation">
+                                        <p className="username">De : {letter.sender_id}</p>
+                                        <p className="date">Le : {letter.createdAt}</p>
+                                    </div>
+                                </div>
+                                <div className="letterBody">
+                                    <div>
+                                        <p>{letter.title}</p>
+                                    </div>
+                                    <div className="contenuLetterContainer">
+                                        <p>{letter.content}</p>
+                                    </div>
+                                </div>
+                                <p className="usernameContenue">{letter.sender_id}</p>
+                            </div>
+                        </div>
+                    </div>
+                    :
+                    <div className={`letter ${isExiting ? "slideOutToTop" : ""}`} onClick={handleShowLetter}>
+                        {!showLetter && <h4>Appuies pour ouvrir</h4>}
+                        <img src={showLetter ? "/image/letters/opened-letter.svg" : "/image/letters/closed-letter.svg"} alt="" />
+                    </div>
+                }
+            </div>
+        </>
+    )
 }
 
-export default CreateLetter;
+export default ShowLetter;

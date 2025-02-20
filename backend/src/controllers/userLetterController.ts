@@ -68,11 +68,12 @@ class UserLetterController {
     public fetchUserLetterRead: RequestHandler = async (req: Request, res: Response) => {
         try {
             const receiver_id = (req as any).user._id;
-            const allUserLetterRead = await UserLetter.find({ receiver_id, state: true });
+            const allUserLetterRead = await UserLetter.find({ receiver_id, read: true });
             if (!allUserLetterRead || allUserLetterRead.length === 0) {
                 res.status(404).json({ message: "AllUserLetterRead not found" });
                 return;
             }
+
             res.status(200).json({ message: "AllUserLetterRead found", allUserLetterRead });
         } catch (error) {
             console.error("Error fetching read user letters:", error);

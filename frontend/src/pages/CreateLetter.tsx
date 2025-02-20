@@ -73,7 +73,7 @@ const CreateLetter = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+
         try {
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.sendLetter, {
                 method: "POST",
@@ -83,17 +83,17 @@ const CreateLetter = () => {
                 body: JSON.stringify(formData),
                 credentials: "include"
             });
-            
+
             const data = await response.json();
-            
+
             if (response.ok) {
                 setMessage(data.message);
                 setFormData(initialFormData);
                 console.log("letter send", data.letter);
-                
+
                 // Show animation first
                 setShowValidation(true);
-                
+
                 // Wait for animation and then redirect
                 setTimeout(() => {
                     setShowValidation(false);
@@ -147,9 +147,9 @@ const CreateLetter = () => {
                                 <button className="buttonStamp" type="button" onClick={() => setShowStamps(!showStamps)}>
                                     {formData.stamp && formData.stamp !== "test" ? (
                                         <img
-                                        className="stampImage"
-                                        src={`/image/stamps/${formData.stamp}`}
-                                        alt="chosen stamp"
+                                            className="stampImage"
+                                            src={`/image/stamps/${formData.stamp}`}
+                                            alt="chosen stamp"
                                         />
                                     ) : (
                                         <div className="addStamp">
@@ -189,12 +189,12 @@ const CreateLetter = () => {
                 </div>
                 {showStamps && <StampList />}
 
-               
-        </div>
-        <div className={`validationSendAnimation ${showValidation ? 'visible' : ''}`}>
-            <p>Lettre envoyée</p>
-            <img src="/image/letters/letter.svg" alt="" />
-        </div>
+
+            </div>
+            <div className={`validationSendAnimation ${showValidation ? 'visible' : ''}`}>
+                <p>Lettre envoyée</p>
+                <img src="/image/letters/letter.svg" alt="" />
+            </div>
         </>
     );
 }

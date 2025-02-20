@@ -1,26 +1,64 @@
+import { useEffect, useState } from "react";
 import { routes } from "../config/route";
 import ButtonRound from "./components/buttonRound";
 import NavBar from "./components/Navbar";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { apiRoutes } from "../config/route";
 
 const Letters = () => {
     const navigate = useNavigate();
+    const [unreadLetters, setUnreadLetters] = useState<{ _id: string, title: string, content: string, stamp: string, src_img: string, sender_id: string, createdAt: string }[]>()
 
     const handleCreateLetter = () => {
         navigate(routes.createLetter);
     }
 
+    const handleShowLetter = () => {
+        if (!unreadLetters) {
+            return;
+        }
+        navigate(routes.showLetter, { state: { letter: unreadLetters[0] } })
+    }
+
+    const fetchUnreadLetters = async () => {
+        try {
+            const response = await fetch(
+                import.meta.env.VITE_API_URL + apiRoutes.fetchLetterUnread,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                }
+            );
+
+            const data = await response.json();
+            console.log(data)
+            if (!response.ok) {
+                console.error(data.message);
+            }
+            setUnreadLetters(data.letters);
+
+        } catch (error) {
+            console.error("Error while submiting request: ", error);
+        }
+    }
+
+    useEffect(() => {
+        fetchUnreadLetters()
+    }, [])
+
     return (
         <>
 
             <div className="containerLetter">
-                <ButtonRound 
-                text="Envoyer une lettre"     
-                srcImage="/image/icons/send.svg"
-                hasBackground
-                customClassName="btnWhiteLetter"
-                onClick={() => navigate('/letters/create')}
-        
+                <ButtonRound
+                    text="Envoyer une lettre"
+                    srcImage="/image/icons/send.svg"
+                    hasBackground
+                    customClassName="btnWhiteLetter"
+                    onClick={handleCreateLetter}
                 />
 
                 <NavBar />
@@ -37,10 +75,15 @@ const Letters = () => {
                     <img className="shadowUnread" src="/image/decors/shadow.svg" alt="ombre lettre non lu" />
                 </div>
 
-                <div className="letter">
-                    <img className="elementLetter" src="/image/decors/postItNoletter.svg" alt="texture png" />
-                    <img className="elementLetter" src="/image/letters/letterPerspective.svg" alt="texture png" />
-                </div>
+                {
+                    unreadLetters && unreadLetters.length > 0 ?
+                        <div className="letter" onClick={handleShowLetter}>
+                            <img className="elementLetter" src="/image/decors/postItNoletter.svg" alt="texture png" />
+                            <img className="elementLetter" src="/image/letters/letterPerspective.svg" alt="texture png" />
+                        </div>
+                        :
+                        <div></div>
+                }
             </div>
         </>
     )
