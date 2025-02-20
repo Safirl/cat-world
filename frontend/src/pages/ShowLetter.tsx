@@ -1,4 +1,6 @@
-const CreateLetter = () => {
+import { useLocation } from "react-router-dom";
+import "../../public/style/pages/ShowLetter.scss"
+import { useState } from "react";
 
 interface User {
     email: string;
@@ -13,6 +15,15 @@ const ShowLetter = () => {
     const [isExiting, setIsExiting] = useState(false);
     const [showContent, setShowContent] = useState(false)
 
+    const handleShowLetter = () => {
+        setShowLetter(true);
+        setTimeout(() => {
+            setIsExiting(true)
+            setTimeout(() => {
+                setShowContent(true)
+            }, 1000);
+        }, 1000);
+    }
 
     if (!letter) {
         return <p>Aucune lettre sélectionnée.</p>
@@ -61,4 +72,4 @@ const ShowLetter = () => {
     )
 }
 
-export default CreateLetter;
+export default ShowLetter;
