@@ -16,6 +16,9 @@ const initialFormData = {
 
 
 const CreateLetter = () => {
+
+    const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [stampError, setStampError] = useState<string>("");
     const [showValidation, setShowValidation] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
     const [showStamps, setShowStamps] = useState(false);
@@ -46,6 +49,15 @@ const CreateLetter = () => {
     };
 
     const fetchFriends = async () => {
+        setHasSubmitted(true); // Indique que l'utilisateur a cliqué sur "Submit"
+
+        if (formData.stamp === "test") {
+            setStampError("Veuillez ajouter un timbre avant d'envoyer votre lettre");
+            return; // Empêche la requête si l'erreur est présente
+        } else {
+            setStampError(""); // Effacer le message d'erreur si tout va bien
+        }
+        
         try {
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.getFriends, {
                 method: "GET",
@@ -57,6 +69,7 @@ const CreateLetter = () => {
 
             const data = await response.json();
             if (response.ok) {
+
                 setFriends(data.friends);
             } else {
                 setMessage(data.message || "Échec de la connexion");
@@ -73,7 +86,18 @@ const CreateLetter = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+    
+        // On indique que l'utilisateur a cliqué sur "Submit"
+        setHasSubmitted(true);
+    
+        // Vérifie si un timbre a été sélectionné
+        if (formData.stamp === "" || formData.stamp === "test") {
+            setStampError("Veuillez ajouter un timbre avant d'envoyer votre lettre");
+            return; // Stoppe l'exécution de la fonction ici
+        } else {
+            setStampError(""); // Efface le message d'erreur si tout va bien
+        }
+    
         try {
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.sendLetter, {
                 method: "POST",
@@ -83,21 +107,21 @@ const CreateLetter = () => {
                 body: JSON.stringify(formData),
                 credentials: "include"
             });
-            
+    
             const data = await response.json();
-            
+    
             if (response.ok) {
                 setMessage(data.message);
                 setFormData(initialFormData);
-                console.log("letter send", data.letter);
-                
-                // Show animation first
+                console.log("Letter sent", data.letter);
+    
+                // Afficher l'animation
                 setShowValidation(true);
-                
-                // Wait for animation and then redirect
+    
+                // Attendre 3s puis rediriger
                 setTimeout(() => {
                     setShowValidation(false);
-                    navigate("/Letters"); // Redirect after animation
+                    navigate("/Letters");
                 }, 3000);
             } else {
                 setMessage(data.message || "Échec de la connexion");
@@ -106,10 +130,16 @@ const CreateLetter = () => {
             console.error("Error while submitting request: ", error);
         }
     };
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
+    useEffect(() => {
+        setHasSubmitted(false);
+    }, [formData]);
+    
 
     const StampList = () => {
         console.log("formData.stamp", formData.stamp);
@@ -158,11 +188,16 @@ const CreateLetter = () => {
                                         </div>
                                     )}
                                 </button>
+                                {hasSubmitted && stampError && (
+                                    <p className="error-message" style={{ color: 'red', fontSize: '0.8rem', marginTop: '4px' }}>
+                                        {stampError}
+                                    </p>
+                                )}
                                 <div className="letterInformation">
                                     <p className="username">De : {user?.username}</p>
                                     <div className="selectRecever">
                                         <p className="receiver"> À :  </p>
-                                        <select name="receiver_id" id="receiver-select" onChange={handleChange} value={formData.receiver_id}>
+                                        <select name="receiver_id" id="receiver-select" onChange={handleChange} value={formData.receiver_id} required>
                                             <option value="">Choisis un(e) ami(e)</option>
                                             {friends && friends.map(friend => (
                                                 <option key={friend._id} value={friend._id}>{friend.username}</option>
@@ -175,11 +210,11 @@ const CreateLetter = () => {
                             <div className="letterBody">
                                 <div>
                                     <label htmlFor="send-letter">Titre</label>
-                                    <input id="title" type='text' name="title" placeholder="Ma lettre" onChange={handleChange} value={formData.title} />
+                                    <input id="title" type='text' name="title" placeholder="Ma lettre" onChange={handleChange} value={formData.title} required />
                                 </div>
                                 <div className="contenuLetterContainer">
                                     <label htmlFor="send-letter">Contenu</label>
-                                    <textarea className="contenuletter" id="content" name="content" placeholder="Cher ami..." onChange={handleChange} value={formData.content} />
+                                    <textarea className="contenuletter" id="content" name="content" placeholder="Cher ami..." onChange={handleChange} value={formData.content} required />
                                 </div>
                             </div>
                             <p className="usernameContenue">{user?.username}</p>

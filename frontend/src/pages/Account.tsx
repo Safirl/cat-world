@@ -18,6 +18,7 @@ const Account = () => {
     color: string;
   }>();
   const [friends, setFriends] = useState<{ username: string }[]>([]);
+  const [error, setError] = useState<{ message: string; target: string } | null>(null);
 
   const fetchFriends = async () => {
     try {
@@ -69,34 +70,35 @@ const Account = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try{
-      console.log('form Data', formData)
+    try {
+      console.log('form Data', formData);
       const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.addFriend, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
         credentials: "include"
-
       });
-            
+
       const data = await response.json();
 
-        if (response.ok) {
-          setFormData(initialFormData);
-          fetchFriends();
-        }
-   
-
+      if (response.ok) {
+        setFormData(initialFormData);
+        setError(null); // Réinitialiser l'erreur si la requête réussit
+        fetchFriends();
+      } else {
+        // Définir l'erreur avec le message et la cible
+        setError({ message: data.message, target: data.target || "global" });
+      }
+    } catch (error) {
+      setError({ message: "Une erreur s'est produite lors de l'ajout de l'ami", target: "global" });
     }
-    catch(error){
-
-    }
-    };
+  };
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
       setFormData({ ...formData, friend_id: e.target.value });
+      setError(null); 
     };
 
 
@@ -141,8 +143,11 @@ const Account = () => {
           <div className="AddfriendContainer">
             <form onSubmit={handleSubmit} method="post">
             <label htmlFor="friend_id">Ajout d’un(e) ami(e)</label>
-            <input id="friend_id" type="text" placeholder="Le code de ton ami(e)" onChange={handleChange} required />
+            <input id="friend_id" type="text" placeholder="Le code de ton ami(e)" onChange={handleChange} required minLength={12}  maxLength={12} />
             <input type="submit" value="Ajoute ton ami(e)" />
+            {error && error.target === "friend_id" && ( // Afficher l'erreur si la cible est "friend_id"
+                <p style={{ color: 'red' }}>{error.message}</p>
+              )}
 
             </form>
             

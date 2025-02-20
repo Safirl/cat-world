@@ -13,3 +13,14 @@ export const doesUserExists = async (email: string): Promise<boolean> => {
   }
   return false;
 };
+
+export const doesUserExistsFromId = async (id: string): Promise<boolean> => {
+  if (!id) {
+    return false;
+  }
+  const existingUser = await User.findOne({ _id: id });
+  if (existingUser) {
+    return true;
+  }
+  return false;
+};
