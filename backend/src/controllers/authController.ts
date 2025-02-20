@@ -41,7 +41,7 @@ class AuthController {
       });
     } catch (error) {
       console.error("Can't register user", error);
-      res.status(500).json({ message: "Can't register user", error });
+      res.status(500).json({ message: "Une erreur est survenue lors de la création de ton compte", error });
     }
   };
 
@@ -59,7 +59,7 @@ class AuthController {
 
       const matchingUser = await User.findOne({ email }).select("+password");
       if (!matchingUser) {
-        res.status(401).json({ message: "Invalid credentials" });
+        res.status(401).json({ message: "Le mot de passe ou l'email n'est pas correct" });
         return;
       }
       const isPasswordValid = await bcrypt.compare(
@@ -67,7 +67,7 @@ class AuthController {
         matchingUser.password
       );
       if (!isPasswordValid) {
-        res.status(401).json({ message: "Invalid credentials" });
+        res.status(401).json({ message: "Le mot de passe ou l'email n'est pas correct" });
         return;
       }
       const returnedUser = {

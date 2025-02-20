@@ -51,15 +51,16 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="labelInput">
             <label htmlFor="connection-email">Adresse Email</label>
-            <input id="connection-email" type="email" name="email" placeholder="John.doe@catworld.fr" onChange={handleChange} />
+            <input id="connection-email" type="email" name="email" placeholder="John.doe@catworld.fr" onChange={handleChange} required />
           </div>
           <div className="labelInput">
             <label htmlFor="connection-password">Mot de passe</label>
-            <input id="connection-password" type="password" name="password" placeholder="********" onChange={handleChange} />
+            <input id="connection-password" type="password" name="password" placeholder="********" onChange={handleChange} required />
+            {message && <p className="errorMessage">{message}</p>}
           </div>
           <div className="buttonsForm">
             <button type="submit"><p>Me connecter</p></button>
-            {message && <p>{message}</p>}
+            
             <p><a href={routes.register}> Je n’ai pas de compte, m’inscrire</a> </p>
           </div>
         </form>
