@@ -29,7 +29,7 @@ const ShowLetter = () => {
     const [showContent, setShowContent] = useState(false)
 
 
-    const updateRead = async (newRead: Boolean) => {
+    const updateRead = async (newRead: boolean) => {
         try {
             const response = await fetch(
                 import.meta.env.VITE_API_URL + apiRoutes.updateRead + letter._id,
@@ -48,7 +48,7 @@ const ShowLetter = () => {
 
         }
         catch (error) {
-
+            console.error(error)
         }
     }
 
@@ -110,10 +110,6 @@ const ShowLetter = () => {
                             onClick={handleBacktoDesk}
                         />
                     </div>
-
-
-
-
 
                     : //Or
 

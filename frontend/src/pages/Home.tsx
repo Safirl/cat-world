@@ -70,8 +70,8 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchFriends();
     fetchUser();
+    fetchFriends();
   }, [])
 
   useEffect(() => {
@@ -105,7 +105,14 @@ const Home = () => {
             targetPosition && <Cat targetPosition={targetPosition} key={cat._id} color={cat.color} />
           ))
         }
-        {user && targetPosition && <Cat targetPosition={targetPosition} key={user._id} color={user.color} />}
+        {user && (
+          <Cat
+            key={user._id}
+            color={user.color}
+            {...(targetPosition && { targetPosition })}
+          />
+        )}
+
       </Canvas>
       <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="auror boreal" />
 
