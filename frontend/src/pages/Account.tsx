@@ -168,7 +168,7 @@ const Account = () => {
                             <div className="AddfriendContainer">
                                 <form onSubmit={handleSubmit} method="post">
                                     <label htmlFor="friend_id">Ajout d’un(e) ami(e)</label>
-                                    <input id="friend_id" type="text" placeholder="Le code de ton ami(e)" onChange={handleChange} required minLength={12} maxLength={12} />
+                                    <input id="friend_id" type="text" placeholder="Le code de ton ami(e)" onChange={handleChange} required minLength={24} maxLength={24} />
                                     <input type="submit" value="Ajoute ton ami(e)" />
                                     {error && error.target === "friend_id" && ( // Afficher l'erreur si la cible est "friend_id"
                                         <p style={{ color: 'red' }}>{error.message}</p>

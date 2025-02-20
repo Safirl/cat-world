@@ -102,7 +102,7 @@ const Home = () => {
         {
           cats &&
           cats.map(cat => (
-            targetPosition && <Cat targetPosition={targetPosition} key={cat._id} color={cat.color} />
+            <Cat {...(targetPosition && { targetPosition })} key={cat._id} color={cat.color} />
           ))
         }
         {user && (
