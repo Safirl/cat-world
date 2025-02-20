@@ -24,11 +24,11 @@ Go to : https://www.mongodb.com/try/download/community and download mongodb comm
 
 ## Modify .env files
 
-# 1. Backend
+### 1. Backend
 
 Create a .env file and copy/paste the content of the .env example of the backend. Then replace the values with your own mongoDB database URI and app port.
 
-# 2. Frontend
+### 2. Frontend
 
 Just copy/paste the .env example, it already has the correct URL to the API.
 
