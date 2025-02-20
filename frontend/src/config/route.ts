@@ -17,7 +17,7 @@ const apiRoutes = {
     status: "auth/status/",
     sendLetter: "letter/createletter/",
     showLetter: "letter/showletter/",
-    updateRead: "userLetter/updateUserLetter/"
+    updateRead: "userLetter/updateUserLetter/",
     fetchLetterRead: "letter/getReadLetters/",
     fetchLetterUnread: "letter/getUnreadLetters/",
     addFriend: "friend/addfriend",
