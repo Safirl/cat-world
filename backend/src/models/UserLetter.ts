@@ -9,10 +9,10 @@ export interface IUserLetter extends Document {
 }
 
 const UserLetterSchema: Schema = new Schema({
-    letter_id: { type: String, required: true },
-    receiver_id: { type: String, required: true },
-    sender_id: { type: String, required: true },
-    read: { type: Boolean, required: true, default: false }
+    letter_id: { type: String, required: true, ref: "Letter" },
+    receiver_id: { type: String, required: true, ref: "User" },
+    sender_id: { type: String, required: true, ref: "User" },
+    read: { type: Boolean, required: false, default: false }
 }, { timestamps: true, collection: 'userLetter' });
 
 type PreDeleteQueryMiddleware = Query<any, IUserLetter> & {

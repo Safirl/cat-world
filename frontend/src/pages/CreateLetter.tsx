@@ -177,9 +177,9 @@ const CreateLetter = () => {
                                 <button className="buttonStamp" type="button" onClick={() => setShowStamps(!showStamps)}>
                                     {formData.stamp && formData.stamp !== "test" ? (
                                         <img
-                                        className="stampImage"
-                                        src={`/image/stamps/${formData.stamp}`}
-                                        alt="chosen stamp"
+                                            className="stampImage"
+                                            src={`/image/stamps/${formData.stamp}`}
+                                            alt="chosen stamp"
                                         />
                                     ) : (
                                         <div className="addStamp">
@@ -224,12 +224,12 @@ const CreateLetter = () => {
                 </div>
                 {showStamps && <StampList />}
 
-               
-        </div>
-        <div className={`validationSendAnimation ${showValidation ? 'visible' : ''}`}>
-            <p>Lettre envoyée</p>
-            <img src="/image/letters/letter.svg" alt="" />
-        </div>
+
+            </div>
+            <div className={`validationSendAnimation ${showValidation ? 'visible' : ''}`}>
+                <p>Lettre envoyée</p>
+                <img src="/image/letters/letter.svg" alt="" />
+            </div>
         </>
     );
 }

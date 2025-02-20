@@ -36,7 +36,6 @@ const isUserAuth = async (): Promise<boolean> => {
         credentials: "include",
       }
     );
-    console.log(response);
     if (response.ok) {
       return true;
     }

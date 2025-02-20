@@ -1,0 +1,116 @@
+.showLetterContainer {
+    width: 100dvw;
+    height: 100dvh;
+    max-width: 768px;
+    padding: 0 12px 0 12px;
+    background-color: #F5EDFE;
+    p{
+        text-wrap: wrap;
+    }
+
+    .letter {
+        animation: 1s ease-in-out 0s 1 slideInFromBottom;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    h4 {
+        color: black;
+        text-align: center;
+        font-size: 24px;
+        padding-bottom: 1rem;
+    }
+
+    .slideOutToTop {
+        animation: 1s ease-in-out 0s 1 slideOutToTop forwards;
+    }
+
+    .content{
+        margin-bottom: 50%;
+        animation: 1s ease-in-out 0s 1 slideInFromBottom;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 45px;
+
+
+        
+    }
+
+    .letterHeader{
+        display: flex;
+        gap: 12px;
+
+        .stampImage{
+            width: 55px;
+            height: auto;
+        }
+    }
+
+    .letterBackground {
+        z-index: 0;
+        position: absolute;
+        width: 90%;
+        height: 90%;
+        object-fit: cover;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .letterContent {
+        z-index: 1;
+        position: absolute;
+        padding: 87px 27px 0px 27px;
+        height: 90%;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+    }
+
+    .titleContent{
+        font-weight: 600;
+    }
+}
+
+.letterInformation{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+}
+
+.btnWhiteShowLetter{
+    max-width: 768px;
+    width: 80%;
+    left: 50%;
+    top: 100%;
+    position: absolute;
+    z-index: 14;
+    transform: translate(-50%, -150%);
+}
+
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(300%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOutToTop {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-300%);
+    }
+}
