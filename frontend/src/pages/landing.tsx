@@ -58,7 +58,6 @@ const Landing = () => {
                 <directionalLight position={[1, 2, 3]} intensity={0.5} />
                 <Planet ref={planetRef} />
                 <Cat targetPosition={new THREE.Vector3()} color={"cat_texture_black.png"} defaultAngle={{ theta: 90, phi: 80 }} />
-
             </Canvas>
             <img className="aurorBoreal" src="/image/aurorBoreal.png" alt="aurore boreal" />
             <img className="stars" src="/image/stars.png" alt="stars" />

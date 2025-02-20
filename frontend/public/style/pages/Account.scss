@@ -2,14 +2,11 @@
 @use "../font.scss" as *;
 
 .containerAccount {
-  height: 150vh;
   min-height: 100%;
   width: 100%;
 
   .canvasAccount {
     position: absolute !important;
-    top: 0;
-    width: fit-content !important;
   }
 
   .editButton {
@@ -159,7 +156,7 @@
 
 .selectColors {
     bottom: 0;
-    top: 60svh !important;
+    top: 60dvh !important;
 }
 
 .containerAccountEditMenu {
