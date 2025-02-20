@@ -140,8 +140,8 @@ const Account = () => {
 
           <div className="AddfriendContainer">
             <form onSubmit={handleSubmit} method="post">
-            <p>Ajout d’un(e) ami(e)</p>
-            <input id="friend_id" type="text" placeholder="Le code de ton ami(e)" onChange={handleChange}  />
+            <label htmlFor="friend_id">Ajout d’un(e) ami(e)</label>
+            <input id="friend_id" type="text" placeholder="Le code de ton ami(e)" onChange={handleChange} required />
             <input type="submit" value="Ajoute ton ami(e)" />
 
             </form>
@@ -154,7 +154,7 @@ const Account = () => {
 
               {/* @todo, ajouter des images de profil aux utilisateurs plus tard */}
               {!friends? 
-              <p>T'as pas d'ami(e)s</p> : 
+              <p>Tu n'as pas encore d'ami(e)s</p> : 
               friends.map((friend, index) => (
                 <div className="containerFriendDetails" key={index}>
                   <img
