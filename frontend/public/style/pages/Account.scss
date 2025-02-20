@@ -18,10 +18,22 @@
     margin-top: 2rem;
     padding-right: 1.5rem;
 
-    a {
+    button {
       line-height: 0;
       z-index: 20;
+      border: none;
+      margin: 0;
+      padding: 0;
+      background: none;
     }
+  }
+
+  .colorsP {
+    margin-bottom: .5rem;
+  }
+
+  .colorIcon {
+    margin-right: .5rem;
   }
 }
 
@@ -143,4 +155,13 @@
     color: $color-black;
     text-decoration: underline;
   }
+}
+
+.selectColors {
+    bottom: 0;
+    top: 60svh !important;
+}
+
+.containerAccountEditMenu {
+    height: auto;
 }
