@@ -79,6 +79,7 @@ const Cat = (props: CatProps) => {
     // })
 
     const setPositionAndRotation = (newTheta: number, newPhi: number, newRotation?: number, defaultPosition?: THREE.Vector3) => {
+        setIsWalking(false);
         if (!group.current) return;
         //  theta: Angle autour de l'axe Y (angle theta de x vers z) 
         // ---->x

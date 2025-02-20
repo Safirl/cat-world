@@ -3,7 +3,6 @@ import "../../public/style/pages/ShowLetter.scss"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonRound from "./components/buttonRound";
-import { bool } from "three/tsl";
 import { apiRoutes } from "../config/route";
 
 
@@ -14,29 +13,24 @@ interface User {
 }
 
 interface Letter {
-    title : string,
-    content : string,
-    stamp : string,
-    sender : string
-
-}
-
-interface Sender {
-    username : string,
+    title: string,
+    content: string,
+    stamp: string,
+    sender: string
 
 }
 
 const ShowLetter = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const letter: { _id: string, sender_id: User, createdAt: string, letter_id:Letter, read: boolean } = location.state?.letter;
+    const letter: { _id: string, sender_id: User, createdAt: string, letter_id: Letter, read: boolean } = location.state?.letter;
     const [showLetter, setShowLetter] = useState(false);
     const [isExiting, setIsExiting] = useState(false);
     const [showContent, setShowContent] = useState(false)
 
 
     const updateRead = async (newRead: Boolean) => {
-        try{
+        try {
             const response = await fetch(
                 import.meta.env.VITE_API_URL + apiRoutes.updateRead + letter._id,
                 {
@@ -48,22 +42,22 @@ const ShowLetter = () => {
                     credentials: "include",
                 }
             );
-            if (response.ok){
+            if (response.ok) {
                 navigate("/letters");
             }
 
         }
-        catch (error){
-            
+        catch (error) {
+
         }
     }
 
     const handleBacktoDesk = async () => {
-       await updateRead(true)
+        await updateRead(true)
     }
 
 
-    
+
     const handleShowLetter = () => {
         setShowLetter(true);
         setTimeout(() => {
@@ -81,7 +75,7 @@ const ShowLetter = () => {
     return (
         <>
             <div className="showLetterContainer">
-            
+
                 {showContent ?
                     <div className="content">
                         <img className="letterBackground" src="/image/letters/letter-background.svg" alt="letter background" />
@@ -109,12 +103,12 @@ const ShowLetter = () => {
                             <p className="usernameContenue">{letter.sender_id.username}</p>
                         </div>
                         <ButtonRound
-                    text="Retourer à mon bureau"
-                   
-                    hasBackground
-                    customClassName="btnWhiteShowLetter"
-                    onClick={handleBacktoDesk}
-                />
+                            text="Retourer à mon bureau"
+
+                            hasBackground
+                            customClassName="btnWhiteShowLetter"
+                            onClick={handleBacktoDesk}
+                        />
                     </div>
 
 

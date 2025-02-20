@@ -17,6 +17,7 @@ const Letters = () => {
     }
 
     const handleShowLetter = () => {
+        console.log(readLetters)
         if (!unreadLetters) {
             return;
         }

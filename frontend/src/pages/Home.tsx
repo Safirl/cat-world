@@ -84,11 +84,11 @@ const Home = () => {
         }
       }
     };
-  
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  
+
 
   return (
     <>
@@ -102,10 +102,10 @@ const Home = () => {
         {
           cats &&
           cats.map(cat => (
-            <Cat targetPosition={targetPosition} key={cat._id} color={cat.color} />
+            targetPosition && <Cat targetPosition={targetPosition} key={cat._id} color={cat.color} />
           ))
         }
-        {user && <Cat targetPosition={targetPosition} key={user._id} color={user.color} />}
+        {user && targetPosition && <Cat targetPosition={targetPosition} key={user._id} color={user.color} />}
       </Canvas>
       <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="auror boreal" />
 
