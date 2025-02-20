@@ -56,11 +56,13 @@
 .stampList {
     z-index: 10;
     position: absolute;
-    width: 100dvw;
+    width: 100%;
+    border-radius: 10px;
     height: fit-content;
     background-color: #F5EDFE;
     padding: 1.5rem;
     padding-bottom: 7rem;
+    max-width: 768px;
 
     .stampElement {
         width: 60px;
@@ -76,6 +78,7 @@
 .addStamp{
     width: 100%;
     height: 100%;
+
 }
 
 .letterInformation{
@@ -128,4 +131,32 @@
 
 .usernameContenue{
     text-align: end;
+}
+
+
+.validationSendAnimation {
+    position: fixed; 
+    top: 0; 
+    width: 100%;
+    max-width: 768px;
+    height: 100dvh;
+    background-color: #F5EDFE;
+    transition: transform 500ms ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 99999;
+    gap: 14px;
+    transform: translateY(100%); 
+}
+
+.validationSendAnimation.visible {
+    transform: translateY(0); 
+}
+
+.pagecreateletter{
+    width: 100%;
+    height: fit-content;
+    overflow: hidden;
 }
