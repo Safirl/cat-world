@@ -18,7 +18,7 @@ const apiRoutes = {
     sendLetter: "letter/createletter/",
     showLetter: "letter/showletter/",
     fetchLetterUnread: "letter/getUnreadLetters/",
-    // fetchUserLetterRead: "userLetter/fetchAllRead/"
+    fetchLetterRead: "letter/getReadLetters/"
 }
 
 export { routes, apiRoutes };

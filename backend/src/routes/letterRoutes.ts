@@ -24,5 +24,10 @@ letterRoutes.get(
   authMiddleware,
   letterController.getUnreadLetters
 );
+letterRoutes.get(
+  "/getReadLetters",
+  authMiddleware,
+  letterController.getReadLetters
+);
 
 export default letterRoutes;

@@ -8,6 +8,7 @@ import { apiRoutes } from "../config/route";
 const Letters = () => {
     const navigate = useNavigate();
     const [unreadLetters, setUnreadLetters] = useState<{ _id: string, title: string, content: string, stamp: string, src_img: string, sender_id: string, createdAt: string }[]>()
+    const [readLetters, setReadLetters] = useState<{ _id: string, title: string, content: string, stamp: string, src_img: string, sender_id: string, createdAt: string }[]>()
 
     const handleCreateLetter = () => {
         navigate(routes.createLetter);
@@ -44,9 +45,36 @@ const Letters = () => {
             console.error("Error while submiting request: ", error);
         }
     }
+    const fetchreadLetters = async () => {
+        try {
+            
+            const response = await fetch(
+                import.meta.env.VITE_API_URL + apiRoutes.fetchLetterRead,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                }
+            );
+            console.log('response', response)
+
+            const data = await response.json();
+            console.log(data)
+            if (!response.ok) {
+                console.error(data.message);
+            }
+            setUnreadLetters(data.letters);
+
+        } catch (error) {
+            console.error("Error while submiting request: ", error);
+        }
+    }
 
     useEffect(() => {
         fetchUnreadLetters()
+        fetchreadLetters()
     }, [])
 
     return (
@@ -75,15 +103,19 @@ const Letters = () => {
                     <img className="shadowUnread" src="/image/decors/shadow.svg" alt="ombre lettre non lu" />
                 </div>
 
+                <div className="letter">
+
                 {
                     unreadLetters && unreadLetters.length > 0 ?
-                        <div className="letter" onClick={handleShowLetter}>
-                            <img className="elementLetter" src="/image/decors/postItNoletter.svg" alt="texture png" />
+                        <div onClick={handleShowLetter}>
+                            
                             <img className="elementLetter" src="/image/letters/letterPerspective.svg" alt="texture png" />
                         </div>
                         :
-                        <div></div>
+                        <div><img className="elementLetter" src="/image/decors/postItNoletter.svg" alt="texture png" /></div>
                 }
+                
+                </div>
             </div>
         </>
     )

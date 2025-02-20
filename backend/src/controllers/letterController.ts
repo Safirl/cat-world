@@ -111,6 +111,32 @@ class LetterController {
       res.status(500).json({ message: "Error retrieving letter" });
     }
   }
+  public async getReadLetters(req: Request, res: Response): Promise<void> {
+    try {
+      const id = (req as any).user._id
+      if (!id) {
+        res.status(400).json({ message: "Missing letter ID" });
+        return;
+      }
+
+      const readLetters = await UserLetter.find({
+        receiver_id: id,
+        read: true
+      })
+        .populate("letter_id")
+        .populate("sender_id", "username email")
+
+      if (!readLetters) {
+        res.status(200).json({ message: "no letters found", letters: [] });
+      }
+
+      res.status(200).json({ message: "read letters found", letters: readLetters });
+    } catch (error) {
+      console.error("Error retrieving letter:", error);
+      res.status(500).json({ message: "Error retrieving letter" });
+    }
+  }
 }
+
 
 export default new LetterController();
