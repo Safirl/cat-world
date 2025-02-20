@@ -5,7 +5,13 @@ import { useState, useEffect } from "react";
 import { apiRoutes } from "../config/route";
 import * as THREE from "three";
 
+
+const initialFormData = {
+  friend_id:''
+};
+
 const Account = () => {
+  const [formData, setFormData] = useState(initialFormData);
   const [user, setUser] = useState<{
     username: string;
     _id: string;
@@ -61,10 +67,45 @@ const Account = () => {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try{
+      console.log('form Data', formData)
+      const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.addFriend, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+        credentials: "include"
+
+      });
+            
+      const data = await response.json();
+
+        if (response.ok) {
+          setFormData(initialFormData);
+          fetchFriends();
+        }
+   
+
+    }
+    catch(error){
+
+    }
+    };
+  
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+      setFormData({ ...formData, friend_id: e.target.value });
+    };
+
+
   useEffect(() => {
     fetchFriends();
     fetchUser();
   }, []);
+   
+
 
   return (
     <>
@@ -98,18 +139,23 @@ const Account = () => {
           </div>
 
           <div className="AddfriendContainer">
+            <form onSubmit={handleSubmit} method="post">
             <p>Ajout d’un(e) ami(e)</p>
-
-            <input type="text" placeholder="Le code de ton ami(e)" />
-
+            <input id="friend_id" type="text" placeholder="Le code de ton ami(e)" onChange={handleChange}  />
             <input type="submit" value="Ajoute ton ami(e)" />
+
+            </form>
+            
           </div>
 
           <div className="listFriend">
             <p>Liste d’amis : </p>
             <div className="containerlistFriend">
+
               {/* @todo, ajouter des images de profil aux utilisateurs plus tard */}
-              {friends.map((friend, index) => (
+              {!friends? 
+              <p>T'as pas d'ami(e)s</p> : 
+              friends.map((friend, index) => (
                 <div className="containerFriendDetails" key={index}>
                   <img
                     src="/image/cat/gingerCat.svg"
@@ -117,19 +163,20 @@ const Account = () => {
                   />
 
                   <p>{friend.username}</p>
-
+{/* 
                   <a href="#">
                     <p>Voir le profil</p>
 
                     <img src="/image/icons/arrow.svg" alt="voir plus" />
-                  </a>
+                  </a> */}
+
                 </div>
               ))}
             </div>
           </div>
 
           <div className="buttonEnd">
-            <a href="">
+            <a href="#">
               <p>Se déconnecter</p>
             </a>
             <a href="">
@@ -144,5 +191,6 @@ const Account = () => {
     </>
   );
 };
+
 
 export default Account;
