@@ -2,9 +2,10 @@ import { Canvas } from "@react-three/fiber";
 import NavBar from "./components/Navbar";
 import Cat from "./components/Cat";
 import { useState, useEffect } from "react";
-import { apiRoutes } from "../config/route";
+import { apiRoutes, routes } from "../config/route";
 import * as THREE from "three";
 import colors from "../data/colors";
+import { useNavigate } from "react-router-dom";
 
 
 const initialFormData = {
@@ -12,6 +13,7 @@ const initialFormData = {
 };
 
 const Account = () => {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState(initialFormData);
     const [user, setUser] = useState<{
         username: string;
@@ -127,6 +129,26 @@ const Account = () => {
         }
     }
 
+    const handleLogOut = async () => {
+        try {
+            const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.logout, {
+                method: "POST",
+                credentials: "include"
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                navigate(routes.landing)
+            } else {
+                setError({ message: data.message, target: data.target || "global" });
+            }
+        } catch (error) {
+            setError({ message: "Une erreur s'est produite lors de l'ajout de l'ami", target: "global" });
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         fetchFriends();
         fetchUser();
@@ -206,7 +228,7 @@ const Account = () => {
                             </div>
 
                             <div className="buttonEnd">
-                                <a href="#">
+                                <a onClick={handleLogOut}>
                                     <p>Se déconnecter</p>
                                 </a>
                                 <a href="">

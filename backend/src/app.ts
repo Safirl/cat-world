@@ -11,8 +11,8 @@ import friendRoutes from './routes/friendRoutes.js';
 dotenv.config();
 
 export const app = express();
-app.use(express.json());
 app.use(cookieParser())
+app.use(express.json());
 
 app.use(cors({
     origin: process.env.FRONTEND_URL || "https://frontend-cat-world.osc-fr1.scalingo.io",

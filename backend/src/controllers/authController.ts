@@ -90,9 +90,15 @@ class AuthController {
     }
   };
 
-  // public logout = async (): Promise => {
-
-  // }
+  public logout = (req: Request, res: Response) => {
+    res.cookie("token", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      expires: new Date(0)
+    });
+    res.status(200).json({ message: "Déconnexion réussie !" });
+  }
 
   private setTokenInCookies(_id: ObjectId, res: Response) {
     const token = jwt.sign({ _id }, process.env.JWT_SECRET!, {
