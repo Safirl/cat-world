@@ -29,7 +29,7 @@ beforeEach(async () => {
         content: "This is a test letter about cat.",
         src_img: "example.com/image.jpg",
         typo_id: 2,
-        stamp_id: 3
+        stamp: "test"
     };
 
     letter = await Letter.create(letterTest);

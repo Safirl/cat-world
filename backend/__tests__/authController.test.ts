@@ -3,7 +3,6 @@ import { app } from '../src/app';
 import User, { IUser } from '../src/models/User';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { getJwtSecret } from '../src/services/authService';
-import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import { userTest } from '../setupTests';
 

@@ -22,7 +22,7 @@ beforeEach(async () => {
         content: "This is a test letter about cat.",
         src_img: "example.com/image.jpg",
         typo_id: 2,
-        stamp_id: 3
+        stamp: "3"
     };
     letter = await Letter.create(letterTest);
     friend = await User.create({ username: "Bob", email: "bob@example.com", password: "password", color: "red" });
@@ -94,7 +94,7 @@ describe("Show Letter", () => {
             content: letter.content,
             src_img: letter.src_img,
             typo_id: letter.typo_id,
-            stamp_id: letter.stamp_id,
+            stamp: letter.stamp,
         });
     });
 });

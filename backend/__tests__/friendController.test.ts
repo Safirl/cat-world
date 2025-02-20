@@ -34,11 +34,11 @@ describe("Add friend", () => {
         const friend_id = friend._id;
         const response = await request(app)
             .post("/api/friend/addfriend")
-            .send({ user_id, friend_id })
+            .send({ friend_id })
             .set("Cookie", `token=${authToken}`);
 
         expect(response.status).toBe(201);
-        expect(response.body.message).toBe("Friendship added");
+        expect(response.body.message).toBe("Ami(e) ajouté(e) avec succès");
         const friendId = response.body.friend._id;
 
         const friendInDb = await Friend.findById(friendId);
@@ -74,7 +74,7 @@ describe("Fetch friends", () => {
             .set("Cookie", `token=${authToken}`);
 
         expect(friendResponse1.status).toBe(201);
-        expect(friendResponse1.body.message).toBe("Friendship added");
+        expect(friendResponse1.body.message).toBe("Ami(e) ajouté(e) avec succès");
 
         const response = await request(app)
             .get(`/api/friend/fetchAll/`)
@@ -98,7 +98,7 @@ describe("Fetch friends", () => {
             .set("Cookie", `token=${authToken}`);
 
         expect(friendResponse.status).toBe(201);
-        expect(friendResponse.body.message).toBe("Friendship added");
+        expect(friendResponse.body.message).toBe("Ami(e) ajouté(e) avec succès");
 
         const informationFriendResponse = await request(app)
             .get(`/api/friend/showfriend/${friend_id}`)

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import User, { IUser } from "./src/models/User.js";
+import User, { IUser } from "./src/models/User";
 import bcrypt from "bcrypt";
 
 dotenv.config();

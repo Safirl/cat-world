@@ -28,7 +28,7 @@ describe("User modification", () => {
         expect(userInDb).toBeTruthy();
 
         const modifyColorResponse = await request(app)
-            .post(`/api/user/colorcat/${userTest._id}`)
+            .post(`/api/user/colorcat/`)
             .send({ newColor: "white" })
             .set("Cookie", `token=${authToken}`);
 

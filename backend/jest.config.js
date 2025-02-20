@@ -1,6 +1,6 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
 export default {
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/default-esm',
   testEnvironment: "node",
   verbose: true,
   silent: false,
@@ -8,4 +8,7 @@ export default {
     "^.+\\.ts$": ["ts-jest",{isolatedModules: true}],
   },
   setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
+  moduleNameMapper: {
+    "^(\\.{1,2}/.*)\\.js$": "$1", // Supprime le .js des imports
+  },
 };
