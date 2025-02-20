@@ -1,29 +1,144 @@
-.containerAccount{
-    height: 100%;
-    min-height: 100%;
-    width: 100%;
-    .containerAccountInformation{
-        background-color: #F5EDFF;   
-        width: 100%;
-        height: 100%;
-    }
-}
+@use "../variables.scss" as *;
+@use "../font.scss" as *;
 
-html body .containerAccount .canvasAccount{
+.containerAccount {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+
+  .canvasAccount {
     position: absolute !important;
     top: 0;
     width: fit-content !important;
+  }
+
+  .editButton {
+    display: flex;
+    justify-content: end;
+    margin-top: 2rem;
+    padding-right: 1.5rem;
+
+    a {
+      line-height: 0;
+      z-index: 20;
+    }
+  }
 }
 
-.containerAccountInformation{
-    position: relative;
-    transform: translateY(100%);
-    border-radius:10px;
-    padding: 24px;
-}
+.containerAccount .containerAccountInformation {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100vw;
+  padding: 0 1.5rem;
+  border-radius: 10px;
+  background-color: #f5edff;
+  color: black;
 
-.friendcode{
+  h4 {
+    margin-top: 1rem;
+    text-transform: capitalize;
+    font-size: 22px;
+    color: $color-black;
+  }
+
+  .friendcode {
     display: flex;
     justify-content: start;
     align-items: center;
+    color: $color-gray;
+
+    img {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .AddfriendContainer {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background-color: $color-pink-dark;
+
+    p {
+      font-weight: 400;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      margin-top: 0.5rem;
+      border: unset;
+
+      &[type="text"] {
+        border-radius: 5px;
+        background: $color-white;
+        padding: 1.5rem 0.75rem;
+
+        &::placeholder {
+          color: $color-gray;
+        }
+      }
+
+      &[type="submit"] {
+        margin-top: 1rem;
+        text-align: center;
+        color: $color-purple;
+        background-color: $color-pink-light;
+      }
+    }
+  }
+}
+
+.containerAccount .listFriend {
+  margin-top: 0.75rem;
+
+  .containerlistFriend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .containerFriendDetails {
+      position: relative;
+      display: flex;
+      border-radius: 10px;
+      background: $color-white;
+
+      p {
+        font-family: $font-title;
+      }
+
+      img {
+        border-radius: 5px;
+        margin: 6px;
+      }
+
+      a {
+        position: absolute;
+        top: 100%;
+        right: 0.25rem;
+        transform: translateY(calc(-100% - 0.25rem));
+        display: flex;
+        height: fit-content;
+        color: $color-black;
+
+        img {
+          width: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.containerAccount .buttonEnd {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 5rem 0 10rem 0;
+
+  a {
+    color: $color-black;
+    text-decoration: underline;
+  }
 }
