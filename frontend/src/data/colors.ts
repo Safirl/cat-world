@@ -9,6 +9,11 @@ const colors = [
         primary: "#E5C8C3",
         secondary: "#95A8F3",
     },
+    {
+        texture: "cat_texture_ginger.png",
+        primary: "#D99857",
+        secondary: "#7EB190",
+    },
 ]
 
 export default colors;
