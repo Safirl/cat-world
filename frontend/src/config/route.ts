@@ -17,9 +17,10 @@ const apiRoutes = {
     status: "auth/status/",
     sendLetter: "letter/createletter/",
     showLetter: "letter/showletter/",
-    fetchLetterUnread: "letter/getUnreadLetters/",
-    fetchLetterRead: "letter/getReadLetters/",
     updateRead: "userLetter/updateUserLetter/"
+    fetchLetterRead: "letter/getReadLetters/",
+    fetchLetterUnread: "letter/getUnreadLetters/",
+    addFriend: "friend/addfriend",
 }
 
 export { routes, apiRoutes };
