@@ -35,7 +35,6 @@ describe("User login", () => {
         }
         const collection = await mongoose.connection.db.collection("users");
         const users = await collection.findOne();
-        //console.log(users)
         const response = await request(app)
             .post("/api/auth/login")
             .send({ email: userTest.email, password: "password" });

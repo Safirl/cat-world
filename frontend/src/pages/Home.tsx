@@ -93,7 +93,7 @@ const Home = () => {
   return (
     <>
       <NavBar />
-      <img className="stars" src="../../public/image/stars.png" alt="stars" />
+      <img className="stars" src="/image/stars.png" alt="stars" />
       <Canvas camera={{ position: [0, 0, 5] }}>
         <OrbitControls ref={cameraControlRef} />
         <ambientLight intensity={2.4} color="#C8B3FF" />
@@ -114,7 +114,7 @@ const Home = () => {
         )}
 
       </Canvas>
-      <img className="aurorBoreal" src="'../../public/image/aurorBoreal.png" alt="auror boreal" />
+      <img className="aurorBoreal" src="/image/aurorBoreal.png" alt="auror boreal" />
 
       {message && <p>{message}</p>}
     </>

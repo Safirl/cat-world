@@ -57,7 +57,7 @@ const CreateLetter = () => {
         } else {
             setStampError(""); // Effacer le message d'erreur si tout va bien
         }
-        
+
         try {
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.getFriends, {
                 method: "GET",
@@ -86,10 +86,10 @@ const CreateLetter = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-    
+
         // On indique que l'utilisateur a cliqué sur "Submit"
         setHasSubmitted(true);
-    
+
         // Vérifie si un timbre a été sélectionné
         if (formData.stamp === "" || formData.stamp === "test") {
             setStampError("Veuillez ajouter un timbre avant d'envoyer votre lettre");
@@ -97,7 +97,7 @@ const CreateLetter = () => {
         } else {
             setStampError(""); // Efface le message d'erreur si tout va bien
         }
-    
+
         try {
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.sendLetter, {
                 method: "POST",
@@ -107,17 +107,15 @@ const CreateLetter = () => {
                 body: JSON.stringify(formData),
                 credentials: "include"
             });
-    
+
             const data = await response.json();
-    
+
             if (response.ok) {
                 setMessage(data.message);
                 setFormData(initialFormData);
-                console.log("Letter sent", data.letter);
-    
                 // Afficher l'animation
                 setShowValidation(true);
-    
+
                 // Attendre 3s puis rediriger
                 setTimeout(() => {
                     setShowValidation(false);
@@ -130,7 +128,7 @@ const CreateLetter = () => {
             console.error("Error while submitting request: ", error);
         }
     };
-    
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -139,10 +137,9 @@ const CreateLetter = () => {
     useEffect(() => {
         setHasSubmitted(false);
     }, [formData]);
-    
+
 
     const StampList = () => {
-        console.log("formData.stamp", formData.stamp);
         return (
             <>
                 <div className="stampList">
@@ -218,7 +215,7 @@ const CreateLetter = () => {
                                 </div>
                             </div>
                             <p className="usernameContenue">{user?.username}</p>
-                            <button type="submit"><p>Envoyer</p></button>
+                            <button className="sendButton" type="submit"><p>Envoyer</p></button>
                         </form>
                     </div>
                 </div>

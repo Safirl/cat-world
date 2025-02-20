@@ -17,7 +17,6 @@ const Letters = () => {
     }
 
     const handleShowLetter = () => {
-        console.log(readLetters)
         if (!unreadLetters) {
             return;
         }
@@ -44,7 +43,6 @@ const Letters = () => {
             }
             setUnreadLetters(data.letters);
             const count: number = data.letters.length;
-            console.log(count)
 
             if (count < 1) {
                 setUnreadNumber(0);
@@ -107,9 +105,6 @@ const Letters = () => {
     useEffect(() => {
         fetchUnreadLetters()
         fetchreadLetters()
-        setTimeout(() => {
-            console.log(unreadNumber)
-        }, 100);
     }, [])
 
     return (
@@ -131,9 +126,9 @@ const Letters = () => {
                 </div>
 
                 <div className="stackletter">
-                    {readNumber > 0 && <img className="stack read" src={`/image/letters/stackOfletters${readNumber}.svg`} alt="Tas de lettre lu" />}
+                    {readLetters && readNumber > 0 && <img className="stack read" src={`/image/letters/stackOfletters${readNumber}.svg`} alt="Tas de lettre lu" />}
                     {unreadNumber > 1 && <img className="stack unread" src={`/image/letters/stackOfletters${unreadNumber}.svg`} alt="Tas de lettre non lu" />}
-                    {readNumber > 5 && <img className="shadowRead" src="/image/decors/shadowLeft.svg" alt="ombre lettre lu" />}
+                    {readLetters && readNumber > 5 && <img className="shadowRead" src="/image/decors/shadowLeft.svg" alt="ombre lettre lu" />}
                     {unreadNumber > 5 && <img className="shadowUnread" src="/image/decors/shadow.svg" alt="ombre lettre non lu" />}
                 </div>
 
@@ -151,9 +146,6 @@ const Letters = () => {
             </div>
         </>
     )
-
-
-
 }
 
 export default Letters;
