@@ -10,6 +10,6 @@ userRoutes.post(
   authMiddleware,
   UserController.modifyPassword
 );
-userRoutes.post("/colorcat/:id", authMiddleware, UserController.modifyColor);
+userRoutes.put("/colorcat/", authMiddleware, UserController.modifyColor);
 
 export default userRoutes;

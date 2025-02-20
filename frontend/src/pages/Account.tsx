@@ -60,6 +60,7 @@ const Account = () => {
             );
 
             const data = await response.json();
+            console.log(data)
             if (!response.ok) {
                 console.error(data.message);
                 return;
@@ -73,7 +74,6 @@ const Account = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            console.log('form Data', formData);
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.addFriend, {
                 method: "POST",
                 headers: {
@@ -104,8 +104,28 @@ const Account = () => {
         setError(null);
     };
 
-    const changeCatNewColor = (newColor: string) => {
-        return;
+    const handleChangeCatColor = async (newColor: string) => {
+        try {
+            const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.changeCatColor, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ newColor }),
+                credentials: "include"
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                fetchUser()
+            } else {
+                setError({ message: data.message, target: data.target || "global" });
+            }
+        } catch (error) {
+            setError({ message: "Une erreur s'est produite lors de l'ajout de l'ami", target: "global" });
+            console.error(error);
+        }
     }
 
     useEffect(() => {
@@ -206,7 +226,7 @@ const Account = () => {
                             <p className="colorsP">Couleurs</p>
                             {colors.map((color, index) => (
                                 <svg
-                                    onClick={() => changeCatNewColor("")}
+                                    onClick={() => handleChangeCatColor(color.texture)}
                                     className="colorIcon"
                                     key={index}
                                     width="37"

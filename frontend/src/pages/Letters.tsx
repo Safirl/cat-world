@@ -44,12 +44,11 @@ const Letters = () => {
             setUnreadLetters(data.letters);
             const count: number = data.letters.length;
             console.log(count)
+
             if (count < 1) {
-                setUnreadNumber(1);
-            } else if (count < 5) {
-                setUnreadNumber(1);
+                setUnreadNumber(0);
             } else if (count < 10) {
-                setReadNumber(5);
+                setUnreadNumber(5);
             } else if (count < 15) {
                 setReadNumber(10);
             } else if (count < 25) {
@@ -107,6 +106,9 @@ const Letters = () => {
     useEffect(() => {
         fetchUnreadLetters()
         fetchreadLetters()
+        setTimeout(() => {
+            console.log(unreadNumber)
+        }, 100);
     }, [])
 
     return (

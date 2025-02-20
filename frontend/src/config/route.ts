@@ -21,6 +21,7 @@ const apiRoutes = {
     fetchLetterRead: "letter/getReadLetters/",
     fetchLetterUnread: "letter/getUnreadLetters/",
     addFriend: "friend/addfriend",
+    changeCatColor: "user/colorcat/"
 }
 
 export { routes, apiRoutes };

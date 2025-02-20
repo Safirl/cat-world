@@ -117,7 +117,7 @@ class UserController {
       user.color = newColor;
       await user.save();
 
-      res.status(201).json({ message: "User modify color" });
+      res.status(201).json({ message: "User modify color", newColor: user.color });
     } catch (error) {
       console.error("Erreur lors de la modification de la couleur:", error);
       res.status(500).json({ message: "Erreur serveur" });
