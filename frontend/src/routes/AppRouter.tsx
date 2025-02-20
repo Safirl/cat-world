@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import { routes } from "../config/route";
 import PrivateRoute from "./PrivateRoute";
 import Landing from "../pages/landing"
+import CreateLetter from "../pages/CreateLetter";
 import Account from "../pages/Account";
 
 const AppRouter = () => {
@@ -17,6 +18,7 @@ const AppRouter = () => {
                     <Route path={routes.home} element={<Home />} />
                     <Route path={routes.letters} element={<Letters />} />
                     <Route path={routes.account} element={<Account />} />
+                    <Route path={routes.createLetter} element={<CreateLetter />} />
                 </Route>
                 <Route path={routes.login} element={<Login />} />
                 <Route path={routes.register} element={<Register />} />

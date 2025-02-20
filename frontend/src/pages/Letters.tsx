@@ -1,7 +1,14 @@
+import { routes } from "../config/route";
 import ButtonRound from "./components/buttonRound";
 import NavBar from "./components/Navbar";
+import { redirect, useNavigate } from "react-router-dom";
 
 const Letters = () => {
+    const navigate = useNavigate();
+
+    const handleCreateLetter = () => {
+        navigate(routes.createLetter);
+    }
 
     return (
         <>
@@ -12,7 +19,7 @@ const Letters = () => {
                 srcImage="/image/icons/send.svg"
                 hasBackground
                 customClassName="btnWhiteLetter"
-                onClick={() => console.log('coucou')}
+                onClick={() => navigate('/letters/create')}
         
                 />
 

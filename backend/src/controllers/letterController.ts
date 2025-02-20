@@ -5,24 +5,20 @@ import userLetterController from "./userLetterController.js";
 import { app } from "../app.js";
 
 class LetterController {
-  public async createLetter(req: Request, res: Response): Promise<void> {
-    try {
-      const {
-        title,
-        content,
-        src_img,
-        typo_id,
-        stamp_id,
-        sender_id,
-        receiver_id,
-      } = req.body;
-      const newLetterModel = {
-        title,
-        content,
-        src_img,
-        typo_id,
-        stamp_id,
-      };
+    public async createLetter(req: Request, res: Response): Promise<void> {
+        try {
+            const { title, content, src_img, stamp, receiver_id } = req.body;
+            const sender_id = (req as any).user._id
+            if (!sender_id) {
+                res.status(403).json({ message: "Can't create letter, sender is not valid !" });
+                return;
+            }
+            const newLetterModel = {
+                title,
+                content,
+                src_img,
+                stamp
+            };
 
       const newLetter = await Letter.create(newLetterModel);
       const newUserLetter = {

@@ -2,11 +2,11 @@ import mongoose, { Schema, Document, Query } from "mongoose";
 import UserLetter from "./UserLetter.js";
 
 export interface ILetter extends Document {
-  title: string;
-  content: string;
-  src_img: string;
-  typo_id: number;
-  stamp_id: number;
+    title: string;
+    content: string;
+    src_img: string;
+    typo_id: number;
+    stamp: string;
 }
 
 const LetterSchema: Schema = new Schema(
@@ -15,11 +15,9 @@ const LetterSchema: Schema = new Schema(
     content: { type: String, required: true },
     src_img: { type: String, required: true },
     typo_id: { type: Number, required: false },
-    stamp_id: { type: Number, required: true },
-    createdAt: { type: Date, default: Date.now },
-  },
-  { timestamps: true, collection: "letters" }
-);
+    stamp: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+}, { timestamps: true, collection: 'letters' });
 
 type PreDeleteQueryMiddleware = Query<any, ILetter> & {
   _conditions: { _id: mongoose.Types.ObjectId };

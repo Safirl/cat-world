@@ -30,16 +30,14 @@ beforeEach(async () => {
 
 describe("Letter creation", () => {
     it("should create a new letter", async () => {
-        const receiver_id = friend._id
+        const reveiver_id = friend._id;
         const sender_id = userTest._id
         const newLetter = {
             title: "Test Letter",
             content: "This is a test letter.",
             src_img: "example.com/image.jpg",
-            typo_id: 1,
-            stamp_id: 1,
-            receiver_id,
-            sender_id
+            stamp: "test",
+            reveiver_id
         };
 
         const response = await request(app)
@@ -53,8 +51,6 @@ describe("Letter creation", () => {
         expect(response.body.letter.title).toBe(newLetter.title);
         expect(response.body.letter.content).toBe(newLetter.content);
         expect(response.body.letter.src_img).toBe(newLetter.src_img);
-        expect(response.body.letter.typo_id).toBe(newLetter.typo_id);
-        expect(response.body.letter.stamp_id).toBe(newLetter.stamp_id);
 
         const letterInDb = await Letter.findOne({ title: newLetter.title });
         const userLetterInDb = await UserLetter.findOne(response.body._id)
