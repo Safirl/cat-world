@@ -1,5 +1,5 @@
-import mongoose, { Schema, Document, Query } from 'mongoose';
-import UserLetter from './UserLetter';
+import mongoose, { Schema, Document, Query } from "mongoose";
+import UserLetter from "./UserLetter.js";
 
 export interface ILetter extends Document {
     title: string;
@@ -9,7 +9,8 @@ export interface ILetter extends Document {
     stamp: string;
 }
 
-const LetterSchema: Schema = new Schema({
+const LetterSchema: Schema = new Schema(
+  {
     title: { type: String, required: true },
     content: { type: String, required: true },
     src_img: { type: String, required: true },
@@ -19,23 +20,26 @@ const LetterSchema: Schema = new Schema({
 }, { timestamps: true, collection: 'letters' });
 
 type PreDeleteQueryMiddleware = Query<any, ILetter> & {
-    _conditions: { _id: mongoose.Types.ObjectId };
+  _conditions: { _id: mongoose.Types.ObjectId };
 };
 
-LetterSchema.pre("findOneAndDelete", async function (this: PreDeleteQueryMiddleware, next) {
+LetterSchema.pre(
+  "findOneAndDelete",
+  async function (this: PreDeleteQueryMiddleware, next) {
     try {
-        if (!mongoose.connection.readyState) {
-            return next(new Error("Database not connected"));
-        }
-        const letter_id = this._conditions._id;
-        // Suppression des entrées UserLetter associées
-        await UserLetter.deleteMany({ letter_id: letter_id });
-        next();
+      if (!mongoose.connection.readyState) {
+        return next(new Error("Database not connected"));
+      }
+      const letter_id = this._conditions._id;
+      // Suppression des entrées UserLetter associées
+      await UserLetter.deleteMany({ letter_id: letter_id });
+      next();
     } catch (error) {
-        next(error instanceof Error ? error : new Error(String(error)));
+      next(error instanceof Error ? error : new Error(String(error)));
     }
-});
+  }
+);
 
-const Letter = mongoose.model<ILetter>('Letter', LetterSchema);
+const Letter = mongoose.model<ILetter>("Letter", LetterSchema);
 
 export default Letter;

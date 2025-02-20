@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Query } from 'mongoose';
-import Letter from './Letter';
+import Letter from './Letter.js';
 
 export interface IUserLetter extends Document {
     letter_id: string;

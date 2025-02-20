@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
-import Friend from '../models/Friend';
-import User from '../models/User';
-import { ObjectId } from 'mongodb';
+import Friend from '../models/Friend.js';
 
 class FriendController {
     public async addFriend(req: Request, res: Response): Promise<void> {

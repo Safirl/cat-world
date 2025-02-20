@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Query } from 'mongoose';
-import UserLetter from './UserLetter';
-import Friend from './Friend';
+import UserLetter from './UserLetter.js';
+import Friend from './Friend.js';
 
 export interface IUser extends Document {
     username: string;
