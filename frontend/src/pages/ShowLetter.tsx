@@ -1,6 +1,10 @@
 import { useLocation } from "react-router-dom";
 import "../../public/style/pages/ShowLetter.scss"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ButtonRound from "./components/buttonRound";
+import { bool } from "three/tsl";
+import { apiRoutes } from "../config/route";
 
 
 interface User {
@@ -9,13 +13,57 @@ interface User {
     _id: string;
 }
 
+interface Letter {
+    title : string,
+    content : string,
+    stamp : string,
+    sender : string
+
+}
+
+interface Sender {
+    username : string,
+
+}
+
 const ShowLetter = () => {
+    const navigate = useNavigate();
     const location = useLocation();
-    const letter: { _id: string, title: string, content: string, stamp: string, src_img: string, sender_id: User, createdAt: string } = location.state?.letter;
+    const letter: { _id: string, sender_id: User, createdAt: string, letter_id:Letter, read: boolean } = location.state?.letter;
     const [showLetter, setShowLetter] = useState(false);
     const [isExiting, setIsExiting] = useState(false);
     const [showContent, setShowContent] = useState(false)
 
+
+    const updateRead = async (newRead: Boolean) => {
+        try{
+            const response = await fetch(
+                import.meta.env.VITE_API_URL + apiRoutes.updateRead + letter._id,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ read: newRead }),
+                    credentials: "include",
+                }
+            );
+            if (response.ok){
+                navigate("/letters");
+            }
+
+        }
+        catch (error){
+            
+        }
+    }
+
+    const handleBacktoDesk = async () => {
+       await updateRead(true)
+    }
+
+
+    
     const handleShowLetter = () => {
         setShowLetter(true);
         setTimeout(() => {
@@ -33,6 +81,7 @@ const ShowLetter = () => {
     return (
         <>
             <div className="showLetterContainer">
+            
                 {showContent ?
                     <div className="content">
                         <img className="letterBackground" src="/image/letters/letter-background.svg" alt="letter background" />
@@ -41,8 +90,8 @@ const ShowLetter = () => {
                             <div className="letterHeader">
                                 <img
                                     className="stampImage"
-                                    src={`/image/stamps/${letter.stamp}`}
-                                    alt="chosen stamp"
+                                    src={`/image/stamps/${letter.letter_id.stamp}`}
+                                    alt="${letter.stamp}"
                                 />
                                 <div className="letterInformation">
                                     <p className="username">De : {letter.sender_id.username}</p>
@@ -51,15 +100,26 @@ const ShowLetter = () => {
                             </div>
                             <div className="letterBody">
                                 <div>
-                                    <p>{letter.title}</p>
+                                    <p className="titleContent">{letter.letter_id.title}</p>
                                 </div>
                                 <div className="contenuLetterContainer">
-                                    <p>{letter.content}</p>
+                                    <p>{letter.letter_id.content}</p>
                                 </div>
                             </div>
                             <p className="usernameContenue">{letter.sender_id.username}</p>
                         </div>
+                        <ButtonRound
+                    text="Retourer à mon bureau"
+                   
+                    hasBackground
+                    customClassName="btnWhiteShowLetter"
+                    onClick={handleBacktoDesk}
+                />
                     </div>
+
+
+
+
 
                     : //Or
 
@@ -68,6 +128,7 @@ const ShowLetter = () => {
                         <img src={showLetter ? "/image/letters/opened-letter.svg" : "/image/letters/closed-letter.svg"} alt="" />
                     </div>
                 }
+
             </div>
         </>
     )

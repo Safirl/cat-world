@@ -30,13 +30,13 @@ class UserLetterController {
         try {
             const { id } = req.params;
             const { read } = req.body;
-
+            
             const userLetter = await UserLetter.findById(id);
             if (!userLetter) {
                 res.status(404).json({ message: "UserLetter not found" });
                 return;
             }
-
+            
             userLetter.read = read;
             await userLetter.save();
 
