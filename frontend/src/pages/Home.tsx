@@ -72,6 +72,10 @@ const Home = () => {
   useEffect(() => {
     fetchUser();
     fetchFriends();
+    if (cameraControlRef.current) {
+      cameraControlRef.current.minAzimuthAngle = -Infinity;
+      cameraControlRef.current.maxAzimuthAngle = Infinity;
+    }
   }, [])
 
   useEffect(() => {
@@ -101,10 +105,11 @@ const Home = () => {
       enableZoom={true}
       enablePan={true}
       enableDamping={true}
-      minPolarAngle={0}  // Supprime la restriction vers le bas
-      maxPolarAngle={Math.PI} // Permet une rotation complète vers le haut
-      minAzimuthAngle={-Infinity} // Permet une rotation infinie gauche/droite
-      maxAzimuthAngle={Infinity}
+      screenSpacePanning={true} // Permet un mouvement libre vertical
+      minPolarAngle={-Infinity} // Supprime les restrictions verticales
+      maxPolarAngle={Infinity} // Supprime les restrictions verticales
+      minAzimuthAngle={-Infinity} // Supprime les restrictions horizontales
+      maxAzimuthAngle={Infinity} // Supprime les restrictions horizontales
     />
         <ambientLight intensity={2.4} color="#C8B3FF" />
         <directionalLight position={[1, 2, 3]} intensity={0.5} />

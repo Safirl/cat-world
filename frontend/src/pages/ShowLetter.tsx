@@ -103,7 +103,7 @@ const ShowLetter = () => {
                             <p className="usernameContenue">{letter.sender_id.username}</p>
                         </div>
                         <ButtonRound
-                            text="Retourer à mon bureau"
+                            text="Retourner à mon bureau"
 
                             hasBackground
                             customClassName="btnWhiteShowLetter"
