@@ -17,6 +17,20 @@ const Home = () => {
   const [message, setMessage] = useState("");
   const cameraControlRef = useRef<OrbitControlsImpl | null>(null);
 
+  // function onDocumentMouseDown(e: MouseEvent) {
+  //   e.preventDefault();
+  //   var mouseVector = new THREE.Vector3();
+  //   mouseVector.x = 2 * (e.clientX / SCREEN_WIDTH) - 1;
+  //   mouseVector.y = 1 - 2 * (e.clientY / SCREEN_HEIGHT);
+  //   var raycaster = projector.pickingRay(mouseVector.clone(), camera);
+  //   var intersects = raycaster.intersectObject(TARGET);
+  //   for (var i = 0; i < intersects.length; i++) {
+  //     var intersection = intersects[i],
+  //       obj = intersection.object;
+  //     console.log("Intersected object", obj);
+  //   }
+  // }
+
   const updateMessage = (message: string) => {
     setMessage(message)
     setTimeout(() => {
@@ -95,17 +109,17 @@ const Home = () => {
       <NavBar />
       <img className="stars" src="/image/starsBackground.svg" alt="stars" />
       <Canvas camera={{ position: [0, 0, 5] }}>
-      <OrbitControls
-      ref={cameraControlRef}
-      enableRotate={true}
-      enableZoom={true}
-      enablePan={true}
-      enableDamping={true}
-      minPolarAngle={0}  // Supprime la restriction vers le bas
-      maxPolarAngle={Math.PI} // Permet une rotation complète vers le haut
-      minAzimuthAngle={-Infinity} // Permet une rotation infinie gauche/droite
-      maxAzimuthAngle={Infinity}
-    />
+        <OrbitControls
+          ref={cameraControlRef}
+          enableRotate={true}
+          enableZoom={true}
+          enablePan={true}
+          enableDamping={true}
+          minPolarAngle={0}  // Supprime la restriction vers le bas
+          maxPolarAngle={Math.PI} // Permet une rotation complète vers le haut
+          minAzimuthAngle={-Infinity} // Permet une rotation infinie gauche/droite
+          maxAzimuthAngle={Infinity}
+        />
         <ambientLight intensity={2.4} color="#C8B3FF" />
         <directionalLight position={[1, 2, 3]} intensity={0.5} />
         <Planet ref={planetRef} onClick={handleMoveCat} />
