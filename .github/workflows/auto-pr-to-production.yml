@@ -6,39 +6,11 @@ on:
       - main
 
 permissions:
-  contents: write # Permet d'écrire dans le dépôt
-  pull-requests: write # Permet de créer et modifier des PRs
+  contents: write
+  pull-requests: write
 
 jobs:
-  create-pr:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout du code
-        uses: actions/checkout@v4
-
-      # Créer une branche temporaire pour la PR
-      - name: Créer une branche temporaire pour la PR
-        run: |
-          git checkout -b sync-main-to-production
-          git push origin sync-main-to-production
-
-      # Créer la Pull Request vers production depuis la branche temporaire
-      - name: Créer une Pull Request vers production
-        uses: peter-evans/create-pull-request@v6
-        with:
-          base: production
-          branch: sync-main-to-production # Utiliser la branche temporaire
-          title: "🔄 Auto PR: Sync main → production"
-          body: "Cette PR est générée automatiquement. Vérifiez et mergez si tout est bon."
-          labels: "automated-pr"
-          reviewers: "Safirl" # Reviewer qui approuvera la PR
-
-      # Supprimer la branche temporaire après la création de la PR
-      - name: Supprimer la branche temporaire
-        run: git push origin --delete sync-main-to-production
-
-  build-and-approve:
-    needs: create-pr
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout du code
@@ -59,7 +31,68 @@ jobs:
           npm install
           npm run build
 
-    # Attente d'une approbation manuelle avant le merge
-    environment:
-      name: production-approval
-      url: https://frontend-cat-world.osc-fr1.scalingo.io/ # URL du frontend
+  create-pr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Important pour avoir l'historique complet
+
+      - name: Configurer Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      # Vérifier si une PR existe déjà
+      - name: Vérifier les PRs existantes
+        id: check-pr
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/{owner}/{repo}/pulls
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.repository.name }}
+          head: sync-main-to-production
+          base: production
+          state: open
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      # Créer et pousser la branche uniquement si aucune PR n'existe
+      - name: Créer la branche de synchronisation
+        if: steps.check-pr.outputs.status != '200'
+        run: |
+          git fetch origin production
+          git checkout -b sync-main-to-production origin/main
+          git push -f origin sync-main-to-production
+
+      # Créer la PR uniquement si elle n'existe pas déjà
+      - name: Créer la Pull Request
+        if: steps.check-pr.outputs.status != '200'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: production
+          branch: sync-main-to-production
+          title: "🔄 Auto PR: Sync main → production"
+          body: |
+            Cette PR est générée automatiquement pour synchroniser main vers production.
+            - Les builds ont été vérifiés avec succès
+            - Merci de revoir les changements avant d'approuver
+          labels: "automated-pr"
+          reviewers: "Safirl"
+
+  cleanup:
+    needs: [create-pr]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Nettoyer les anciennes branches
+        if: ${{ failure() }}
+        run: |
+          git push origin --delete sync-main-to-production || true
