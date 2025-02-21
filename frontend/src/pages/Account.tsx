@@ -149,6 +149,14 @@ const Account = () => {
         }
     }
 
+    const handleCopy = () => {
+      if (user?._id) {
+          navigator.clipboard.writeText(user._id)
+              .then(() => alert("Code ami copié : " + user._id))
+              .catch(err => console.error("Échec de la copie", err));
+      }
+  };
+
     useEffect(() => {
         fetchFriends();
         fetchUser();
@@ -181,11 +189,11 @@ const Account = () => {
                         <div className="containerAccountInformation">
                             <h4>{user && user.username}</h4>
 
-                            <div className="friendcode">
-                                <p>code ami :&nbsp;</p>
-                                <p>{user && user._id}</p>
-                                <img src="/image/icons/copy.svg" alt="Copier votre code friend" />
-                            </div>
+                            <div className="friendcode" onClick={handleCopy} style={{ cursor: "pointer" }}>
+                              <p>Code ami :&nbsp;</p>
+                              <p>{user && user._id}</p>
+                              <img src="/image/icons/copy.svg" alt="Copier votre code ami" />
+                          </div>
 
                             <div className="AddfriendContainer">
                                 <form onSubmit={handleSubmit} method="post">
