@@ -20,7 +20,7 @@ const colors = [
         secondary: "#322526",
     },
     {
-        texture: "cat_texture_tigrou.png",
+        texture: "cat_texture_tiger.png",
         primary: "#837157",
         secondary: "#7EB190",
     },
