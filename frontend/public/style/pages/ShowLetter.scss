@@ -46,8 +46,11 @@
         gap: 12px;
 
         .stampImage{
-            width: 55px;
+            min-width: 55px;
             height: auto;
+            max-width: 80px;
+            width: 40%;
+        
         }
     }
 
