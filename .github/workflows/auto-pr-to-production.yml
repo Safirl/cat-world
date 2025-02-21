@@ -40,37 +40,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configurer Git
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-
-      # Vérifier si une PR existe déjà
-      - name: Vérifier les PRs existantes
-        id: check-pr
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /repos/${{ github.repository }}/pulls?head=${{ github.repository_owner }}:sync-main-to-production&base=production&state=open
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-
-      # Créer et pousser la branche uniquement si aucune PR n'existe
-      - name: Créer la branche de synchronisation
-        if: steps.check-pr.outputs.data == '[]'
+      # Vérifier s'il y a des différences entre main et production
+      - name: Vérifier les différences
+        id: check-diff
         run: |
           git fetch origin production
-          git checkout -b sync-main-to-production origin/main
-          git push -f origin sync-main-to-production
+          git diff origin/production...main --quiet || echo "has_changes=true" >> $GITHUB_OUTPUT
 
-      # Créer la PR uniquement si elle n'existe pas déjà
+      # Créer la PR seulement s'il y a des différences
       - name: Créer la Pull Request
-        if: steps.check-pr.outputs.data == '[]'
+        if: steps.check-diff.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: production
-          branch: sync-main-to-production
           title: "🔄 Auto PR: Sync main → production"
           body: |
             Cette PR est générée automatiquement pour synchroniser main vers production.
@@ -78,6 +61,7 @@ jobs:
             - Merci de revoir les changements avant d'approuver
           labels: "automated-pr"
           reviewers: "Safirl"
+          delete-branch: true
 
   cleanup:
     needs: [create-pr]
@@ -90,4 +74,4 @@ jobs:
       - name: Nettoyer les anciennes branches
         if: ${{ failure() }}
         run: |
-          git push origin --delete sync-main-to-production || true
+          git push origin --delete pr-* || true
