@@ -1,0 +1,54 @@
+name: Auto PR to production
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write # Permet d'écrire dans le dépôt
+  pull-requests: write # Permet de créer et modifier des PRs
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Créer une Pull Request vers production
+        uses: peter-evans/create-pull-request@v6
+        with:
+          base: production
+          branch: main
+          title: "🔄 Auto PR: Sync main → production"
+          body: "Cette PR est générée automatiquement. Vérifiez et mergez si tout est bon."
+          labels: "automated-pr"
+          reviewers: "Safirl"
+
+  build-and-approve:
+    needs: create-pr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer les dépendances
+        run: npm install
+
+      - name: Build du backend
+        run: |
+          cd backend/
+          npm install
+          npm run build
+
+      - name: Build du frontend
+        run: |
+          cd frontend/
+          npm install
+          npm run build
+
+    # Attente d'une approbation manuelle avant merge
+    environment:
+      name: production-approval
+      url: https://frontend-cat-world.osc-fr1.scalingo.io/ # frontend url
