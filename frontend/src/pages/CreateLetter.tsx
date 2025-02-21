@@ -26,6 +26,8 @@ const CreateLetter = () => {
     const [user, setUser] = useState<{ _id: string, username: string }>();
     const [friends, setFriends] = useState<{ _id: string, username: string }[]>([]);
     const navigate = useNavigate();
+    const formattedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
+
 
     const fetchUser = async () => {
         try {
@@ -201,7 +203,7 @@ const CreateLetter = () => {
                                             ))}
                                         </select>
                                     </div>
-                                    <p className="date">Le : 17/02/2025</p>
+                                    <p className="date">Le : {formattedDate}</p>
                                 </div>
                             </div>
                             <div className="letterBody">
