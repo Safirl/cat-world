@@ -6,7 +6,7 @@ const colors = [
     },
     {
         texture: "cat_texture_two_eye.png",
-        primary: "#E5C8C3",
+        primary: "#150906",
         secondary: "#95A8F3",
     },
     {
