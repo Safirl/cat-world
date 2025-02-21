@@ -20,12 +20,12 @@ const colors = [
         secondary: "#322526",
     },
     {
-        texture: "cat_texture_Tigrou.png",
+        texture: "cat_texture_tigrou.png",
         primary: "#837157",
         secondary: "#7EB190",
     },
     {
-        texture: "cat_texture_Whiteginger.png",
+        texture: "cat_texture_whiteginger.png",
         primary: "#DEC5C5",
         secondary: "#B46346",
     },
@@ -35,12 +35,12 @@ const colors = [
         secondary: "#73A283",
     },
     {
-        texture: "cat_texture_whriteBleu.png",
+        texture: "cat_texture_whiteBleu.png",
         primary: "#DEC5C5",
         secondary: "#95A8F3",
     },
     {
-        texture: "cat_texture_whriteGiengerBlack.png",
+        texture: "cat_texture_whitegiengerblack.png",
         primary: "#322526",
         secondary: "#B46346",
     },
