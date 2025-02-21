@@ -27,6 +27,7 @@ const ShowLetter = () => {
     const [showLetter, setShowLetter] = useState(false);
     const [isExiting, setIsExiting] = useState(false);
     const [showContent, setShowContent] = useState(false)
+    const formattedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(letter.createdAt));
 
 
     const updateRead = async (newRead: boolean) => {
@@ -89,7 +90,7 @@ const ShowLetter = () => {
                                 />
                                 <div className="letterInformation">
                                     <p className="username">De : {letter.sender_id.username}</p>
-                                    <p className="date">Le : {letter.createdAt}</p>
+                                    <p className="date">Le : {formattedDate}</p>
                                 </div>
                             </div>
                             <div className="letterBody">
