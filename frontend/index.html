@@ -13,5 +13,13 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.addEventListener('load', () => {
+        if ('standalone' in window.navigator && window.navigator.standalone) {
+          document.documentElement.style.height = '100vh';
+          document.documentElement.style.overflow = 'hidden';
+        }
+      });
+    </script>
   </body>
 </html>
