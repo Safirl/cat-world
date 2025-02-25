@@ -2,8 +2,7 @@
     "short_name": "Cat world",
     "name": "Cat world - Send letters to your friends",
     "display": "standalone",
-    "start_url": "/",
-    "scope": "/",
+    "start_url": ".",
     "theme_color": "#000000",
     "background_color": "#ffffff",
     "icons": [
