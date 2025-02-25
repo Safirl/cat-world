@@ -1,0 +1,15 @@
+{
+    "short_name": "CatWorld",
+    "name": "Cat world",
+    "display": "standalone",
+    "start_url": "/",
+    "theme_color": "#000000",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+        "src": "/icons/icon.svg",
+        "sizes": "192x192",
+        "type": "image/svg"
+        }
+    ]
+}
