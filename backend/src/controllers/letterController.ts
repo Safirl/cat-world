@@ -8,6 +8,8 @@ class LetterController {
   public async createLetter(req: Request, res: Response): Promise<void> {
     try {
       const { title, content, src_img, stamp, receiver_id } = req.body;
+
+      console.log('req.body', req.body)
       const sender_id = (req as any).user._id
       if (!sender_id) {
         res.status(403).json({ message: "Can't create letter, sender is not valid !" });
@@ -27,6 +29,7 @@ class LetterController {
         receiver_id,
         read: false,
       };
+
       await UserLetter.create(newUserLetter);
 
       //@todo: est-ce qu'on veut renvoyer la letter ou la userLetter ? La seule info qu'on a envie de stocker côté front

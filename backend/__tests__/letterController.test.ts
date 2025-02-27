@@ -14,7 +14,6 @@ let friend: IUser;
 
 beforeEach(async () => {
     if (!mongoose.connection.db) {
-        console.error("No database connection");
         return;
     }
     const letterTest = {
@@ -30,16 +29,14 @@ beforeEach(async () => {
 
 describe("Letter creation", () => {
     it("should create a new letter", async () => {
-        const reveiver_id = friend._id;
-        const sender_id = userTest._id
+        const receiver_id = friend._id;
         const newLetter = {
             title: "Test Letter",
             content: "This is a test letter.",
             src_img: "example.com/image.jpg",
             stamp: "test",
-            reveiver_id
+            receiver_id
         };
-
         const response = await request(app)
             .post("/api/letter/createletter")
             .set("Cookie", `token=${authToken}`)
