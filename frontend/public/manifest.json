@@ -1,0 +1,15 @@
+{
+    "short_name": "Cat world",
+    "name": "Cat world - Send letters to your friends",
+    "display": "standalone",
+    "start_url": ".",
+    "theme_color": "#000000",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+        "src": "/app-icon.png",
+        "sizes": "1024x1024",
+        "type": "image/svg"
+        }
+    ]
+}

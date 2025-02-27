@@ -14,7 +14,7 @@ npm i
 cd../frontend/
 npm i
 
-# 2. To start dev server (from the root directory)
+# 2. To start dev server (**from the root directory**)
 npm run dev
 ```
 
@@ -45,7 +45,7 @@ npm run test
 
 Create a branch to work on your feature. When you're done, create a pull request onto main. Once its merged, you can create another pull request from main to production if you want to push in prod your feature.
 
-Before creating your pull request, please check that builds are working.
+Before creating your pull request, **please check that builds are working**.
 
 ```bash
 cd backend/
@@ -53,3 +53,7 @@ npm run build
 cd ../frontend
 npm run build
 ```
+
+## How to install ?
+
+Cat world is a PWA. You can install it by clicking on the share option of your phone navigator and then click on install app or pin app on homescreen.
