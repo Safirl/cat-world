@@ -1,10 +1,19 @@
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import { app } from "./app.js";
+import { connectCloudinary } from "./config/cloudinary.js";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
+
+connectCloudinary()
+  .then(() => {
+    console.log("Connected to Cloudinary");
+  })
+  .catch((err: any) => {
+    console.error(err);
+  });
 
 connectDB()
   .then(() => {
