@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document, Query } from "mongoose";
 import UserLetter from "./UserLetter.js";
+import { v2 as cloudinary} from 'cloudinary'
 
 export interface ILetter extends Document {
   title: string;
@@ -31,7 +32,12 @@ LetterSchema.pre(
         return next(new Error("Database not connected"));
       }
       const letter_id = this._conditions._id;
-      // Suppression des entrées UserLetter associées
+      const deletedLetter = await Letter.findById(letter_id);
+      // Delete related images in cloudinary
+      if (deletedLetter?.src_img) {
+        cloudinary.uploader.destroy(deletedLetter?.src_img)
+      }
+      // Delete UserLetters associated items
       await UserLetter.deleteMany({ letter_id: letter_id });
       next();
     } catch (error) {

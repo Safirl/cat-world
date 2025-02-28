@@ -3,8 +3,8 @@ import { app } from "../src/app";
 import Friend, { IFriend } from "../src/models/Friend";
 import User, { IUser } from "../src/models/User";
 import mongoose, { ObjectId } from "mongoose";
-import { authToken } from "../setupTests";
-import { userTest } from "../setupTests";
+import { authToken } from "../src/setupTests";
+import { userTest } from "../src/setupTests";
 
 let friend: IUser;
 let friend1: IUser;

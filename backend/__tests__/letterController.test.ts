@@ -3,10 +3,10 @@ import { app } from '../src/app';
 import Letter, { ILetter } from '../src/models/Letter';
 import UserLetter from '../src/models/UserLetter';
 import jwt from 'jsonwebtoken';
-import { authToken } from '../setupTests';
+import { authToken } from '../src/setupTests';
 import User, { IUser } from '../src/models/User'
 import mongoose from 'mongoose';
-import { userTest } from '../setupTests';
+import { userTest } from '../src/setupTests';
 
 //Create a letter before each test
 let letter: ILetter;

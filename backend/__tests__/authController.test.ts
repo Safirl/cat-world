@@ -4,7 +4,8 @@ import User, { IUser } from '../src/models/User';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { getJwtSecret } from '../src/services/authService';
 import mongoose from 'mongoose';
-import { userTest } from '../setupTests';
+import { userTest } from '../src/setupTests';
+import { authToken } from '../src/setupTests';
 
 describe("User registration", () => {
     const newUser = {
@@ -28,12 +29,6 @@ describe("User registration", () => {
 
 describe("User login", () => {
     it("should login to a test user", async () => {
-        if (!mongoose.connection.db) {
-            console.error("No database connection");
-            return;
-        }
-        const collection = await mongoose.connection.db.collection("users");
-        const users = await collection.findOne();
         const response = await request(app)
             .post("/api/auth/login")
             .send({ email: userTest.email, password: "password" });
@@ -92,6 +87,29 @@ describe("User login", () => {
     });
 });
 
-// describe("User logout", () => {
-//     it("should logout a user")
-// });
+describe("User logout", () => {
+    it("should logout a user", async () => {
+        const response = await request(app)
+            .post("/api/auth/logout")
+            .set("Cookie", `token=${authToken}`);
+
+        expect(response.body.message).toBe("Déconnexion réussie !");
+        expect(response.status).toBe(200)
+        const cookiesHeader = response.get("set-cookie");
+
+        // S'assurer que c'est un tableau
+        const cookiesArray = Array.isArray(cookiesHeader) ? cookiesHeader : [cookiesHeader];
+
+        expect(cookiesArray).toBeDefined();
+        expect(cookiesArray.some(cookie => cookie.startsWith("token="))).toBe(true);
+
+        // Extraire le token du cookie
+        const tokenCookie = cookiesArray.find(cookie => cookie.startsWith("token="));
+        const token = tokenCookie?.split(";")[0].split("=")[1];
+ 
+        expect(token).toBe("");
+        const hasExpired = (tokenCookie.includes("expires=") && new Date(tokenCookie.split("expires=")[1].split(";")[0]) < new Date());
+
+        expect(hasExpired).toBe(true);
+    })
+});

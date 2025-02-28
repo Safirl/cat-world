@@ -12,5 +12,5 @@
     "moduleResolution": "node"
   },
   "include": ["src/**/*.ts", "src/types/**/*.d.ts"],
-  "exclude": ["node_modules", "__tests__", "setupTests.ts"]
+  "exclude": ["node_modules", "__tests__", "src/setupTests.ts"]
 }

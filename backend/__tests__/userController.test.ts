@@ -3,10 +3,10 @@ import { app } from '../src/app';
 import User, { IUser } from '../src/models/User';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { authToken } from '../setupTests';
+import { authToken } from '../src/setupTests';
 import Friend from '../src/models/Friend';
 import UserLetter from '../src/models/UserLetter';
-import { userTest } from '../setupTests';
+import { userTest } from '../src/setupTests';
 
 
 describe("User modification", () => {
