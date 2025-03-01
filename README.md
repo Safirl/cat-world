@@ -11,7 +11,7 @@ Cat world is a student project. You can send letters to your friends, even if th
 npm i
 cd backend/
 npm i
-cd../frontend/
+cd ../frontend/
 npm i
 
 # 2. To start dev server (**from the root directory**)
