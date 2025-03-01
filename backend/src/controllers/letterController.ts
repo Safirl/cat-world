@@ -10,7 +10,6 @@ class LetterController {
       const { title, content, stamp, receiver_id } = req.body;
       
       //Upload img on cloudinary and generate a random id for it.
-      console.log("file", req.file);
       const img = req.file
       let img_id = "";
       if (img) {

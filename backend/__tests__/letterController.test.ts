@@ -4,7 +4,7 @@ import Letter, { ILetter } from '../src/models/Letter';
 import UserLetter from '../src/models/UserLetter';
 import { authToken } from '../src/setupTests';
 import User, { IUser } from '../src/models/User'
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import path from "path";
 import {v2 as cloudinary} from 'cloudinary'
 
@@ -28,8 +28,14 @@ beforeEach(async () => {
 });
 
 describe("Letter creation", () => {
+    let img_id: string;
+    afterAll(async () => {
+        if (img_id) {
+            cloudinary.uploader.destroy(img_id)
+        }
+    })
     it("should create a new letter", async () => {
-        const reveiver_id = friend._id as string;
+        const receiver_id = (friend._id as ObjectId).toString();
         const newLetter = {
             title: "Test Letter",
             content: "This is a test letter.",
@@ -37,17 +43,16 @@ describe("Letter creation", () => {
             stamp: "test",
             receiver_id
         };
-        console.log("file path", __dirname, "../test_data/test-cat.webp")
 
         const response = await request(app)
             .post("/api/letter/createletter")
             .set("Cookie", `token=${authToken}`)
-            // .set("Content-Type", "multipart/form-data")
-            // .field("receiver_id", reveiver_id)
-            // .field("title", newLetter.title)
-            // .field("content", newLetter.content)
-            // .field("stamp", newLetter.stamp)
-            // .attach("src_img", newLetter.src_img)
+            .set("Content-Type", "multipart/form-data")
+            .field("receiver_id", receiver_id)
+            .field("title", newLetter.title)
+            .field("content", newLetter.content)
+            .field("stamp", newLetter.stamp)
+            .attach("src_img", newLetter.src_img)
 
         expect(response.status).toBe(201);
         expect(response.body.message).toBe("Letter created successfully");
@@ -56,12 +61,11 @@ describe("Letter creation", () => {
         expect(response.body.letter.content).toBe(newLetter.content);
         expect(response.body.letter.stamp).toBe(newLetter.stamp);
         expect(response.body.letter.img_id).toBeTruthy();
-        const optimizeUrl = cloudinary.url(response.body.letter.img_id, {
-            fetch_format: 'auto',
-            quality: 'auto'
-        });
-        expect(optimizeUrl).toBeTruthy();
-        console.log(optimizeUrl)
+        
+        const url = cloudinary.url(response.body.letter.img_id);
+        expect(url).toBeTruthy();
+        //Assign global variable to delete it off the cloudinary later.
+        img_id = response.body.letter.img_id;
 
         const letterInDb = await Letter.findOne({ title: newLetter.title });
         const userLetterInDb = await UserLetter.findOne(response.body._id)

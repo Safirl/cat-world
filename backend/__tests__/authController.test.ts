@@ -105,10 +105,11 @@ describe("User logout", () => {
 
         // Extraire le token du cookie
         const tokenCookie = cookiesArray.find(cookie => cookie.startsWith("token="));
+        expect(tokenCookie).toBeTruthy();
         const token = tokenCookie?.split(";")[0].split("=")[1];
  
         expect(token).toBe("");
-        const hasExpired = (tokenCookie.includes("expires=") && new Date(tokenCookie.split("expires=")[1].split(";")[0]) < new Date());
+        const hasExpired = (tokenCookie.includes("Expires=") && new Date(tokenCookie.split("Expires=")[1].split(";")[0]) < new Date());
 
         expect(hasExpired).toBe(true);
     })

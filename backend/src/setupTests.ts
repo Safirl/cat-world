@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import User, { IUser } from "./models/User";
 import bcrypt from "bcrypt";
+import {connectCloudinary} from './config/cloudinaryConfig'
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ export let authToken: string;
 export let userTest: IUser;
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGO_URI as string);
+  await connectCloudinary();
 });
 
 beforeEach(async () => {
