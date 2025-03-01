@@ -243,7 +243,7 @@ const Account = () => {
                                     <p>Supprimer son compte</p>
                                 </a>
                                 <a href="">
-                                    <p>Mention Légale</p>
+                                    <p>Mentions légales</p>
                                 </a>
                             </div>
                         </div>
