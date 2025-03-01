@@ -1,15 +1,23 @@
 import { Request, Response } from "express";
-import Letter, { ILetter } from "../models/Letter.js";
+import Letter from "../models/Letter.js";
 import UserLetter from "../models/UserLetter.js";
-import userLetterController from "./userLetterController.js";
-import { app } from "../app.js";
+import {v2 as cloudinary} from 'cloudinary'
+import { v4 as uuidv4 } from 'uuid';
 
 class LetterController {
   public async createLetter(req: Request, res: Response): Promise<void> {
     try {
-      const { title, content, src_img, stamp, receiver_id } = req.body;
-
-      console.log('req.body', req.body)
+      const { title, content, stamp, receiver_id } = req.body;
+      
+      //Upload img on cloudinary and generate a random id for it.
+      console.log("file", req.file);
+      const img = req.file
+      let img_id = "";
+      if (img) {
+          img_id = uuidv4();
+          await cloudinary.uploader.upload(img.path, {public_id: img_id})
+      }
+      
       const sender_id = (req as any).user._id
       if (!sender_id) {
         res.status(403).json({ message: "Can't create letter, sender is not valid !" });
@@ -18,7 +26,7 @@ class LetterController {
       const newLetterModel = {
         title,
         content,
-        src_img,
+        img_id,
         stamp
       };
 
@@ -27,7 +35,7 @@ class LetterController {
         letter_id: newLetter._id,
         sender_id,
         receiver_id,
-        read: false,
+        read: false
       };
 
       await UserLetter.create(newUserLetter);
