@@ -18,7 +18,7 @@ const initialFormData = {
 const CreateLetter = () => {
 
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    const [image, setImage] = useState(Image);
+    const [image, setImage] = useState<string>("");
     const [stampError, setStampError] = useState<string>("");
     const [showValidation, setShowValidation] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
@@ -115,9 +115,6 @@ const CreateLetter = () => {
 
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.sendLetter, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
                 body: formDataToSend,
                 credentials: "include"
             });
@@ -182,16 +179,15 @@ const CreateLetter = () => {
 
     return (
         <>
-            <div className="pagecreateletter">
-
+            <div className="createLetterPage">
                 <NavBar />
-                <div className="containerCreateLetter">
+                <div className="createLetterContainer">
                     <h1>Ma lettre</h1>
                     <div className="letter">
                         {message && <p>{message}</p>}
                         <img className="letterBackground" src="/image/letters/letter-background.svg" alt="letter background" />
 
-                        <form className="letterContent" onSubmit={handleSubmit}>
+                        <form className="letterContentForm" onSubmit={handleSubmit}>
                             <div className="letterHeader">
                                 <button className="buttonStamp" type="button" onClick={() => setShowStamps(!showStamps)}>
                                     {formData.stamp && formData.stamp !== "test" ? (
@@ -201,10 +197,10 @@ const CreateLetter = () => {
                                             alt="chosen stamp"
                                         />
                                     ) : (
-                                        <div className="addStamp">
+                                        <>
                                             <img src="/image/icons/import.svg" />
                                             <p>Ajouter un timbre</p>
-                                        </div>
+                                        </>
                                     )}
                                 </button>
                                 {hasSubmitted && stampError && (
@@ -214,7 +210,7 @@ const CreateLetter = () => {
                                 )}
                                 <div className="letterInformation">
                                     <p className="username">De : {user?.username}</p>
-                                    <div className="selectRecever">
+                                    <div className="selectReceiver">
                                         <p className="receiver"> À :  </p>
                                         <select name="receiver_id" id="receiver-select" onChange={handleChange} value={formData.receiver_id} required>
                                             <option value="">Choisis un(e) ami(e)</option>
@@ -231,18 +227,25 @@ const CreateLetter = () => {
                                     <label htmlFor="send-letter">Titre</label>
                                     <input id="title" type='text' name="title" placeholder="Ma lettre" onChange={handleChange} value={formData.title} required />
                                 </div>
-                                <div className="contenuLetterContainer">
+                                <div className="letterContainerContent">
                                     <label htmlFor="send-letter">Contenu</label>
-                                    <textarea className="contenuletter" id="content" name="content" placeholder="Cher ami..." onChange={handleChange} value={formData.content} required />
+                                    <textarea className="letterContentText" id="content" name="content" placeholder="Cher ami..." onChange={handleChange} value={formData.content} required />
                                 </div>
                             </div>
-                            <p className="usernameContenue">{user?.username}</p>
-                            <div>
+                            <p className="usernameContent">{user?.username}</p>
+                            <div className="sendContainer">
                                 {
-                                    image && 
-                                    <img src={`${image}`} alt="" />
+                                    image ?
+                                        <img src={`${image}`} alt="" />
+                                    :
+                                        <div className="addImageContainer">
+                                            <label  className="imageInput" htmlFor="image">
+                                                <img src="/image/icons/import.svg" />
+                                                Ajouter une image
+                                            </label>
+                                            <input style={{display:"none"}} placeholder="mon image" title="choisir une image" id="image" type='file' name="image" accept="image/*" onChange={handleChange} required />
+                                        </div>
                                 }
-                                <input id="image" type='file' name="image" accept="image/*" onChange={handleChange} required></input>
                                 <button className="sendButton" type="submit"><p>Envoyer</p></button>
                             </div>
                         </form>

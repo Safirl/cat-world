@@ -97,11 +97,11 @@ const ShowLetter = () => {
                                 <div>
                                     <p className="titleContent">{letter.letter_id.title}</p>
                                 </div>
-                                <div className="contenuLetterContainer">
+                                <div className="letterContainerContent">
                                     <p>{letter.letter_id.content}</p>
                                 </div>
                             </div>
-                            <p className="usernameContenue">{letter.sender_id.username}</p>
+                            <p className="usernameContent">{letter.sender_id.username}</p>
                         </div>
                         <ButtonRound
                             text="Retourner à mon bureau"
