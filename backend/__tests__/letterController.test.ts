@@ -17,8 +17,11 @@ let testImgId = uuidv4();
 
 beforeAll(async () => {
     //Create image inside cloudinary
-    await cloudinary.uploader.destroy(testImgId);
     await cloudinary.uploader.upload(path.join(__dirname, "../test_data/test-cat.webp"), {public_id: testImgId})
+})
+
+afterAll(async () => {
+    await cloudinary.uploader.destroy(testImgId);
 })
 
 beforeEach(async () => {
@@ -36,9 +39,6 @@ beforeEach(async () => {
     friend = await User.create({ username: "Bob", email: "bob@example.com", password: "password", color: "red" });
 });
 
-// afterAll(async () => {
-//     await cloudinary.uploader.destroy(testImgId);
-// })
 
 describe("Letter creation", () => {
     let img_id: string;
