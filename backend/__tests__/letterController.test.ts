@@ -7,10 +7,19 @@ import User, { IUser } from '../src/models/User'
 import mongoose, { ObjectId } from 'mongoose';
 import path from "path";
 import {v2 as cloudinary} from 'cloudinary'
+import { v4 as uuidv4 } from 'uuid';
+
 
 //Create a letter before each test
 let letter: ILetter;
 let friend: IUser;
+let testImgId = uuidv4();
+
+beforeAll(async () => {
+    //Create image inside cloudinary
+    await cloudinary.uploader.destroy(testImgId);
+    await cloudinary.uploader.upload(path.join(__dirname, "../test_data/test-cat.webp"), {public_id: testImgId})
+})
 
 beforeEach(async () => {
     if (!mongoose.connection.db) {
@@ -19,13 +28,17 @@ beforeEach(async () => {
     const letterTest = {
         title: "Test Letter cat",
         content: "This is a test letter about cat.",
-        img_id: "example.com/image.jpg",
+        img_id: testImgId,
         typo_id: 2,
         stamp: "3"
     };
     letter = await Letter.create(letterTest);
     friend = await User.create({ username: "Bob", email: "bob@example.com", password: "password", color: "red" });
 });
+
+// afterAll(async () => {
+//     await cloudinary.uploader.destroy(testImgId);
+// })
 
 describe("Letter creation", () => {
     let img_id: string;
@@ -86,7 +99,11 @@ describe("Letter Deletion", () => {
 
         expect(deleteResponse.status).toBe(200);
         expect(deleteResponse.body.message).toBe("Letter and associated UserLetters deleted successfully");
-
+        //Check if the image has been deleted from cloudinary.
+        await expect(cloudinary.api.resource(testImgId)).rejects.toMatchObject({
+            error: { http_code: 404 },
+        });
+                    
         // Vérification que la lettre et UserLetter ont été supprimées
         const deletedLetter = await Letter.findById(letter._id);
         const deletedUserLetter = await UserLetter.findOne({ letter_id: letter._id });

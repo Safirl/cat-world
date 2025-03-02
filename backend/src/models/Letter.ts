@@ -33,9 +33,9 @@ LetterSchema.pre(
       }
       const letter_id = this._conditions._id;
       const deletedLetter = await Letter.findById(letter_id);
-      // Delete related images in cloudinary
+      // Delete related image in cloudinary
       if (deletedLetter?.img_id) {
-        cloudinary.uploader.destroy(deletedLetter?.img_id)
+        await cloudinary.uploader.destroy(deletedLetter?.img_id, {invalidate: true})
       }
       // Delete UserLetters associated items
       await UserLetter.deleteMany({ letter_id: letter_id });
