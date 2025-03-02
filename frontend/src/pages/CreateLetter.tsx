@@ -10,7 +10,7 @@ const initialFormData = {
     title: "",
     content: "",
     stamp: "",
-    src_img: "test"
+    src_img: null as File | null
 };
 
 
@@ -18,6 +18,7 @@ const initialFormData = {
 const CreateLetter = () => {
 
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [image, setImage] = useState(Image);
     const [stampError, setStampError] = useState<string>("");
     const [showValidation, setShowValidation] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
@@ -101,12 +102,23 @@ const CreateLetter = () => {
         }
 
         try {
+            const formDataToSend = new FormData();
+            formDataToSend.append("receiver_id", formData.receiver_id)
+            formDataToSend.append("title", formData.title)
+            formDataToSend.append("content", formData.content)
+            formDataToSend.append("stamp", formData.stamp)
+
+            if (formData.src_img) {
+                formDataToSend.append("src_img", formData.src_img)
+            }
+
+
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.sendLetter, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: formDataToSend,
                 credentials: "include"
             });
 
@@ -133,7 +145,15 @@ const CreateLetter = () => {
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        if (e.target.type === "file") {
+            const fileInput = e.target as HTMLInputElement;
+            if (fileInput.files && fileInput.files[0]) {
+                setFormData({ ...formData, src_img: fileInput.files[0] });
+            }
+        }
+        else {
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+        }
     };
 
     useEffect(() => {
@@ -171,7 +191,7 @@ const CreateLetter = () => {
                         {message && <p>{message}</p>}
                         <img className="letterBackground" src="/image/letters/letter-background.svg" alt="letter background" />
 
-                        <form className="letterContent" onSubmit={handleSubmit} method="post">
+                        <form className="letterContent" onSubmit={handleSubmit}>
                             <div className="letterHeader">
                                 <button className="buttonStamp" type="button" onClick={() => setShowStamps(!showStamps)}>
                                     {formData.stamp && formData.stamp !== "test" ? (
@@ -217,7 +237,14 @@ const CreateLetter = () => {
                                 </div>
                             </div>
                             <p className="usernameContenue">{user?.username}</p>
-                            <button className="sendButton" type="submit"><p>Envoyer</p></button>
+                            <div>
+                                {
+                                    image && 
+                                    <img src={`${image}`} alt="" />
+                                }
+                                <input id="image" type='file' name="image" accept="image/*" onChange={handleChange} required></input>
+                                <button className="sendButton" type="submit"><p>Envoyer</p></button>
+                            </div>
                         </form>
                     </div>
                 </div>

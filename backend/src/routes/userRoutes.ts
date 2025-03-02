@@ -5,7 +5,7 @@ import { authMiddleware } from "../middleware/authMiddleWare.js";
 const userRoutes = express.Router();
 userRoutes.get("/fetch/:id?", authMiddleware, UserController.fetch);
 userRoutes.delete("/delete/:id", authMiddleware, UserController.deleteUser);
-userRoutes.post(
+userRoutes.put(
   "/modifypassword/:id",
   authMiddleware,
   UserController.modifyPassword

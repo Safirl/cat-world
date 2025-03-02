@@ -53,18 +53,18 @@ class FriendController {
 
     public deleteFriend = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { id } = req.params;
+            const { friendId } = req.params;
 
-            if (!id) {
+            if (!friendId) {
                 res.status(400).json({ message: "Missing friend ID" });
                 return;
             }
-            const friend = await Friend.findById(id);
+            const friend = await Friend.findById(friendId);
             if (!friend) {
                 res.status(404).json({ message: "friend not found" });
                 return
             }
-            await Friend.findByIdAndDelete(id);
+            await Friend.findByIdAndDelete(friendId);
             res.status(200).json({ message: "Friend deleted successfully" });
         }
         catch (error) {
@@ -100,11 +100,11 @@ class FriendController {
     public showFriendInformation = async (req: Request, res: Response): Promise<void> => {
         try {
             const user_id = (req as any).user._id;
-            const { friend_id } = req.params;
+            const { friendId } = req.params;
             const friendInformation = await Friend.find({
                 $or: [
-                    { user_id_1: friend_id, user_id_2: user_id },
-                    { user_id_2: friend_id, user_id_1: user_id }
+                    { user_id_1: friendId, user_id_2: user_id },
+                    { user_id_2: friendId, user_id_1: user_id }
                 ]
             });
 

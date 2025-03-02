@@ -95,7 +95,6 @@ class UserController {
   // Modifier la couleur d'avatar
   public modifyColor = async (req: Request, res: Response): Promise<void> => {
     try {
-      //ça n'a pas de sens que l'on puisse modifier autre chose qu'un utilisateur connecté.
       const id = (req as any).user._id;
       if (!id) {
         res.status(400).json({ message: "Missing user ID" });

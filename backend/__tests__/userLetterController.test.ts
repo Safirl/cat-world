@@ -3,8 +3,8 @@ import { app } from '../src/app';
 import Letter, { ILetter } from '../src/models/Letter';
 import User, { IUser } from '../src/models/User';
 import UserLetter, { IUserLetter } from '../src/models/UserLetter';
-import { authToken } from '../setupTests';
-import { userTest } from '../setupTests';
+import { authToken } from '../src/setupTests';
+import { userTest } from '../src/setupTests';
 
 let sender: IUser;
 let letter: ILetter;
