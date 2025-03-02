@@ -2,25 +2,36 @@ import request from 'supertest';
 import { app } from '../src/app';
 import Letter, { ILetter } from '../src/models/Letter';
 import UserLetter from '../src/models/UserLetter';
-import jwt from 'jsonwebtoken';
-import { authToken } from '../setupTests';
+import { authToken } from '../src/setupTests';
 import User, { IUser } from '../src/models/User'
-import mongoose from 'mongoose';
-import { userTest } from '../setupTests';
+import mongoose, { ObjectId } from 'mongoose';
+import path from "path";
+import {v2 as cloudinary} from 'cloudinary'
+import { v4 as uuidv4 } from 'uuid';
+
 
 //Create a letter before each test
 let letter: ILetter;
 let friend: IUser;
+let testImgId = uuidv4();
+
+beforeAll(async () => {
+    //Create image inside cloudinary
+    await cloudinary.uploader.upload(path.join(__dirname, "../test_data/test-cat.webp"), {public_id: testImgId})
+})
+
+afterAll(async () => {
+    await cloudinary.uploader.destroy(testImgId);
+})
 
 beforeEach(async () => {
     if (!mongoose.connection.db) {
-        console.error("No database connection");
         return;
     }
     const letterTest = {
         title: "Test Letter cat",
         content: "This is a test letter about cat.",
-        src_img: "example.com/image.jpg",
+        img_id: testImgId,
         typo_id: 2,
         stamp: "3"
     };
@@ -28,29 +39,46 @@ beforeEach(async () => {
     friend = await User.create({ username: "Bob", email: "bob@example.com", password: "password", color: "red" });
 });
 
+
 describe("Letter creation", () => {
+    let img_id: string;
+    afterAll(async () => {
+        if (img_id) {
+            cloudinary.uploader.destroy(img_id)
+        }
+    })
     it("should create a new letter", async () => {
-        const reveiver_id = friend._id;
-        const sender_id = userTest._id
+        const receiver_id = (friend._id as ObjectId).toString();
         const newLetter = {
             title: "Test Letter",
             content: "This is a test letter.",
-            src_img: "example.com/image.jpg",
+            src_img: path.join(__dirname, "../test_data/test-cat.webp"),
             stamp: "test",
-            reveiver_id
+            receiver_id
         };
 
         const response = await request(app)
             .post("/api/letter/createletter")
             .set("Cookie", `token=${authToken}`)
-            .send(newLetter);
+            .set("Content-Type", "multipart/form-data")
+            .field("receiver_id", receiver_id)
+            .field("title", newLetter.title)
+            .field("content", newLetter.content)
+            .field("stamp", newLetter.stamp)
+            .attach("src_img", newLetter.src_img)
 
         expect(response.status).toBe(201);
         expect(response.body.message).toBe("Letter created successfully");
         expect(response.body.letter).toHaveProperty("_id");
         expect(response.body.letter.title).toBe(newLetter.title);
         expect(response.body.letter.content).toBe(newLetter.content);
-        expect(response.body.letter.src_img).toBe(newLetter.src_img);
+        expect(response.body.letter.stamp).toBe(newLetter.stamp);
+        expect(response.body.letter.img_id).toBeTruthy();
+        
+        const url = cloudinary.url(response.body.letter.img_id);
+        expect(url).toBeTruthy();
+        //Assign global variable to delete it off the cloudinary later.
+        img_id = response.body.letter.img_id;
 
         const letterInDb = await Letter.findOne({ title: newLetter.title });
         const userLetterInDb = await UserLetter.findOne(response.body._id)
@@ -71,7 +99,11 @@ describe("Letter Deletion", () => {
 
         expect(deleteResponse.status).toBe(200);
         expect(deleteResponse.body.message).toBe("Letter and associated UserLetters deleted successfully");
-
+        //Check if the image has been deleted from cloudinary.
+        await expect(cloudinary.api.resource(testImgId)).rejects.toMatchObject({
+            error: { http_code: 404 },
+        });
+                    
         // Vérification que la lettre et UserLetter ont été supprimées
         const deletedLetter = await Letter.findById(letter._id);
         const deletedUserLetter = await UserLetter.findOne({ letter_id: letter._id });
@@ -92,7 +124,7 @@ describe("Show Letter", () => {
         expect(response.body.letter).toMatchObject({
             title: letter.title,
             content: letter.content,
-            src_img: letter.src_img,
+            img_id: letter.img_id,
             typo_id: letter.typo_id,
             stamp: letter.stamp,
         });

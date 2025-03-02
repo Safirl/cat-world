@@ -7,7 +7,7 @@ export default {
   transform: {
     "^.+\\.ts$": ["ts-jest",{isolatedModules: true}],
   },
-  setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1", // Supprime le .js des imports
   },

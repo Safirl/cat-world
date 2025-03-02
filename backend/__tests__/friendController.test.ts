@@ -3,8 +3,8 @@ import { app } from "../src/app";
 import Friend, { IFriend } from "../src/models/Friend";
 import User, { IUser } from "../src/models/User";
 import mongoose, { ObjectId } from "mongoose";
-import { authToken } from "../setupTests";
-import { userTest } from "../setupTests";
+import { authToken } from "../src/setupTests";
+import { userTest } from "../src/setupTests";
 
 let friend: IUser;
 let friend1: IUser;
@@ -31,7 +31,7 @@ beforeEach(async () => {
 describe("Add friend", () => {
     it("should add a friend for a user", async () => {
         const user_id = userTest._id;
-        const friend_id = friend._id;
+        const friend_id = friend1._id;
         const response = await request(app)
             .post("/api/friend/addfriend")
             .send({ friend_id })
@@ -54,8 +54,8 @@ describe("Remove friend", () => {
             .delete(`/api/friend/delete/${friendId}`)
             .set("Cookie", `token=${authToken}`)
 
-        expect(deleteResponse.status).toBe(200);
         expect(deleteResponse.body.message).toBe("Friend deleted successfully");
+        expect(deleteResponse.status).toBe(200);
 
         // Vérification que le friend n'existe plus
         const deletedFriend = await User.findById(friendId);
@@ -90,15 +90,7 @@ describe("Fetch friends", () => {
     // });
 
     it("should display a friend information", async () => {
-        const user_id = userTest._id;
         const friend_id = friend._id;
-        const friendResponse = await request(app)
-            .post("/api/friend/addfriend")
-            .send({ friend_id })
-            .set("Cookie", `token=${authToken}`);
-
-        expect(friendResponse.status).toBe(201);
-        expect(friendResponse.body.message).toBe("Ami(e) ajouté(e) avec succès");
 
         const informationFriendResponse = await request(app)
             .get(`/api/friend/showfriend/${friend_id}`)
