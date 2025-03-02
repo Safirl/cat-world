@@ -3,18 +3,24 @@ import Letter from "../models/Letter.js";
 import UserLetter from "../models/UserLetter.js";
 import {v2 as cloudinary} from 'cloudinary'
 import { v4 as uuidv4 } from 'uuid';
+import fs from "fs"
 
 class LetterController {
   public async createLetter(req: Request, res: Response): Promise<void> {
     try {
       const { title, content, stamp, receiver_id } = req.body;
       
-      //Upload img on cloudinary and generate a random id for it.
+      //Upload img on cloudinary and generate a random id for it and delete the upload file.
       const img = req.file
       let img_id = "";
       if (img) {
-          img_id = uuidv4();
-          await cloudinary.uploader.upload(img.path, {public_id: img_id})
+        img_id = uuidv4();
+        await cloudinary.uploader.upload(img.path, {public_id: img_id})
+        fs.unlink(img.path, (err) => {
+            if (err) {
+                console.error("Error when deleting upload file :", err);
+            }
+        });
       }
       
       const sender_id = (req as any).user._id
@@ -39,8 +45,6 @@ class LetterController {
 
       await UserLetter.create(newUserLetter);
 
-      //@todo: est-ce qu'on veut renvoyer la letter ou la userLetter ? La seule info qu'on a envie de stocker côté front
-      //  pour moi c'est les id des sender et receiver pour ensuite retrouver la lettre, mais l'inverse n'est pas possible.
       res
         .status(201)
         .json({ message: "Letter created successfully", letter: newLetter });
