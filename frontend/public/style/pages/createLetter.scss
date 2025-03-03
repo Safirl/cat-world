@@ -12,10 +12,6 @@
         color: #000000;
     }
 
-    .sendButton {
-        background-color: white;
-    }
-
     .letter {
         position: relative;
         height: 70%;
@@ -170,17 +166,39 @@
     overflow: hidden;
 }
 
+.addImageContainer {
+    background-color: #FFF9EF;
+    padding: .5rem .5em 2rem .5rem;
+}
+
 .sendContainer {
     display: flex;
+    align-items: start;
+    justify-content: space-between;
 
     .imageInput {
         background-color: #E6D0AC;
         border: #79633E 1px dashed;
-        min-width: 70px;
-        min-height: 78px;
-        padding: 0;
+        padding: .5rem;
+        width: 110px;
         border-radius: 8px;
         display: flex;
         flex-direction: column;
+        align-items: center;
+    }
+
+    .importImage {
+        width: 16px;
+    }
+
+    .sendButton {
+        background-color: white;
+        margin-left: 1rem;
+        padding: 0.25rem 2em 0.25rem 2rem;
+        border-radius: 3rem;
+    }
+
+    p {
+        text-align: center;
     }
 }

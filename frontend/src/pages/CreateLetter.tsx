@@ -18,8 +18,8 @@ const initialFormData = {
 const CreateLetter = () => {
 
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    const [image, setImage] = useState<string>("");
     const [stampError, setStampError] = useState<string>("");
+    const [image, setImage] = useState<File>();
     const [showValidation, setShowValidation] = useState(false);
     const [formData, setFormData] = useState(initialFormData);
     const [showStamps, setShowStamps] = useState(false);
@@ -145,6 +145,7 @@ const CreateLetter = () => {
         if (e.target.type === "file") {
             const fileInput = e.target as HTMLInputElement;
             if (fileInput.files && fileInput.files[0]) {
+                setImage(fileInput.files[0])
                 setFormData({ ...formData, src_img: fileInput.files[0] });
             }
         }
@@ -234,18 +235,20 @@ const CreateLetter = () => {
                             </div>
                             <p className="usernameContent">{user?.username}</p>
                             <div className="sendContainer">
-                                {
-                                    image ?
-                                        <img src={`${image}`} alt="" />
-                                    :
-                                        <div className="addImageContainer">
-                                            <label  className="imageInput" htmlFor="image">
-                                                <img src="/image/icons/import.svg" />
-                                                Ajouter une image
-                                            </label>
-                                            <input style={{display:"none"}} placeholder="mon image" title="choisir une image" id="image" type='file' name="image" accept="image/*" onChange={handleChange} required />
-                                        </div>
-                                }
+                                <div className="addImageContainer">
+                                    <label htmlFor="image">
+                                        {
+                                            image ?
+                                                <img className="imageInput" src={URL.createObjectURL(image)} alt="letter selected image" />
+                                                :
+                                                <div className="imageInput">
+                                                    <img className="importImage" src="/image/icons/import.svg" />
+                                                    <p>Ajouter une image</p>
+                                                </div>
+                                        }
+                                    </label>
+                                    <input style={{ display: "none" }} placeholder="mon image" title="choisir une image" id="image" type='file' name="image" accept="image/*" onChange={handleChange} />
+                                </div>
                                 <button className="sendButton" type="submit"><p>Envoyer</p></button>
                             </div>
                         </form>
