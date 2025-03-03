@@ -17,7 +17,7 @@ interface Letter {
     content: string,
     stamp: string,
     sender: string
-
+    img_id: string
 }
 
 const ShowLetter = () => {
@@ -28,7 +28,6 @@ const ShowLetter = () => {
     const [isExiting, setIsExiting] = useState(false);
     const [showContent, setShowContent] = useState(false)
     const formattedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(letter.createdAt));
-
 
     const updateRead = async (newRead: boolean) => {
         try {
@@ -46,7 +45,6 @@ const ShowLetter = () => {
             if (response.ok) {
                 navigate("/letters");
             }
-
         }
         catch (error) {
             console.error(error)
@@ -101,7 +99,13 @@ const ShowLetter = () => {
                                     <p>{letter.letter_id.content}</p>
                                 </div>
                             </div>
-                            <p className="usernameContent">{letter.sender_id.username}</p>
+                            <div className="letterFooter">
+                                {
+                                    letter.letter_id.img_id &&
+                                    <img src={letter.letter_id.img_id} alt="image sent by your friend" />
+                                }
+                                <p className="senderText">{letter.sender_id.username}</p>
+                            </div>
                         </div>
                         <ButtonRound
                             text="Retourner à mon bureau"

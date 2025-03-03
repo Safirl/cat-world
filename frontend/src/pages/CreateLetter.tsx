@@ -225,15 +225,15 @@ const CreateLetter = () => {
                             </div>
                             <div className="letterBody">
                                 <div>
-                                    <label htmlFor="send-letter">Titre</label>
+                                    <label htmlFor="title">Titre</label>
                                     <input id="title" type='text' name="title" placeholder="Ma lettre" onChange={handleChange} value={formData.title} required />
                                 </div>
                                 <div className="letterContainerContent">
-                                    <label htmlFor="send-letter">Contenu</label>
+                                    <label htmlFor="content">Contenu</label>
                                     <textarea className="letterContentText" id="content" name="content" placeholder="Cher ami..." onChange={handleChange} value={formData.content} required />
                                 </div>
                             </div>
-                            <p className="usernameContent">{user?.username}</p>
+                            <p className="senderText">{user?.username}</p>
                             <div className="sendContainer">
                                 <div className="addImageContainer">
                                     <label htmlFor="image">
