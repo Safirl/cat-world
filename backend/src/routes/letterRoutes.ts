@@ -23,6 +23,11 @@ letterRoutes.get(
   letterController.showLetter
 );
 letterRoutes.get(
+  "/getImageUrl/:id",
+  authMiddleware,
+  letterController.getPrivateImg
+);
+letterRoutes.get(
   "/getUnreadLetters",
   authMiddleware,
   letterController.getUnreadLetters

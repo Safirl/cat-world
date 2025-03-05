@@ -2,7 +2,7 @@
     width: 100dvw;
     height: 100dvh;
     max-width: 768px;
-    padding: 0 12px 0 12px;
+    padding: 1rem;
     background-color: #F5EDFE;
     p{
         text-wrap: wrap;
@@ -30,15 +30,12 @@
     }
 
     .content{
-        margin-bottom: 50%;
         animation: 1s ease-in-out 0s 1 slideInFromBottom;
         position: relative;
-        width: 100%;
         height: 100%;
-        padding: 45px;
-
-
-        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .letterHeader{
@@ -60,20 +57,16 @@
         width: 90%;
         height: 90%;
         object-fit: cover;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
     }
 
     .letterContent {
-        z-index: 1;
         position: absolute;
-        padding: 87px 27px 0px 27px;
-        height: 90%;
-        width: 80%;
+        height: 100%;
+        width: 75%;
         display: flex;
         flex-direction: column;
         gap: 24px;
+        padding-top: 3rem;
         color: black;
     }
 
@@ -82,22 +75,22 @@
     }
 }
 
-.letterInformation{
+.letterInformation {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: start;
     width: 100%;
 }
 
 .btnWhiteShowLetter{
-    max-width: 768px;
-    width: 80%;
-    left: 50%;
-    top: 100%;
-    position: absolute;
-    z-index: 14;
-    transform: translate(-50%, -150%);
+    // max-width: 768px;
+    // width: 80%;
+    // left: 50%;
+    // top: 100%;
+    // position: absolute;
+    // z-index: 14;
+    // transform: translate(0, 50%);
 }
 
 @keyframes slideInFromBottom {
@@ -115,5 +108,17 @@
     }
     100% {
         transform: translateY(-300%);
+    }
+}
+
+.letterFooter {
+    display: flex;
+    justify-content: space-between;
+    transform: translate(0, 10%);
+    
+    img {
+        background-color: #FFF9EF;
+        padding: .5rem .5em 2rem .5rem;
+        width: 110px;
     }
 }

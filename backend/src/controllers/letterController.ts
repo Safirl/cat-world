@@ -164,6 +164,44 @@ class LetterController {
       res.status(500).json({ message: "Error retrieving letter" });
     }
   }
+
+  public async getPrivateImg(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        res.status(400).json({ message: "Missing letter ID" });
+        return;
+      }
+
+      const letter = await Letter.findById(id);
+
+      if (!letter) {
+        res.status(404).json({ message: "Letter not found" });
+        return;
+      }
+
+      let img_url = "";
+      if (letter.img_id) {
+        //@TODO We should add the image format to database instead of using the cloudinary API to get it.
+        const imgInfo = await cloudinary.api.resource(`catWorld/${letter.img_id}`, {
+          type: "private"
+        })
+        img_url = cloudinary.url(`catWorld/${letter.img_id}`, {
+          type: "private",
+          sign_url: true
+        })
+        img_url = cloudinary.utils.private_download_url(`catWorld/${letter.img_id}`, imgInfo.format, {
+          type: "private",
+          expires_at: Math.floor(Date.now() / 1000) + 60
+        })
+      }
+      res.status(200).json({ message: "Image found", img_url });
+
+    } catch (error) {
+      console.error("Error retrieving letter:", error);
+      res.status(500).json({ message: "Error retrieving letter" });
+    }
+  }
 }
 
 

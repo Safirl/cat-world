@@ -16,7 +16,8 @@ const Letters = () => {
         navigate(routes.createLetter);
     }
 
-    const handleShowLetter = () => {
+    const handleShowLetter = async () => {
+
         if (!unreadLetters) {
             return;
         }
@@ -49,11 +50,11 @@ const Letters = () => {
             } else if (count < 10) {
                 setUnreadNumber(5);
             } else if (count < 15) {
-                setReadNumber(10);
+                setUnreadNumber(10);
             } else if (count < 25) {
-                setReadNumber(15);
+                setUnreadNumber(15);
             } else {
-                setReadNumber(25);
+                setUnreadNumber(25);
             }
 
         } catch (error) {

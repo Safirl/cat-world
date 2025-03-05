@@ -17,13 +17,14 @@ interface Letter {
     content: string,
     stamp: string,
     sender: string
-    img_id: string
+    _id: string
 }
 
 const ShowLetter = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const letter: { _id: string, sender_id: User, createdAt: string, letter_id: Letter, read: boolean } = location.state?.letter;
+    const [letterImage, setLetterImage] = useState<string | null>(null);
     const [showLetter, setShowLetter] = useState(false);
     const [isExiting, setIsExiting] = useState(false);
     const [showContent, setShowContent] = useState(false)
@@ -55,9 +56,28 @@ const ShowLetter = () => {
         await updateRead(true)
     }
 
+    const handleShowLetter = async () => {
+        try {
+            const response = await fetch(
+                import.meta.env.VITE_API_URL + apiRoutes.getLetterImage + letter.letter_id._id,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                }
+            );
+            console.log(response)
+            if (response.ok) {
+                const data = await response.json()
+                setLetterImage(data.img_url);
+            }
+        }
+        catch (error) {
+            console.error(error)
+        }
 
-
-    const handleShowLetter = () => {
         setShowLetter(true);
         setTimeout(() => {
             setIsExiting(true)
@@ -101,19 +121,19 @@ const ShowLetter = () => {
                             </div>
                             <div className="letterFooter">
                                 {
-                                    letter.letter_id.img_id &&
-                                    <img src={letter.letter_id.img_id} alt="image sent by your friend" />
+                                    letterImage &&
+                                    <img src={letterImage} alt="image sent by your friend" />
                                 }
                                 <p className="senderText">{letter.sender_id.username}</p>
                             </div>
-                        </div>
-                        <ButtonRound
-                            text="Retourner à mon bureau"
+                            <ButtonRound
+                                text="Retourner à mon bureau"
 
-                            hasBackground
-                            customClassName="btnWhiteShowLetter"
-                            onClick={handleBacktoDesk}
-                        />
+                                hasBackground
+                                customClassName="btnWhiteShowLetter"
+                                onClick={handleBacktoDesk}
+                            />
+                        </div>
                     </div>
 
                     : //Or
