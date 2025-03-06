@@ -119,7 +119,7 @@ const ShowLetter = () => {
                                     <p>{letter.letter_id.content}</p>
                                 </div>
                             </div>
-                            <div className="letterFooter">
+                            <div className={`letterFooter ${!letterImage ? "letterFooterWithoutImage" : ""}`}>
                                 {
                                     letterImage &&
                                     <img src={letterImage} alt="image sent by your friend" />
