@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production-approval
 
     services:
       mongodb:
@@ -26,7 +27,6 @@ jobs:
       CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
       CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
       CLOUDINARY_FOLDER: ${{ vars.CLOUDINARY_FOLDER }}
-      NODE_ENV: test
 
     steps:
       - name: Checkout repository
