@@ -22,6 +22,10 @@ jobs:
     env:
       MONGO_URI: ${{ secrets.MONGO_URI }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+      CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+      CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
+      CLOUDINARY_FOLDER: ${{ secrets.CLOUDINARY_FOLDER }}
       NODE_ENV: test
 
     steps:
