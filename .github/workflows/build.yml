@@ -3,7 +3,7 @@ name: Build & Test
 on:
   pull_request:
     branches:
-      - main # Ajuste en fonction de la branche cible de tes PRs
+      - production # Ajuste en fonction de la branche cible de tes PRs
 
 jobs:
   build:
