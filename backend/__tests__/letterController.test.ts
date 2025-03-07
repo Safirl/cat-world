@@ -6,9 +6,12 @@ import { authToken } from '../src/setupTests';
 import User, { IUser } from '../src/models/User'
 import mongoose, { ObjectId } from 'mongoose';
 import path from "path";
-import {v2 as cloudinary} from 'cloudinary'
+import { v2 as cloudinary } from 'cloudinary'
 import { v4 as uuidv4 } from 'uuid';
+import dotenv from "dotenv"
 
+
+dotenv.config()
 
 //Create a letter before each test
 let letter: ILetter;
@@ -17,7 +20,7 @@ let testImgId = uuidv4();
 
 beforeAll(async () => {
     //Create image inside cloudinary
-    await cloudinary.uploader.upload(path.join(__dirname, "../test_data/test-cat.webp"), {public_id: testImgId})
+    await cloudinary.uploader.upload(path.join(__dirname, "../test_data/test-cat.webp"), { public_id: testImgId, type: "private", folder: process.env.CLOUDINARY_FOLDER })
 })
 
 afterAll(async () => {
@@ -74,7 +77,7 @@ describe("Letter creation", () => {
         expect(response.body.letter.content).toBe(newLetter.content);
         expect(response.body.letter.stamp).toBe(newLetter.stamp);
         expect(response.body.letter.img_id).toBeTruthy();
-        
+
         const url = cloudinary.url(response.body.letter.img_id);
         expect(url).toBeTruthy();
         //Assign global variable to delete it off the cloudinary later.
@@ -103,7 +106,7 @@ describe("Letter Deletion", () => {
         await expect(cloudinary.api.resource(testImgId)).rejects.toMatchObject({
             error: { http_code: 404 },
         });
-                    
+
         // Vérification que la lettre et UserLetter ont été supprimées
         const deletedLetter = await Letter.findById(letter._id);
         const deletedUserLetter = await UserLetter.findOne({ letter_id: letter._id });
@@ -124,9 +127,13 @@ describe("Show Letter", () => {
         expect(response.body.letter).toMatchObject({
             title: letter.title,
             content: letter.content,
-            img_id: letter.img_id,
             typo_id: letter.typo_id,
             stamp: letter.stamp,
         });
+        //Check if the image is accessible
+        const imageResponse = await request(response.body.img_url)
+            .get("")
+
+        expect(imageResponse.status).toBe(200);
     });
 });

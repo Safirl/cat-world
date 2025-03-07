@@ -100,14 +100,19 @@ class LetterController {
         return;
       }
       //We sign a private URL for the user.
+      let img_url = "";
       if (letter.img_id) {
-        letter.img_id = cloudinary.url(`/${process.env.CLOUDINARY_FOLDER}/${letter.img_id}`, {
+        //@TODO We should add the image format to database instead of using the cloudinary API to get it.
+        const imgInfo = await cloudinary.api.resource(`${process.env.CLOUDINARY_FOLDER}/${letter.img_id}`, {
+          type: "private"
+        })
+        img_url = cloudinary.utils.private_download_url(`${process.env.CLOUDINARY_FOLDER}/${letter.img_id}`, imgInfo.format, {
           type: "private",
-          sign_url: true
+          expires_at: Math.floor(Date.now() / 1000) + 60
         })
       }
 
-      res.status(200).json({ message: "Letter found", letter });
+      res.status(200).json({ message: "Letter found", letter, img_url });
     } catch (error) {
       console.error("Error retrieving letter:", error);
       res.status(500).json({ message: "Error retrieving letter" });
