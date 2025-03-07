@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Letter from "../models/Letter.js";
 import UserLetter from "../models/UserLetter.js";
-import {v2 as cloudinary} from 'cloudinary'
+import { v2 as cloudinary } from 'cloudinary'
 import { v4 as uuidv4 } from 'uuid';
 import fs from "fs"
 
@@ -9,20 +9,23 @@ class LetterController {
   public async createLetter(req: Request, res: Response): Promise<void> {
     try {
       const { title, content, stamp, receiver_id } = req.body;
-      
+
       //Upload img on cloudinary and generate a random id for it and delete the upload file.
       const img = req.file
       let img_id = "";
       if (img) {
         img_id = uuidv4();
-        await cloudinary.uploader.upload(img.path, {public_id: img_id})
+        await cloudinary.uploader.upload(
+          img.path,
+          { public_id: img_id, type: "private", folder: "catWorld" }
+        )
         fs.unlink(img.path, (err) => {
-            if (err) {
-                console.error("Error when deleting upload file :", err);
-            }
+          if (err) {
+            console.error("Error when deleting upload file :", err);
+          }
         });
       }
-      
+
       const sender_id = (req as any).user._id
       if (!sender_id) {
         res.status(403).json({ message: "Can't create letter, sender is not valid !" });
@@ -93,6 +96,14 @@ class LetterController {
         res.status(404).json({ message: "Letter not found" });
         return;
       }
+      //We sign a private URL for the user.
+      if (letter.img_id) {
+        letter.img_id = cloudinary.url(`/catWorld/${letter.img_id}`, {
+          type: "private",
+          sign_url: true
+        })
+      }
+
       res.status(200).json({ message: "Letter found", letter });
     } catch (error) {
       console.error("Error retrieving letter:", error);
@@ -101,6 +112,8 @@ class LetterController {
   }
 
   public async getUnreadLetters(req: Request, res: Response): Promise<void> {
+    //@TODO : Unread and read letter should return a list of id, not all the letters. 
+    // We don't want to create temporary cloudinary links for each of them, so we should get the info with the showLetter route.
     try {
       const id = (req as any).user._id
       if (!id) {
@@ -125,6 +138,7 @@ class LetterController {
       res.status(500).json({ message: "Error retrieving letter" });
     }
   }
+
   public async getReadLetters(req: Request, res: Response): Promise<void> {
     try {
       const id = (req as any).user._id
@@ -145,6 +159,44 @@ class LetterController {
       }
 
       res.status(200).json({ message: "read letters found", letters: readLetters });
+    } catch (error) {
+      console.error("Error retrieving letter:", error);
+      res.status(500).json({ message: "Error retrieving letter" });
+    }
+  }
+
+  public async getPrivateImg(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        res.status(400).json({ message: "Missing letter ID" });
+        return;
+      }
+
+      const letter = await Letter.findById(id);
+
+      if (!letter) {
+        res.status(404).json({ message: "Letter not found" });
+        return;
+      }
+
+      let img_url = "";
+      if (letter.img_id) {
+        //@TODO We should add the image format to database instead of using the cloudinary API to get it.
+        const imgInfo = await cloudinary.api.resource(`catWorld/${letter.img_id}`, {
+          type: "private"
+        })
+        img_url = cloudinary.url(`catWorld/${letter.img_id}`, {
+          type: "private",
+          sign_url: true
+        })
+        img_url = cloudinary.utils.private_download_url(`catWorld/${letter.img_id}`, imgInfo.format, {
+          type: "private",
+          expires_at: Math.floor(Date.now() / 1000) + 60
+        })
+      }
+      res.status(200).json({ message: "Image found", img_url });
+
     } catch (error) {
       console.error("Error retrieving letter:", error);
       res.status(500).json({ message: "Error retrieving letter" });

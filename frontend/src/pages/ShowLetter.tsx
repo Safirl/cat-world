@@ -17,18 +17,18 @@ interface Letter {
     content: string,
     stamp: string,
     sender: string
-
+    _id: string
 }
 
 const ShowLetter = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const letter: { _id: string, sender_id: User, createdAt: string, letter_id: Letter, read: boolean } = location.state?.letter;
+    const [letterImage, setLetterImage] = useState<string | null>(null);
     const [showLetter, setShowLetter] = useState(false);
     const [isExiting, setIsExiting] = useState(false);
     const [showContent, setShowContent] = useState(false)
     const formattedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(letter.createdAt));
-
 
     const updateRead = async (newRead: boolean) => {
         try {
@@ -46,7 +46,6 @@ const ShowLetter = () => {
             if (response.ok) {
                 navigate("/letters");
             }
-
         }
         catch (error) {
             console.error(error)
@@ -57,9 +56,28 @@ const ShowLetter = () => {
         await updateRead(true)
     }
 
+    const handleShowLetter = async () => {
+        try {
+            const response = await fetch(
+                import.meta.env.VITE_API_URL + apiRoutes.getLetterImage + letter.letter_id._id,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                }
+            );
 
+            if (response.ok) {
+                const data = await response.json()
+                setLetterImage(data.img_url);
+            }
+        }
+        catch (error) {
+            console.error(error)
+        }
 
-    const handleShowLetter = () => {
         setShowLetter(true);
         setTimeout(() => {
             setIsExiting(true)
@@ -97,19 +115,25 @@ const ShowLetter = () => {
                                 <div>
                                     <p className="titleContent">{letter.letter_id.title}</p>
                                 </div>
-                                <div className="contenuLetterContainer">
+                                <div className="letterContainerContent">
                                     <p>{letter.letter_id.content}</p>
                                 </div>
                             </div>
-                            <p className="usernameContenue">{letter.sender_id.username}</p>
-                        </div>
-                        <ButtonRound
-                            text="Retourner à mon bureau"
+                            <div className={`letterFooter ${!letterImage ? "letterFooterWithoutImage" : ""}`}>
+                                {
+                                    letterImage &&
+                                    <img src={letterImage} alt="image sent by your friend" />
+                                }
+                                <p className="senderText">{letter.sender_id.username}</p>
+                            </div>
+                            <ButtonRound
+                                text="Retourner à mon bureau"
 
-                            hasBackground
-                            customClassName="btnWhiteShowLetter"
-                            onClick={handleBacktoDesk}
-                        />
+                                hasBackground
+                                customClassName="btnWhiteShowLetter"
+                                onClick={handleBacktoDesk}
+                            />
+                        </div>
                     </div>
 
                     : //Or
