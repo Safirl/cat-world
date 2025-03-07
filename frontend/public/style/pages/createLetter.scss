@@ -30,7 +30,7 @@
         height: 100%;
     }
 
-    .letterHeader{
+    .letterHeaderCreate{
         display: flex;
         gap: 1rem;
         width: 100%;
@@ -189,6 +189,11 @@
         margin-left: 1rem;
         padding: 0.25rem 2em 0.25rem 2rem;
         border-radius: 3rem;
+
+    }
+    :disabled {
+        background-color: rgb(223, 223, 223);
+
     }
 
     p {

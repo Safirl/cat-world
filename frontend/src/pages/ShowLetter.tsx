@@ -68,7 +68,7 @@ const ShowLetter = () => {
                     credentials: "include",
                 }
             );
-            console.log(response)
+
             if (response.ok) {
                 const data = await response.json()
                 setLetterImage(data.img_url);

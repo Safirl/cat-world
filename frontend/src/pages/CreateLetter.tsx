@@ -2,7 +2,7 @@ import NavBar from "./components/Navbar";
 import '../../public/style/pages/createLetter.scss'
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import stamps from '../data/stamps'
+import stamps from '../data/stamps';
 import { apiRoutes } from "../config/route";
 
 const initialFormData = {
@@ -52,15 +52,6 @@ const CreateLetter = () => {
     };
 
     const fetchFriends = async () => {
-        setHasSubmitted(true); // Indique que l'utilisateur a cliqué sur "Submit"
-
-        if (formData.stamp === "test") {
-            setStampError("Veuillez ajouter un timbre avant d'envoyer votre lettre");
-            return; // Empêche la requête si l'erreur est présente
-        } else {
-            setStampError(""); // Effacer le message d'erreur si tout va bien
-        }
-
         try {
             const response = await fetch(import.meta.env.VITE_API_URL + apiRoutes.getFriends, {
                 method: "GET",
@@ -72,7 +63,6 @@ const CreateLetter = () => {
 
             const data = await response.json();
             if (response.ok) {
-
                 setFriends(data.friends);
             } else {
                 setMessage(data.message || "Échec de la connexion");
@@ -89,6 +79,9 @@ const CreateLetter = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (hasSubmitted) {
+            return;
+        }
 
         // On indique que l'utilisateur a cliqué sur "Submit"
         setHasSubmitted(true);
@@ -96,6 +89,7 @@ const CreateLetter = () => {
         // Vérifie si un timbre a été sélectionné
         if (formData.stamp === "" || formData.stamp === "test") {
             setStampError("Veuillez ajouter un timbre avant d'envoyer votre lettre");
+            // setHasSubmitted(false);
             return; // Stoppe l'exécution de la fonction ici
         } else {
             setStampError(""); // Efface le message d'erreur si tout va bien
@@ -189,39 +183,41 @@ const CreateLetter = () => {
                         <img className="letterBackground" src="/image/letters/letter-background.svg" alt="letter background" />
 
                         <form className="letterContentForm" onSubmit={handleSubmit}>
-                            <div className="letterHeader">
-                                <button className="buttonStamp" type="button" onClick={() => setShowStamps(!showStamps)}>
-                                    {formData.stamp && formData.stamp !== "test" ? (
-                                        <img
-                                            className="stampImage"
-                                            src={`/image/stamps/${formData.stamp}`}
-                                            alt="chosen stamp"
-                                        />
-                                    ) : (
-                                        <>
-                                            <img src="/image/icons/import.svg" />
-                                            <p>Ajouter un timbre</p>
-                                        </>
-                                    )}
-                                </button>
+                            <div>
+                                <div className="letterHeaderCreate">
+                                    <button className="buttonStamp" type="button" onClick={() => setShowStamps(!showStamps)}>
+                                        {formData.stamp && formData.stamp !== "test" ? (
+                                            <img
+                                                className="stampImage"
+                                                src={`/image/stamps/${formData.stamp}`}
+                                                alt="chosen stamp"
+                                            />
+                                        ) : (
+                                            <>
+                                                <img src="/image/icons/import.svg" />
+                                                <p>Ajouter un timbre</p>
+                                            </>
+                                        )}
+                                    </button>
+                                    <div className="letterInformation">
+                                        <p className="username">De : {user?.username}</p>
+                                        <div className="selectReceiver">
+                                            <p className="receiver"> À :  </p>
+                                            <select name="receiver_id" id="receiver-select" onChange={handleChange} value={formData.receiver_id} required>
+                                                <option value="">Choisis un(e) ami(e)</option>
+                                                {friends && friends.map(friend => (
+                                                    <option key={friend._id} value={friend._id}>{friend.username}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <p className="date">Le : {formattedDate}</p>
+                                    </div>
+                                </div>
                                 {hasSubmitted && stampError && (
                                     <p className="error-message" style={{ color: 'red', fontSize: '0.8rem', marginTop: '4px' }}>
                                         {stampError}
                                     </p>
                                 )}
-                                <div className="letterInformation">
-                                    <p className="username">De : {user?.username}</p>
-                                    <div className="selectReceiver">
-                                        <p className="receiver"> À :  </p>
-                                        <select name="receiver_id" id="receiver-select" onChange={handleChange} value={formData.receiver_id} required>
-                                            <option value="">Choisis un(e) ami(e)</option>
-                                            {friends && friends.map(friend => (
-                                                <option key={friend._id} value={friend._id}>{friend.username}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <p className="date">Le : {formattedDate}</p>
-                                </div>
                             </div>
                             <div className="letterBody">
                                 <div>
@@ -249,7 +245,7 @@ const CreateLetter = () => {
                                     </label>
                                     <input style={{ display: "none" }} placeholder="mon image" title="choisir une image" id="image" type='file' name="image" accept="image/*" onChange={handleChange} />
                                 </div>
-                                <button className="sendButton" type="submit"><p>Envoyer</p></button>
+                                <button className="sendButton" type="submit" disabled={hasSubmitted}><p>Envoyer</p></button>
                             </div>
                         </form>
                     </div>
