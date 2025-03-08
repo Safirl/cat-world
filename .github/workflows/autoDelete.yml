@@ -1,0 +1,17 @@
+name: Delete Merged Feature Branches
+
+on:
+  pull_request:
+    types:
+      - closed  # Déclenché lorsqu'une PR est fermée (merge ou close)
+
+jobs:
+  delete-branch:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.head.ref, 'feature/') || startsWith(github.event.pull_request.head.ref, 'fix/'))
+    steps:
+      - name: Delete feature branch
+        run: |
+          git push origin --delete ${{ github.event.pull_request.head.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

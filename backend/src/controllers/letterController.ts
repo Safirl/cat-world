@@ -4,20 +4,23 @@ import UserLetter from "../models/UserLetter.js";
 import { v2 as cloudinary } from 'cloudinary'
 import { v4 as uuidv4 } from 'uuid';
 import fs from "fs"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 class LetterController {
   public async createLetter(req: Request, res: Response): Promise<void> {
     try {
       const { title, content, stamp, receiver_id } = req.body;
 
-      //Upload img on cloudinary and generate a random id for it and delete the upload file.
+      //Upload img on cloudinary and generate a random id for it and delete the upload file from the blob storage.
       const img = req.file
       let img_id = "";
       if (img) {
         img_id = uuidv4();
         await cloudinary.uploader.upload(
           img.path,
-          { public_id: img_id, type: "private", folder: "catWorld" }
+          { public_id: img_id, type: "private", folder: process.env.CLOUDINARY_FOLDER }
         )
         fs.unlink(img.path, (err) => {
           if (err) {
@@ -97,14 +100,19 @@ class LetterController {
         return;
       }
       //We sign a private URL for the user.
+      let img_url = "";
       if (letter.img_id) {
-        letter.img_id = cloudinary.url(`/catWorld/${letter.img_id}`, {
+        //@TODO We should add the image format to database instead of using the cloudinary API to get it.
+        const imgInfo = await cloudinary.api.resource(`${process.env.CLOUDINARY_FOLDER}/${letter.img_id}`, {
+          type: "private"
+        })
+        img_url = cloudinary.utils.private_download_url(`${process.env.CLOUDINARY_FOLDER}/${letter.img_id}`, imgInfo.format, {
           type: "private",
-          sign_url: true
+          expires_at: Math.floor(Date.now() / 1000) + 60
         })
       }
 
-      res.status(200).json({ message: "Letter found", letter });
+      res.status(200).json({ message: "Letter found", letter, img_url });
     } catch (error) {
       console.error("Error retrieving letter:", error);
       res.status(500).json({ message: "Error retrieving letter" });
@@ -183,14 +191,14 @@ class LetterController {
       let img_url = "";
       if (letter.img_id) {
         //@TODO We should add the image format to database instead of using the cloudinary API to get it.
-        const imgInfo = await cloudinary.api.resource(`catWorld/${letter.img_id}`, {
+        const imgInfo = await cloudinary.api.resource(`${process.env.CLOUDINARY_FOLDER}/${letter.img_id}`, {
           type: "private"
         })
-        img_url = cloudinary.url(`catWorld/${letter.img_id}`, {
+        img_url = cloudinary.url(`${process.env.CLOUDINARY_FOLDER}/${letter.img_id}`, {
           type: "private",
           sign_url: true
         })
-        img_url = cloudinary.utils.private_download_url(`catWorld/${letter.img_id}`, imgInfo.format, {
+        img_url = cloudinary.utils.private_download_url(`${process.env.CLOUDINARY_FOLDER}/${letter.img_id}`, imgInfo.format, {
           type: "private",
           expires_at: Math.floor(Date.now() / 1000) + 60
         })
