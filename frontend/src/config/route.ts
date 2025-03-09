@@ -6,7 +6,8 @@ const routes = {
     showLetter: "/letters/show",
     login: "/login",
     register: "/register",
-    account: "/account"
+    account: "/account",
+    showFriend: "/show-friend"
 };
 
 const apiRoutes = {

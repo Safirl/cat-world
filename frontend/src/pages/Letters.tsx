@@ -17,7 +17,6 @@ const Letters = () => {
     }
 
     const handleShowLetter = async () => {
-
         if (!unreadLetters) {
             return;
         }

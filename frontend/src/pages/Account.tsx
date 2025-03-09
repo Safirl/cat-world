@@ -1,12 +1,9 @@
-import { Canvas } from "@react-three/fiber";
 import NavBar from "./components/Navbar";
-import Cat from "./components/Cat";
 import { useState, useEffect } from "react";
 import { apiRoutes, routes } from "../config/route";
-import * as THREE from "three";
 import colors from "../data/colors";
 import { useNavigate } from "react-router-dom";
-
+import CatCloseView from "./components/CatCloseView";
 
 const initialFormData = {
     friend_id: ''
@@ -20,7 +17,7 @@ const Account = () => {
         _id: string;
         color: string;
     }>();
-    const [friends, setFriends] = useState<{ username: string }[]>([]);
+    const [friends, setFriends] = useState<{ username: string, _id: string }[]>([]);
     const [error, setError] = useState<{ message: string; target: string } | null>(null);
     const [isEditMenuOpened, setIsEditMenuOpened] = useState(false);
 
@@ -157,6 +154,10 @@ const Account = () => {
       }
   };
 
+    const handleShowFriendProfile = (_id: string) => {
+        navigate(routes.showFriend, {state: _id})
+    }
+
     useEffect(() => {
         fetchFriends();
         fetchUser();
@@ -166,18 +167,7 @@ const Account = () => {
         <>
             <NavBar />
             <div className={`containerAccount ${isEditMenuOpened && "containerAccountEditMenu"}`}>
-                <Canvas className="canvasAccount" camera={{ position: [0, 2, 5] }}>
-                    <ambientLight intensity={2.4} color="#C8B3FF" />
-                    <directionalLight position={[1, 2, 3]} intensity={0.5} />
-                    {user && (
-                        <Cat
-                            color={user.color}
-                            defaultYRotation={Math.PI}
-                            defaultPosition={new THREE.Vector3(0, 1.6, 4)}
-                        />
-                    )}
-                </Canvas>
-
+                {user?.color && <CatCloseView color={user?.color}></CatCloseView>}
                 <div className="editButton">
                     <button onClick={() => setIsEditMenuOpened(!isEditMenuOpened)}>
                         <img src={`/image/icons/${!isEditMenuOpened ? "EditButtonAccount.svg" : "cross.svg"}`} alt="edit menu icon" />
@@ -193,7 +183,7 @@ const Account = () => {
                               <p>Code ami :&nbsp;</p>
                               <p>{user && user._id}</p>
                               <img src="/image/icons/copy.svg" alt="Copier votre code ami" />
-                          </div>
+                            </div>
 
                             <div className="AddfriendContainer">
                                 <form onSubmit={handleSubmit} method="post">
@@ -221,15 +211,11 @@ const Account = () => {
                                                     src="/image/cat/gingerCat.svg"
                                                     alt="une image de ton ami(e)"
                                                 />
-
                                                 <p>{friend.username}</p>
-                                                {/* 
-                  <a href="#">
-                    <p>Voir le profil</p>
-
-                    <img src="/image/icons/arrow.svg" alt="voir plus" />
-                  </a> */}
-
+                                                <button onClick={() => handleShowFriendProfile(friend._id)}>
+                                                    <p>Voir le profil</p>
+                                                    <img src="/image/icons/arrow.svg" alt="voir plus" />
+                                                </button>
                                             </div>
                                         ))}
                                 </div>
@@ -248,7 +234,7 @@ const Account = () => {
                             </div>
                         </div>
 
-                        : //OR
+                    : //OR
 
                         <div className="containerAccountInformation selectColors">
                             <h4>Ton avatar</h4>

@@ -9,6 +9,7 @@ import Landing from "../pages/landing"
 import CreateLetter from "../pages/CreateLetter";
 import Account from "../pages/Account";
 import ShowLetter from "../pages/ShowLetter";
+import ShowFriendProfile from "../pages/ShowFriendProfile"
 
 const AppRouter = () => {
     return (
@@ -21,6 +22,7 @@ const AppRouter = () => {
                     <Route path={routes.account} element={<Account />} />
                     <Route path={routes.createLetter} element={<CreateLetter />} />
                     <Route path={routes.showLetter} element={<ShowLetter />} />
+                    <Route path={routes.showFriend} element={<ShowFriendProfile />} />
                 </Route>
                 <Route path={routes.login} element={<Login />} />
                 <Route path={routes.register} element={<Register />} />
