@@ -1,0 +1,34 @@
+@use '../variables.scss' as *;
+
+.containerShowFriendProfile {
+    min-height: 100%;
+    width: 100%;
+}
+
+.friendProfileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    top: 60dvh;
+    bottom: 0;
+    gap: .5rem;
+
+    .sendLetterToFriend {
+        box-sizing: border-box;
+        width: 100%;
+        margin-top: 0.5rem;
+        border: unset;
+        text-align: center;
+        color: $color-purple;
+        background-color: $color-pink-dark;
+    }
+
+    .deleteFriend {
+        text-decoration: underline;
+    }
+}
+
+.canvasAccount {
+    position: absolute !important;
+    max-width: 768px;
+}

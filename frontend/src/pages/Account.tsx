@@ -212,10 +212,10 @@ const Account = () => {
                                                     alt="une image de ton ami(e)"
                                                 />
                                                 <p>{friend.username}</p>
-                                                <button onClick={() => handleShowFriendProfile(friend._id)}>
+                                                <a onClick={() => handleShowFriendProfile(friend._id)}>
                                                     <p>Voir le profil</p>
                                                     <img src="/image/icons/arrow.svg" alt="voir plus" />
-                                                </button>
+                                                </a>
                                             </div>
                                         ))}
                                 </div>

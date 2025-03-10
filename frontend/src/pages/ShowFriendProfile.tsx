@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import NavBar from "./components/Navbar";
 import CatCloseView from "./components/CatCloseView";
 import { routes, apiRoutes } from "../config/route";
+import "../../public/style/pages/friendProfile.scss"
 
 
 const ShowFriendProfile = () => {
@@ -59,16 +60,16 @@ const ShowFriendProfile = () => {
         <>
             <NavBar />
             <div className="containerShowFriendProfile">
-                {friend.color && <CatCloseView color={friend.color} />}
                 <div className="editButton">
                     <button onClick={handleOnCloseFriendProfile}>
                         <img src="/image/icons/cross.svg" alt="close friend profile button icon" />
                     </button>
                 </div>
-                <div className="containerAccountInformation">
+                {friend.color && <CatCloseView color={friend.color} />}
+                <div className="containerAccountInformation friendProfileContainer">
                     <h4>{friend.username}</h4>
                     <button className="sendLetterToFriend" onClick={handleSendLetterToFriend}>Envoyer une lettre</button>
-                    <button className="deleteFriend" onClick={() => setShowDeleteFriend(true)}>Supprimer l'amitié</button>
+                    <a className="deleteFriend" onClick={() => setShowDeleteFriend(true)}>Supprimer l'amitié</a>
                 </div>
             </div>
         </>

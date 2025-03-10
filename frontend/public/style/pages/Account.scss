@@ -2,28 +2,9 @@
 @use "../font.scss" as *;
 
 .containerAccount {
-  min-height: 100%;
-  width: 100%;
-
   .canvasAccount {
     position: absolute !important;
     max-width: 768px;
-  }
-
-  .editButton {
-    display: flex;
-    justify-content: end;
-    margin-top: 2rem;
-    padding-right: 1.5rem;
-
-    button {
-      line-height: 0;
-      z-index: 20;
-      border: none;
-      margin: 0;
-      padding: 0;
-      background: none;
-    }
   }
 
   .colorsP {
@@ -32,6 +13,22 @@
 
   .colorIcon {
     margin-right: .5rem;
+  }
+}
+
+.editButton {
+  display: flex;
+  justify-content: end;
+  margin-top: 2rem;
+  padding-right: 1.5rem;
+
+  button {
+    line-height: 0;
+    z-index: 20;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none;
   }
 }
 

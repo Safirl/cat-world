@@ -1,7 +1,7 @@
 import NavBar from "./components/Navbar";
 import '../../public/style/pages/createLetter.scss'
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import stamps from '../data/stamps';
 import { apiRoutes } from "../config/route";
 
@@ -16,7 +16,7 @@ const initialFormData = {
 
 
 const CreateLetter = () => {
-
+    const location = useLocation();
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [stampError, setStampError] = useState<string>("");
     const [image, setImage] = useState<File>();
@@ -75,6 +75,9 @@ const CreateLetter = () => {
     useEffect(() => {
         fetchUser();
         fetchFriends();
+        if (location.state) {
+            setFormData({ ...formData, ["receiver_id"]: location.state });
+        }
     }, []);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -151,7 +154,6 @@ const CreateLetter = () => {
     useEffect(() => {
         setHasSubmitted(false);
     }, [formData]);
-
 
     const StampList = () => {
         return (
