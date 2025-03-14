@@ -107,6 +107,15 @@
     }
 }
 
+@keyframes fadeIn {
+    0% {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    100% {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
 .letterFooter {
     display: flex;
     justify-content: space-between;
@@ -116,6 +125,11 @@
         background-color: #FFF9EF;
         padding: .5rem .5em 2rem .5rem;
         width: 160px;
+        transition: transform 0.5s ease-in-out;
+
+        &.showImage {
+            transform: translateY(100dvh);
+        }
     }
 }
 
@@ -123,4 +137,31 @@
     transform: translate(0, 0);
     padding-bottom: 2rem;
     justify-content: end;
+}
+
+.showImageContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: .5s ease-in-out 0s 1 fadeIn forwards;
+
+    &.exit {
+        animation: .5s ease-in-out 0s 1 fadeIn reverse forwards;
+
+        img {
+            animation: .5s ease-in-out 0s 1 slideInFromBottom reverse forwards;
+        }
+    }
+
+    img {
+        width: 90dvw;
+        max-width: 768px;
+        animation: .5s ease-in-out 0s 1 slideInFromBottom forwards;
+    }
 }

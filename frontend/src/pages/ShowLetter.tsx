@@ -29,6 +29,9 @@ const ShowLetter = () => {
     const [isExiting, setIsExiting] = useState(false);
     const [showContent, setShowContent] = useState(false)
     const formattedDate = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(letter.createdAt));
+    const [showImage, setShowImage] = useState(false);
+    const [exitShowImage, setExitShowImage] = useState(false);
+
 
     const updateRead = async (newRead: boolean) => {
         try {
@@ -87,6 +90,22 @@ const ShowLetter = () => {
         }, 1000);
     }
 
+    const handleExitShowImage = () => {
+        setExitShowImage(true)
+        setTimeout(() => {
+            setShowImage(false)
+            setExitShowImage(false)
+        }, 500);
+    }
+
+    const FullScreenImage = () => {
+        return (
+            <div className={`showImageContainer ${exitShowImage ? "exit" : ""}`} onClick={handleExitShowImage}>
+                {letterImage && <img src={letterImage} alt="letter image full size" className={`${exitShowImage ? "exit" : ""}`} />}
+            </div>
+        )
+    }
+
     if (!letter) {
         return <p>Aucune lettre sélectionnée.</p>
     }
@@ -122,7 +141,7 @@ const ShowLetter = () => {
                             <div className={`letterFooter ${!letterImage ? "letterFooterWithoutImage" : ""}`}>
                                 {
                                     letterImage &&
-                                    <img src={letterImage} alt="image sent by your friend" />
+                                    <img src={letterImage} alt="image sent by your friend" onClick={() => setShowImage(true)} className={showImage ? "showImage" : ""} />
                                 }
                                 <p className="senderText">{letter.sender_id.username}</p>
                             </div>
@@ -145,6 +164,8 @@ const ShowLetter = () => {
                 }
 
             </div>
+
+            {showImage && <FullScreenImage />}
         </>
     )
 }
