@@ -3,6 +3,8 @@ import Letter from "../models/Letter.js";
 import UserLetter from "../models/UserLetter.js";
 import { v2 as cloudinary } from 'cloudinary'
 import { v4 as uuidv4 } from 'uuid';
+import sharp from "sharp"
+import path from "path"
 import fs from "fs"
 import dotenv from "dotenv"
 
@@ -17,16 +19,20 @@ class LetterController {
       const img = req.file
       let img_id = "";
       if (img) {
+        const outputPath = `uploads/${path.parse(img.originalname).name}.webp`;
+        await sharp(img.path)
+          .toFormat("webp")
+          .webp({ quality: 80 })
+          .toFile(outputPath)
+
         img_id = uuidv4();
         await cloudinary.uploader.upload(
-          img.path,
+          outputPath,
           { public_id: img_id, type: "private", folder: process.env.CLOUDINARY_FOLDER }
         )
-        fs.unlink(img.path, (err) => {
-          if (err) {
-            console.error("Error when deleting upload file :", err);
-          }
-        });
+        //clean path
+        await fs.promises.unlink(img.path)
+        await fs.promises.unlink(outputPath)
       }
 
       const sender_id = (req as any).user._id
