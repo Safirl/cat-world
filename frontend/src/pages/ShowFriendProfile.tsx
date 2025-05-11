@@ -44,6 +44,10 @@ const ShowFriendProfile = () => {
         }
     }
 
+    const deleteFriend = async () => {
+        
+    }
+
     const handleOnCloseFriendProfile = () => {
         navigate(routes.account);
     }
@@ -55,6 +59,14 @@ const ShowFriendProfile = () => {
     useEffect(() => {
         fetchFriend();
     }, [])
+
+    const ShowDeleteFriendView = () => {
+        return (
+            <>
+                
+            </>
+        )
+    }
 
     return (
         <>
@@ -72,6 +84,7 @@ const ShowFriendProfile = () => {
                     <a className="deleteFriend" onClick={() => setShowDeleteFriend(true)}>Supprimer l'amitié</a>
                 </div>
             </div>
+            {showDeleteFriend && <ShowDeleteFriendView />}
         </>
     );
 }

@@ -205,7 +205,7 @@ const CreateLetter = () => {
                                         <p className="username">De : {user?.username}</p>
                                         <div className="selectReceiver">
                                             <p className="receiver"> À :  </p>
-                                            <select name="receiver_id" id="receiver-select" onChange={handleChange} value={formData.receiver_id} required>
+                                            <select title="receiver name" name="receiver_id" id="receiver-select" onChange={handleChange} value={formData.receiver_id} required>
                                                 <option value="">Choisis un(e) ami(e)</option>
                                                 {friends && friends.map(friend => (
                                                     <option key={friend._id} value={friend._id}>{friend.username}</option>
