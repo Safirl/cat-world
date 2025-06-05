@@ -4,7 +4,6 @@ import Planet from './components/Planet';
 import * as THREE from 'three';
 import Cat from './components/Cat';
 import { apiRoutes } from "../config/route"
-import NavBar from "./components/Navbar";
 import { OrbitControls } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { CatProps } from './components/Cat'
