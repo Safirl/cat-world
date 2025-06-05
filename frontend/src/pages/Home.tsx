@@ -96,21 +96,20 @@ const Home = () => {
 
   return (
     <>
-      <NavBar />
       <img className="stars" src="/image/starsBackground.svg" alt="stars" />
       <Canvas camera={{ position: [0, 0, 5] }}>
-      <OrbitControls
-      ref={cameraControlRef}
-      enableRotate={true}
-      enableZoom={true}
-      enablePan={true}
-      enableDamping={true}
-      screenSpacePanning={true} // Permet un mouvement libre vertical
-      minPolarAngle={-Infinity} // Supprime les restrictions verticales
-      maxPolarAngle={Infinity} // Supprime les restrictions verticales
-      minAzimuthAngle={-Infinity} // Supprime les restrictions horizontales
-      maxAzimuthAngle={Infinity} // Supprime les restrictions horizontales
-    />
+        <OrbitControls
+          ref={cameraControlRef}
+          enableRotate={true}
+          enableZoom={true}
+          enablePan={true}
+          enableDamping={true}
+          screenSpacePanning={true} // Permet un mouvement libre vertical
+          minPolarAngle={-Infinity} // Supprime les restrictions verticales
+          maxPolarAngle={Infinity} // Supprime les restrictions verticales
+          minAzimuthAngle={-Infinity} // Supprime les restrictions horizontales
+          maxAzimuthAngle={Infinity} // Supprime les restrictions horizontales
+        />
         <ambientLight intensity={2.4} color="#C8B3FF" />
         <directionalLight position={[1, 2, 3]} intensity={0.5} />
         <Planet ref={planetRef} onClick={handleMoveCat} />

@@ -12,22 +12,20 @@ import ShowLetter from "../pages/ShowLetter";
 
 const AppRouter = () => {
     return (
-        <Router>
-            <Routes>
-                {/* Private route */}
-                <Route element={<PrivateRoute />}>
-                    <Route path={routes.home} element={<Home />} />
-                    <Route path={routes.letters} element={<Letters />} />
-                    <Route path={routes.account} element={<Account />} />
-                    <Route path={routes.createLetter} element={<CreateLetter />} />
-                    <Route path={routes.showLetter} element={<ShowLetter />} />
-                </Route>
-                <Route path={routes.login} element={<Login />} />
-                <Route path={routes.register} element={<Register />} />
-                <Route path={routes.landing} element={<Landing />} />
-                {/* <Route path="*" element={<NotFoundPage />} /> */}
-            </Routes>
-        </Router>
+        <Routes>
+            {/* Private route */}
+            <Route element={<PrivateRoute />}>
+                <Route path={routes.home} element={<Home />} />
+                <Route path={routes.letters} element={<Letters />} />
+                <Route path={routes.account} element={<Account />} />
+                <Route path={routes.createLetter} element={<CreateLetter />} />
+                <Route path={routes.showLetter} element={<ShowLetter />} />
+            </Route>
+            <Route path={routes.login} element={<Login />} />
+            <Route path={routes.register} element={<Register />} />
+            <Route path={routes.landing} element={<Landing />} />
+            {/* <Route path="*" element={<NotFoundPage />} /> */}
+        </Routes>
     );
 };
 

@@ -1,5 +1,4 @@
 import { Canvas } from "@react-three/fiber";
-import NavBar from "./components/Navbar";
 import Cat from "./components/Cat";
 import { useState, useEffect } from "react";
 import { apiRoutes, routes } from "../config/route";
@@ -150,12 +149,12 @@ const Account = () => {
     }
 
     const handleCopy = () => {
-      if (user?._id) {
-          navigator.clipboard.writeText(user._id)
-              .then(() => alert("Code ami copié : " + user._id))
-              .catch(err => console.error("Échec de la copie", err));
-      }
-  };
+        if (user?._id) {
+            navigator.clipboard.writeText(user._id)
+                .then(() => alert("Code ami copié : " + user._id))
+                .catch(err => console.error("Échec de la copie", err));
+        }
+    };
 
     useEffect(() => {
         fetchFriends();
@@ -164,7 +163,6 @@ const Account = () => {
 
     return (
         <>
-            <NavBar />
             <div className={`containerAccount ${isEditMenuOpened && "containerAccountEditMenu"}`}>
                 <Canvas className="canvasAccount" camera={{ position: [0, 2, 5] }}>
                     <ambientLight intensity={2.4} color="#C8B3FF" />
@@ -190,10 +188,10 @@ const Account = () => {
                             <h4>{user && user.username}</h4>
 
                             <div className="friendcode" onClick={handleCopy} style={{ cursor: "pointer" }}>
-                              <p>Code ami :&nbsp;</p>
-                              <p>{user && user._id}</p>
-                              <img src="/image/icons/copy.svg" alt="Copier votre code ami" />
-                          </div>
+                                <p>Code ami :&nbsp;</p>
+                                <p>{user && user._id}</p>
+                                <img src="/image/icons/copy.svg" alt="Copier votre code ami" />
+                            </div>
 
                             <div className="AddfriendContainer">
                                 <form onSubmit={handleSubmit} method="post">
@@ -276,7 +274,7 @@ const Account = () => {
                                         d="M36 18.5C36 28.165 28.165 36 18.5 36M36 18.5C36 8.83502 28.165 1 18.5 1C8.83502 1 1 8.83502 1 18.5C1 28.165 8.83502 36 18.5 36M36 18.5C36 14.4303 34.6108 10.6849 32.2807 7.7124L12.8101 35.0541C14.5939 35.6671 16.5081 36 18.5 36"
                                         stroke="#4B4438"
                                     />
-                                    
+
                                 </svg>
                             ))}
                         </div>

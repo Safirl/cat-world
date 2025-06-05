@@ -1,4 +1,3 @@
-import NavBar from "./components/Navbar";
 import '../../public/style/pages/createLetter.scss'
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -175,7 +174,6 @@ const CreateLetter = () => {
     return (
         <>
             <div className="createLetterPage">
-                <NavBar />
                 <div className="createLetterContainer">
                     <h1>Ma lettre</h1>
                     <div className="letter">
