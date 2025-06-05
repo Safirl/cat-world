@@ -151,9 +151,13 @@ const Account = () => {
                 setError({ message: data.message, target: data.target || "global" });
             }
         } catch (error) {
-            setError({ message: "Une erreur s'est produite lors de l'ajout de l'ami", target: "global" });
+            setError({ message: "Impossible de se déconnecter", target: "global" });
             console.error(error);
         }
+    }
+
+    const handleMentions = () => {
+        navigate(routes.mentions)
     }
 
     const handleCopy = () => {
@@ -248,7 +252,7 @@ const Account = () => {
                                 <a href="">
                                     <p>Supprimer son compte</p>
                                 </a>
-                                <a href="">
+                                <a onClick={handleMentions}>
                                     <p>Mentions légales</p>
                                 </a>
                             </div>
