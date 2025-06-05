@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect } from 'react'
+import { useRef, useState, useMemo, useEffect, use } from 'react'
 import { useGLTF, useTexture, useAnimations } from '@react-three/drei'
 import * as THREE from 'three'
 import { GroupProps, useGraph } from '@react-three/fiber'
