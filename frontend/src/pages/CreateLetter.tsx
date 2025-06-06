@@ -1,4 +1,4 @@
-import '../../public/style/pages/createLetter.scss'
+import '.././style/pages/createLetter.scss'
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import stamps from '../data/stamps';

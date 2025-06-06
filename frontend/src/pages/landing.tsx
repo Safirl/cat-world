@@ -3,7 +3,7 @@ import Planet from './components/Planet';
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import Cat from './components/Cat';
-import '../../public/style/pages/landing.scss'
+import '.././style/pages/landing.scss'
 import { routes } from '../config/route';
 import ButtonRound from './components/buttonRound';
 import { useNavigate } from 'react-router-dom';
