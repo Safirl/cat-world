@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthCheck } from "../services/useAuthCheck";
 import { useNavigate } from "react-router-dom"
 import { apiRoutes, routes } from "../config/route";
@@ -65,7 +65,7 @@ const Register = () => {
                     </div>
                     <div className="buttonsForm">
                         <button type="submit"><p>Me créer un compte</p></button>
-                        
+
                         <p><a href={routes.login}>J’ai déjà un compte, me connecter</a> </p>
                     </div>
                 </form>

@@ -1,12 +1,13 @@
 import * as THREE from 'three';
-import { forwardRef, useRef, /*useImperativeHandle*/ } from 'react';
+import { forwardRef, useRef } from 'react';
+import { useTexture } from '@react-three/drei';
 
 interface PlanetProps {
   onClick?: (position: THREE.Vector3) => void;
 }
 
 const Planet = forwardRef<THREE.Mesh, PlanetProps>((/*{ onClick },*/ /*ref*/) => {
-  const texture = new THREE.TextureLoader().load('/textures/map/planet.jpg');
+  const texture = useTexture('/textures/map/planet.webp');
 
   // const raycaster = new THREE.Raycaster();
   // const mouse = new THREE.Vector2();
