@@ -180,6 +180,6 @@ const Cat = (props: CatProps) => {
     )
 }
 
-useGLTF.preload('/public/3D/cat.glb')
+useGLTF.preload('/3D/cat.glb')
 
 export default Cat;

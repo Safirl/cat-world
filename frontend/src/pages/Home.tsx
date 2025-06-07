@@ -127,7 +127,7 @@ const Home = () => {
         )}
 
       </Canvas>
-      {/* <img className="aurorBoreal" src="/image/aurorBoreal.png" alt="auror boreal" /> */}
+      {/* <img className="aurorBoreal" src="/image/aurorBoreal.webp" alt="auror boreal" /> */}
 
       {message && <p>{message}</p>}
     </>

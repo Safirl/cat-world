@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthCheck } from "../services/useAuthCheck";
 import { useNavigate } from "react-router-dom"
 import { apiRoutes, routes } from "../config/route";
@@ -8,10 +8,9 @@ const Register = () => {
     const navigate = useNavigate();
     const checkAuthStatus = useAuthCheck("/home", "Vous êtes déjà connecté !");
 
-    // useEffect(() => {
-    //     checkAuthStatus();
-    // }, []);
-    use(checkAuthStatus())
+    useEffect(() => {
+        checkAuthStatus();
+    }, []);
 
     const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });

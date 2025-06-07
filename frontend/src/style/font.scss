@@ -1,23 +1,27 @@
 @use './variables.scss' as *;
 
-
-
-$font-primary: 'Jost-Variable';
+$font-primary: 'Jost';
 $font-title: 'Pally-Regular';
 
-
-
-h1, h2, h3, h4, h5, h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-size: 46px;
-    font-family: 'Pally-Regular';
+    font-family: $font-title;
     color: $color-white;
     font-weight: 200;
 }
 
-p, label, input::placeholder, input, textarea{
+p,
+label,
+input::placeholder,
+input,
+textarea {
     font-size: 16px;
-    font-family: 'Jost-Variable';
-    font-weight: 200;
+    font-family: $font-primary;
 }
 
 
@@ -25,47 +29,27 @@ p, label, input::placeholder, input, textarea{
 //! -----<< DECLARATION >>-----
 @font-face {
     font-family: 'Pally-Regular';
-    src: url('../fonts/pally/Pally-Regular.woff2') format('woff2'),
-    url('../fonts/pally/Pally-Regular.woff') format('woff'),
-    url('../fonts/pally/Pally-Regular.ttf') format('truetype');
+    src: url('/fonts/pally/Pally-Regular.woff2') format('woff2'),
+        url('/fonts/pally/Pally-Regular.woff') format('woff'),
+        url('/fonts/pally/Pally-Regular.ttf') format('truetype');
     font-weight: 300;
     font-display: swap;
     font-style: normal;
 }
+
+/* jost-200 - latin */
 @font-face {
-    font-family: 'Pally-Medium';
-    src: url('../fonts/pally/Pally-Medium.woff2') format('woff2'),
-    url('../fonts/pally/Pally-Medium.woff') format('woff'),
-    url('../fonts/pally/Pally-Medium.ttf') format('truetype');
-    font-weight: 500;
+    font-family: 'Jost';
     font-display: swap;
     font-style: normal;
-}
-@font-face {
-    font-family: 'Pally-Bold';
-    src: url('../fonts/pally/Pally-Bold.woff2') format('woff2'),
-    url('../fonts/pally/Pally-Bold.woff') format('woff'),
-    url('../fonts/pally/Pally-Bold.ttf') format('truetype');
-    font-weight: 700;
     font-display: swap;
-    font-style: normal;
+    font-weight: 200;
+    src: url('/fonts/jost/jost-regular.woff2') format('woff2'),
+        /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+        url('/fonts/jost/jost-regular.ttf') format('truetype');
+    /* Chrome 4+, Firefox 3.5+, IE 9+, Safari 3.1+, iOS 4.2+, Android Browser 2.2+ */
 }
-@font-face {
-    font-family: 'Pally-Variable';
-    src: url('../fonts/pally/Pally-Variable.woff2') format('woff2'),
-    url('../fonts/pally/Pally-Variable.woff') format('woff'),
-    url('../fonts/pally/Pally-Variable.ttf') format('truetype');
-    font-weight: 400 700;
-    font-display: swap;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Jost-Variable';
-    src: url('../fonts/jost/Jost-VariableFont.ttf') format('truetype');
-    font-weight: 400 700;
-    font-display: swap;
-    font-style: normal;
-}
+
 /**
 * @license
 *

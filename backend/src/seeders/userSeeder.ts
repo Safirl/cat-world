@@ -40,7 +40,7 @@ async function seedUsers() {
       username: "admin",
       email: "admin@email.com",
       password: "password",
-      color: "cat_texture_black.png",
+      color: "cat_texture_black.webp",
       isAdmin: true,
     };
     const hashedPassword = await bcrypt.hash(adminCredentials.password, 10);
@@ -57,7 +57,7 @@ async function seedUsers() {
       username: "user",
       email: "user@email.com",
       password: "password",
-      color: "cat_texture_white_bleu.png",
+      color: "cat_texture_white_bleu.webp",
       isAdmin: false,
     };
     const hashedPassword = await bcrypt.hash(userCredentials.password, 10);
