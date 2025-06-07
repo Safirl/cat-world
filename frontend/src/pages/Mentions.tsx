@@ -1,8 +1,5 @@
-import NavBar from "./components/Navbar";
-
 const Mentions = () => {
     return <>
-        <NavBar />
         <h1>Mentions légales</h1>
         <h4>Propriétaires du site</h4>
         <span>Noms des éditeurs : Loïc Leforestier, Héloïse Pingintore</span>

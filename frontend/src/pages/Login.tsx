@@ -51,7 +51,7 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="labelInput">
             <label htmlFor="connection-email">Adresse Email</label>
-            <input id="connection-email" type="email" name="email" placeholder="John.doe@catworld.fr" onChange={handleChange} required />
+            <input id="connection-email" type="email" name="email" placeholder="John.doe@catworld.fr" onChange={handleChange} required autoComplete="true" />
           </div>
           <div className="labelInput">
             <label htmlFor="connection-password">Mot de passe</label>
@@ -60,7 +60,6 @@ const Login = () => {
           </div>
           <div className="buttonsForm">
             <button type="submit"><p>Me connecter</p></button>
-            
             <p><a href={routes.register}> Je n’ai pas de compte, m’inscrire</a> </p>
           </div>
         </form>

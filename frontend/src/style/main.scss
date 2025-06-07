@@ -1,3 +1,5 @@
+@use './variables.scss' as *;
+
 :root {
   font-family: jost, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -16,10 +18,12 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100dvh;
+  background: linear-gradient(180deg, rgba(60, 66, 196, 1) 0%, rgba(214, 143, 184, 1) 70%);
+  overflow: hidden;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 46px;
   line-height: 1.1;
 }
 
@@ -30,13 +34,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: $color-black;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 button:hover {
-  border-color: #646cff;
+  border-color: $color-dark-blue;
 }
 
 button:focus,
@@ -44,13 +48,24 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+//Old
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 46px;
+  font-family: $font-title;
+  color: $color-white;
+  font-weight: 200;
+}
 
-  button {
-    background-color: #f9f9f9;
-  }
+p,
+label,
+input::placeholder,
+input,
+textarea {
+  font-size: 16px;
+  font-family: $font-primary;
 }

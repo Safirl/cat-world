@@ -1,31 +1,3 @@
-@use './variables.scss' as *;
-
-$font-primary: 'Jost';
-$font-title: 'Pally-Regular';
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-size: 46px;
-    font-family: $font-title;
-    color: $color-white;
-    font-weight: 200;
-}
-
-p,
-label,
-input::placeholder,
-input,
-textarea {
-    font-size: 16px;
-    font-family: $font-primary;
-}
-
-
-
 //! -----<< DECLARATION >>-----
 @font-face {
     font-family: 'Pally-Regular';

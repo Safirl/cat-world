@@ -7,6 +7,7 @@ import { apiRoutes } from "../config/route"
 import { OrbitControls } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { CatProps } from './components/Cat'
+import "../style/home.scss"
 
 const Home = () => {
   const [targetPosition, setTargetPosition] = useState<THREE.Vector3 | null>(null);

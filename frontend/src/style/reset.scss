@@ -1,28 +1,26 @@
-html, body, #root{
+html,
+body,
+#root {
     min-height: 100dvh;
     width: 100vw;
 }
 
-body{
+body {
     display: flex;
     justify-content: center;
 }
 
-canvas{
+canvas {
     min-height: 100dvh;
     width: 100%;
     max-width: 768px;
 
-   aspect-ratio: 16/9;
+    aspect-ratio: 16/9;
 }
 
 
-#root{
+#root {
     max-width: 768px;
-}
-
-html, body{
-    overflow: unset;
 }
 
 
@@ -106,13 +104,20 @@ h3,
 h4,
 h5,
 p,
-textarea
- {
+textarea {
     margin: 0;
     padding: 0;
     border: 0;
     top: 0;
     vertical-align: baseline;
+}
+
+html,
+body {
+    width: 100vw;
+    overflow-x: hidden;
+    /*overflow-y: hidden;*/
+    scroll-behavior: smooth;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -143,6 +148,7 @@ q {
 }
 
 blockquote {
+
     &:before,
     &:after {
         content: "";
@@ -151,6 +157,7 @@ blockquote {
 }
 
 q {
+
     &:before,
     &:after {
         content: "";
@@ -171,12 +178,7 @@ a {
     box-sizing: border-box;
 }
 
-html, body {
-    width: 100vw;
-    overflow-x: hidden;
-    /*overflow-y: hidden;*/
-    scroll-behavior: smooth;
-}
+
 input {
     all: unset;
-  }
+}
