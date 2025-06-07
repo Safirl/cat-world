@@ -118,7 +118,15 @@ const Account = () => {
             const data = await response.json();
 
             if (response.ok) {
-                fetchUser()
+                setUser(prev => {
+                    if (!prev) return prev;
+
+                    return {
+                        ...prev,
+                        color: newColor
+                    };
+                });
+
             } else {
                 setError({ message: data.message, target: data.target || "global" });
             }
