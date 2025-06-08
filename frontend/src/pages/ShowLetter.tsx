@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import "../../public/style/pages/ShowLetter.scss"
+import ".././style/pages/ShowLetter.scss"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonRound from "./components/buttonRound";

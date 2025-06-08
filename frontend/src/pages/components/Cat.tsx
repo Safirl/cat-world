@@ -47,6 +47,9 @@ const Cat = (props: CatProps) => {
     const texture = useTexture(`/textures/cats/${props.color}`);
     texture.colorSpace = "srgb"
     texture.flipY = false
+    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = THREE.LinearFilter;
+
     //Clone material instance.
     materials.Cat_Material = materials.Cat_Material.clone();
     (materials.Cat_Material as THREE.MeshBasicMaterial).map = texture;
@@ -177,6 +180,6 @@ const Cat = (props: CatProps) => {
     )
 }
 
-useGLTF.preload('/public/3D/cat.glb')
+useGLTF.preload('/3D/cat.glb')
 
 export default Cat;

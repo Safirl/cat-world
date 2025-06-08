@@ -3,7 +3,7 @@ import Planet from './components/Planet';
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import Cat from './components/Cat';
-import '../../public/style/pages/landing.scss'
+import '.././style/pages/landing.scss'
 import { routes } from '../config/route';
 import ButtonRound from './components/buttonRound';
 import { useNavigate } from 'react-router-dom';
@@ -51,15 +51,15 @@ const Landing = () => {
                     />
                 </div>
             </div >
-            <img className="aurorBoreal" src="/image/aurores-back.png" alt="aurore boreal" />
+            <img className="aurorBoreal" src="/image/aurores-back.webp" alt="aurore boreal" />
             <Canvas className='canvasLandingpage' camera={{ fov: 50 }}>
                 <Scene />
                 <ambientLight intensity={2.4} color="#C8B3FF" />
                 <directionalLight position={[1, 2, 3]} intensity={0.5} />
                 <Planet ref={planetRef} />
-                <Cat targetPosition={new THREE.Vector3()} color={"cat_texture_black.png"} defaultAngle={{ theta: 90, phi: 80 }} />
+                <Cat targetPosition={new THREE.Vector3()} color={"cat_texture_black.webp"} defaultAngle={{ theta: 90, phi: 80 }} />
             </Canvas>
-            <img className="aurorBoreal" src="/image/aurorBoreal.png" alt="aurore boreal" />
+            <img className="aurorBoreal" src="/image/aurorBoreal.webp" alt="aurore boreal" />
             <img className="stars" src="/image/starsBackground.svg" alt="stars" />
         </>
     );

@@ -1,0 +1,32 @@
+.button {
+    border: 1px solid #FFF9EF;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 43px;
+    min-width: 240px;
+    gap: 12px;
+    background-color: unset;
+
+    p {
+        color: #FFF9EF;
+    }
+}
+
+.backgroundcolorWhite {
+    background-color: #FFF9EF;
+
+    p {
+        color: #3C42C4;
+    }
+}
+
+.btnWhiteLetter {
+    position: absolute;
+    z-index: 99999;
+    left: 50%;
+    top: 25px;
+    transform: translate(-50%, 0%);
+    width: 80%;
+}

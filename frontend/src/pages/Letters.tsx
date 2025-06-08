@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { routes } from "../config/route";
 import ButtonRound from "./components/buttonRound";
-import NavBar from "./components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { apiRoutes } from "../config/route";
 
@@ -119,7 +118,6 @@ const Letters = () => {
                     onClick={handleCreateLetter}
                 />
 
-                <NavBar />
                 <div className="wall">
                     <img className="postit read" src="/image/decors/postItRead.svg" alt="Lettre lu" />
                     <img className="postit unread" src="/image/decors/postItunread.svg" alt="Lettre pas lu" />
