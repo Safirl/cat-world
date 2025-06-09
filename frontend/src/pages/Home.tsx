@@ -72,18 +72,16 @@ const Home = () => {
   useEffect(() => {
     fetchUser();
     fetchFriends();
-    if (cameraControlRef.current) {
-      cameraControlRef.current.minAzimuthAngle = -Infinity;
-      cameraControlRef.current.maxAzimuthAngle = Infinity;
-    }
   }, [])
 
   useEffect(() => {
     const handleResize = () => {
+      const main = document.getElementById('main');
+      if (!main) return;
       if (cameraControlRef.current) {
         const camera = cameraControlRef.current.object;
         if (camera instanceof THREE.PerspectiveCamera) {
-          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.aspect = main.offsetWidth / main.offsetHeight;
           camera.updateProjectionMatrix();
         }
       }
@@ -102,17 +100,16 @@ const Home = () => {
           ref={cameraControlRef}
           enableRotate={true}
           enableZoom={true}
-          enablePan={true}
           enableDamping={true}
-          screenSpacePanning={true} // Permet un mouvement libre vertical
-          minPolarAngle={-Infinity} // Supprime les restrictions verticales
-          maxPolarAngle={Infinity} // Supprime les restrictions verticales
-          minAzimuthAngle={-Infinity} // Supprime les restrictions horizontales
-          maxAzimuthAngle={Infinity} // Supprime les restrictions horizontales
+          minDistance={3}
+          maxDistance={9}
         />
-        <ambientLight intensity={2.4} color="#C8B3FF" />
-        <directionalLight position={[1, 2, 3]} intensity={0.5} />
-        <Planet ref={planetRef} onClick={handleMoveCat} />
+        <ambientLight intensity={1.5} color="#C8B3FF" />
+        <directionalLight position={[1, 2, 3]} intensity={1} />
+        <Planet
+          ref={planetRef}
+          onClick={handleMoveCat}
+        />
         {
           cats &&
           cats.map(cat => (
@@ -128,8 +125,6 @@ const Home = () => {
         )}
 
       </Canvas>
-      {/* <img className="aurorBoreal" src="/image/aurorBoreal.webp" alt="auror boreal" /> */}
-
       {message && <p>{message}</p>}
     </>
   );

@@ -1,22 +1,22 @@
 const Mentions = () => {
     return <>
         <h1>Mentions légales</h1>
-        <h4>Propriétaires du site</h4>
+        <h2>Propriétaires du site</h2>
         <span>Noms des éditeurs : Loïc Leforestier, Héloïse Pingintore</span>
         <span>Email : loicleforestier.pro@gmail.com</span>
         <span>Directeur de la publication : Loïc Leforestier</span>
-        <h4>Hébergeur</h4>
+        <h2>Hébergeur</h2>
         <span>Le site est hébergé par : Scalingo SAS
             13 rue Jacques Peirotes
             67000 Strasbourg
             France
             SIRET 80866548300018
         </span>
-        <h4>Propriété intellectuelle</h4>
+        <h2>Propriété intellectuelle</h2>
         <span>
             L'ensemble du contenu du site (textes, images, vidéos, logos, etc.) est protégé par le droit de la propriété intellectuelle. Toute reproduction ou diffusion sans autorisation est interdite.
         </span>
-        <h4>Utilisation des données personnelles</h4>
+        <h2>Utilisation des données personnelles</h2>
         <span>
             Le site Catworld utilise des cookies pour son bon fonctionnement. En vous créant un compte, vous acceptez l'utilisation de ces cookies à des fins non commerciales. Les données collectées sont les suivantes :
             - Adresse mail utilisée pour la connexion

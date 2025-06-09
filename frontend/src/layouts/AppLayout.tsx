@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 
 const AppLayout = () => {
     return (
-        <main>
+        <main id="main">
             <Outlet />
         </main>
     )

@@ -158,7 +158,7 @@ const ShowLetter = () => {
                     : //Or
 
                     <div className={`letter ${isExiting ? "slideOutToTop" : ""}`} onClick={handleShowLetter}>
-                        {!showLetter && <h4>Appuies pour ouvrir</h4>}
+                        {!showLetter && <h2>Appuies pour ouvrir</h2>}
                         <img src={showLetter ? "/image/letters/opened-letter.svg" : "/image/letters/closed-letter.svg"} alt="" />
                     </div>
                 }

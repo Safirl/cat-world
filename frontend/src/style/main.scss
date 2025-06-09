@@ -1,30 +1,67 @@
 @use './variables.scss' as *;
 
-:root {
+html,
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  place-items: center;
+}
+
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
   font-family: jost, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+  background: linear-gradient(180deg, rgba(60, 66, 196, 1) 0%, rgba(214, 143, 184, 1) 70%);
+}
+
+main {
+  margin: 0 auto;
+  height: 100dvh;
+  width: 100vw;
+  max-width: 768px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-title;
+  color: $color-white;
+}
+
+h1 {
+  font-size: $font-heading;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: $font-heading2;
+}
+
+p,
+label,
+input::placeholder,
+input,
+textarea {
+  font-size: $font-text;
+  font-family: $font-primary;
 }
 
 a {
   font-weight: 500;
   text-decoration: underline;
-}
-
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100dvh;
-  background: linear-gradient(180deg, rgba(60, 66, 196, 1) 0%, rgba(214, 143, 184, 1) 70%);
-  overflow: hidden;
-}
-
-h1 {
-  font-size: 46px;
-  line-height: 1.1;
 }
 
 button {
@@ -33,10 +70,10 @@ button {
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
-  background-color: $color-black;
+  font-family: $font-text;
   cursor: pointer;
   transition: border-color 0.25s;
+  padding: 0;
 }
 
 button:hover {
@@ -46,26 +83,4 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-//Old
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: 46px;
-  font-family: $font-title;
-  color: $color-white;
-  font-weight: 200;
-}
-
-p,
-label,
-input::placeholder,
-input,
-textarea {
-  font-size: 16px;
-  font-family: $font-primary;
 }

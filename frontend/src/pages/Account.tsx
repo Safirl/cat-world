@@ -197,7 +197,7 @@ const Account = () => {
                 {
                     !isEditMenuOpened ?  //Normal mode
                         <div className="containerAccountInformation">
-                            <h4>{user && user.username}</h4>
+                            <h2>{user && user.username}</h2>
 
                             <div className="friendcode" onClick={handleCopy} style={{ cursor: "pointer" }}>
                                 <p>Code ami :&nbsp;</p>
@@ -261,7 +261,7 @@ const Account = () => {
                         : //OR
 
                         <div className="containerAccountInformation selectColors">
-                            <h4>Ton avatar</h4>
+                            <h2>Ton avatar</h2>
                             <p className="colorsP">Couleurs</p>
                             {colors.map((color, index) => (
                                 <svg

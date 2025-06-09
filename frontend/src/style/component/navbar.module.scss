@@ -19,7 +19,7 @@ nav {
 .highlightLabelButtonBackground {
     width: 27.5%;
     height: 100%;
-    background-color: #EFE2FF;
+    background-color: $color-pink-light;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,17 +28,15 @@ nav {
 
     &:hover,
     &:active {
-        background-color: #faf6fe;
+        background-color: $color-pink-dark;
         transform: translateY(10px);
 
         .highlight,
-        .highlightCote,
+        .highlightSide,
         .highlightUnder {
             display: none;
         }
     }
-
-    padding: 0%;
 }
 
 .buttonNavbar {
@@ -66,7 +64,7 @@ nav {
     pointer-events: none;
 }
 
-.highlightCote {
+.highlightSide {
     height: 100%;
     position: absolute;
     z-index: 11;
@@ -74,11 +72,11 @@ nav {
 
 }
 
-.highlightCoteright {
+.highlightSideRight {
     right: 0;
 }
 
-.highlightCoteleft {
+.highlightSideleft {
     left: 0;
 }
 
@@ -98,6 +96,6 @@ nav {
     z-index: 20;
 
     p {
-        color: #5E38E6;
+        color: $color-dark-blue;
     }
 }

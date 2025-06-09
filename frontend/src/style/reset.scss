@@ -1,31 +1,5 @@
 html,
 body,
-#root {
-    min-height: 100dvh;
-    width: 100vw;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-}
-
-canvas {
-    min-height: 100dvh;
-    width: 100%;
-    max-width: 768px;
-
-    aspect-ratio: 16/9;
-}
-
-
-#root {
-    max-width: 768px;
-}
-
-
-html,
-body,
 div,
 span,
 applet,
@@ -110,14 +84,6 @@ textarea {
     border: 0;
     top: 0;
     vertical-align: baseline;
-}
-
-html,
-body {
-    width: 100vw;
-    overflow-x: hidden;
-    /*overflow-y: hidden;*/
-    scroll-behavior: smooth;
 }
 
 /* HTML5 display-role reset for older browsers */
